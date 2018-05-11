@@ -9,15 +9,19 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace LgTvController
 {
     public partial class RemoteControl : Form
     {
         WebSocket ws;
+        ChannelListWindow chWindow;
+        ChannelListResponse clr;
         private string apiKey = Settings.Default.apiKey;
         private string mac = Settings.Default.macAddr;
         private string ip = Settings.Default.ip;
+        ushort retry = 0;
 
         public RemoteControl()
         {
@@ -60,26 +64,33 @@ namespace LgTvController
         {
             if (e.Data != String.Empty)
             {
-                string msg = "";
+                string msg = "<unhandled message>";
                 bool getAudioStatus = default;
 
                 if (e.Data.Contains("register_0"))
                 {
                     RegisterResponse rr = JsonConvert.DeserializeObject<RegisterResponse>(e.Data);
-                    msg += "Handshake successful." + Environment.NewLine + rr.ToString();
+                    msg = "Handshake successful." + Environment.NewLine + rr.ToString();
                     getAudioStatus = true;
+                    GetCurrentChannel();
                 }
                 else if (e.Data.Contains("status_1"))
                 {
                     AudioStatusResponse asr = JsonConvert.DeserializeObject<AudioStatusResponse>(e.Data);
-                    msg += "Audio status received." + Environment.NewLine + asr.ToString();
-                    Global.GlobalVolume = asr.Payload.volume;
-                    string txt = Global.GlobalVolume + "/" + asr.Payload.volumeMax;
+                    msg = "Audio status received." + Environment.NewLine + asr.ToString();
+                    Global._globalVolume = asr.Payload.volume;
+                    string txt = Global._globalVolume + "/" + asr.Payload.volumeMax;
                     btVol.Invoke(new Action(() => { btVol.Text = txt; }));
 
                     if (asr.Payload.mute)
                     {
-                        //btnMute.Invoke(new Action(() => { btnMute.Font.Strikeout = true; }));
+                        btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_off; }));
+                        Global._isMuted = true;
+                    }
+                    else
+                    {
+                        btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_on; }));
+                        Global._isMuted = false;
                     }
                 }
                 else if (e.Data.Contains("volumeup_1"))
@@ -89,23 +100,64 @@ namespace LgTvController
                     if (cfr.Payload.returnValue)
                     {
                         getAudioStatus = true;
+                        msg = "Volume up acknowledged.";
+                    }
+                    else
+                    {
+                        msg = "Volume up request rejected.";
                     }
                 }
                 else if (e.Data.Contains("volumedown_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
-
                     if (cfr.Payload.returnValue)
                     {
                         getAudioStatus = true;
+                        msg = "Volume down acknowledged.";
                     }
+                    else
+                    {
+                        msg = "Volume down request rejected.";
+                    }
+                }
+                else if (e.Data.Contains("toggle_mute"))
+                {
+                    CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
+                    if (cfr.Payload.returnValue)
+                    {
+                        getAudioStatus = true;
+                        msg = "Toggle mute acknowledged.";
+                    }
+                    else
+                    {
+                        msg = "Toggle mute request rejected.";
+                    }
+                }
+                else if (e.Data.Contains("channelinfo_1"))
+                {
+                    ChannelInfo ci = JsonConvert.DeserializeObject<ChannelInfo>(e.Data);
+                    string chan = String.Format("({0}) {1}", ci.Payload.ChannelNumber, ci.Payload.ChannelName);
+                    btVol.Invoke(new Action(() => { btChan.Text = chan; }));
+                    msg = "Current channel info arrived.";
+                }
+                else if (e.Data.Contains("channelup_1") || e.Data.Contains("channeldown_1"))
+                {
+                    CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
+                    if (cfr.Payload.returnValue)
+                    {
+                        GetCurrentChannel();
+                        msg = cfr.Id == "channelup_1" ? "Channel up success." : "Channel down success.";
+                    }
+                }
+                else if (e.Data.Contains("getchannels_1") || e.Data.Contains("getchannels_2"))
+                {
+                    ChannelListResponse clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
                 }
                 else
                 {
-                    msg += e.Data;
+                    msg = e.Data;
                 }
 
-                msg += Environment.NewLine;
                 DisplayMessage(msg);
 
                 if (getAudioStatus) GetAudioStatus(); 
@@ -115,31 +167,47 @@ namespace LgTvController
         private void Ws_OnClose(object sender, CloseEventArgs e)
         {
             string message = String.Format("{0}" + Environment.NewLine +
-                                           "{1} Connection closed. | Reason: {2} | WasClean: {3} | Code: {4}" + Environment.NewLine, new string('-', 60), DateTime.Now.ToString("HH:mm:ss.fff"), String.IsNullOrEmpty(e.Reason) ? "-": e.Reason, e.WasClean, e.Code);
+                                           "{1} Connection closed. | Reason: {2} | WasClean: {3} | Close status code: {4}",
+                                           new string('-', 60), DateTime.Now.ToString("HH:mm:ss.fff"), String.IsNullOrEmpty(e.Reason) ? "-": e.Reason, e.WasClean,
+                                           e.Code);
             DisplayMessage(message);
+        }
+
+        private void Reconnect()
+        {
+            if (retry < 5)
+            {
+                retry++;
+                Thread.Sleep(5000);
+                DisplayMessage("Reconnecting...");
+                ws.ConnectAsync();
+            }
+            else
+            {
+                DisplayMessage("The reconnecting has failed.");
+            }
         }
 
         private void Ws_OnOpen(object sender, EventArgs e)
         {
-            string message = "Connection established." + Environment.NewLine;
-            DisplayMessage(message);
-
+            retry = 0;
+            DisplayMessage("Connection established.");
             SendHandshake();
         }
 
         private void SendHandshake()
         {
-            string hs = "{\"type\":\"register\",\"id\":\"register_0\",\"payload\":{\"forcePairing\":false,\"pairingType\":\"PROMPT\",\"client-key\":\"" + apiKey + "\",\"manifest\":{\"manifestVersion\":1,\"appVersion\":\"1.1\",\"signed\":{\"created\":\"20140509\",\"appId\":\"com.lge.test\",\"vendorId\":\"com.lge\",\"localizedAppNames\":{\"\":\"LGRemoteApp\",\"hu-HU\":\"RemoteApp\",\"zxx-XX\":\"LGRemoteApp\"},\"localizedVendorNames\":{\"\":\"LGElectronics\"},\"permissions\":[\"TEST_SECURE\",\"CONTROL_INPUT_TEXT\",\"CONTROL_MOUSE_AND_KEYBOARD\",\"READ_INSTALLED_APPS\",\"READ_LGE_SDX\",\"READ_NOTIFICATIONS\",\"SEARCH\",\"WRITE_SETTINGS\",\"WRITE_NOTIFICATION_ALERT\",\"CONTROL_POWER\",\"READ_CURRENT_CHANNEL\",\"READ_RUNNING_APPS\",\"READ_UPDATE_INFO\",\"UPDATE_FROM_REMOTE_APP\",\"READ_LGE_TV_INPUT_EVENTS\",\"READ_TV_CURRENT_TIME\"],\"serial\":\"2f930e2d2cfe083771f68e4fe7bb07\"},\"permissions\":[\"LAUNCH\",\"LAUNCH_WEBAPP\",\"APP_TO_APP\",\"CLOSE\",\"TEST_OPEN\",\"TEST_PROTECTED\",\"CONTROL_AUDIO\",\"CONTROL_DISPLAY\",\"CONTROL_INPUT_JOYSTICK\",\"CONTROL_INPUT_MEDIA_RECORDING\",\"CONTROL_INPUT_MEDIA_PLAYBACK\",\"CONTROL_INPUT_TV\",\"CONTROL_POWER\",\"READ_APP_STATUS\",\"READ_CURRENT_CHANNEL\",\"READ_INPUT_DEVICE_LIST\",\"READ_NETWORK_STATE\",\"READ_RUNNING_APPS\",\"READ_TV_CHANNEL_LIST\",\"WRITE_NOTIFICATION_TOAST\",\"READ_POWER_STATE\",\"READ_COUNTRY_INFO\"],\"signatures\":[{\"signatureVersion\":1,\"signature\":\"eyJhbGdvcml0aG0iOiJSU0EtU0hBMjU2Iiwia2V5SWQiOiJ0ZXN0LXNpZ25pbmctY2VydCIsInNpZ25hdHVyZVZlcnNpb24iOjF9.hrVRgjCwXVvE2OOSpDZ58hR+59aFNwYDyjQgKk3auukd7pcegmE2CzPCa0bJ0ZsRAcKkCTJrWo5iDzNhMBWRyaMOv5zWSrthlf7G128qvIlpMT0YNY+n/FaOHE73uLrS/g7swl3/qH/BGFG2Hu4RlL48eb3lLKqTt2xKHdCs6Cd4RMfJPYnzgvI4BNrFUKsjkcu+WD4OO2A27Pq1n50cMchmcaXadJhGrOqH5YmHdOCj5NSHzJYrsW0HPlpuAx/ECMeIZYDh6RMqaFM2DXzdKX9NmmyqzJ3o/0lkk/N97gfVRLW5hA29yeAwaCViZNCP8iC9aO0q9fQojoa7NQnAtw==\"}]}}}";
+            string hs = "{\"type\":\"register\",\"id\":\"register_0\",\"payload\":{\"forcePairing\":false,\"pairingType\":\"PROMPT\",\"client-key\":\"" + apiKey + "\",\"manifest\":{\"manifestVersion\":1,\"appVersion\":\"1.1\",\"signed\":{\"created\":\"20140509\",\"appId\":\"com.lge.test\",\"vendorId\":\"com.lge\",\"localizedAppNames\":{\"\":\"LGRemoteApp\",\"en-EN\":\"RemoteApp\",\"zxx-XX\":\"LGRemoteApp\"},\"localizedVendorNames\":{\"\":\"LGElectronics\"},\"permissions\":[\"TEST_SECURE\",\"CONTROL_INPUT_TEXT\",\"CONTROL_MOUSE_AND_KEYBOARD\",\"READ_INSTALLED_APPS\",\"READ_LGE_SDX\",\"READ_NOTIFICATIONS\",\"SEARCH\",\"WRITE_SETTINGS\",\"WRITE_NOTIFICATION_ALERT\",\"CONTROL_POWER\",\"READ_CURRENT_CHANNEL\",\"READ_RUNNING_APPS\",\"READ_UPDATE_INFO\",\"UPDATE_FROM_REMOTE_APP\",\"READ_LGE_TV_INPUT_EVENTS\",\"READ_TV_CURRENT_TIME\"],\"serial\":\"2f930e2d2cfe083771f68e4fe7bb07\"},\"permissions\":[\"LAUNCH\",\"LAUNCH_WEBAPP\",\"APP_TO_APP\",\"CLOSE\",\"TEST_OPEN\",\"TEST_PROTECTED\",\"CONTROL_AUDIO\",\"CONTROL_DISPLAY\",\"CONTROL_INPUT_JOYSTICK\",\"CONTROL_INPUT_MEDIA_RECORDING\",\"CONTROL_INPUT_MEDIA_PLAYBACK\",\"CONTROL_INPUT_TV\",\"CONTROL_POWER\",\"READ_APP_STATUS\",\"READ_CURRENT_CHANNEL\",\"READ_INPUT_DEVICE_LIST\",\"READ_NETWORK_STATE\",\"READ_RUNNING_APPS\",\"READ_TV_CHANNEL_LIST\",\"WRITE_NOTIFICATION_TOAST\",\"READ_POWER_STATE\",\"READ_COUNTRY_INFO\"],\"signatures\":[{\"signatureVersion\":1,\"signature\":\"eyJhbGdvcml0aG0iOiJSU0EtU0hBMjU2Iiwia2V5SWQiOiJ0ZXN0LXNpZ25pbmctY2VydCIsInNpZ25hdHVyZVZlcnNpb24iOjF9.hrVRgjCwXVvE2OOSpDZ58hR+59aFNwYDyjQgKk3auukd7pcegmE2CzPCa0bJ0ZsRAcKkCTJrWo5iDzNhMBWRyaMOv5zWSrthlf7G128qvIlpMT0YNY+n/FaOHE73uLrS/g7swl3/qH/BGFG2Hu4RlL48eb3lLKqTt2xKHdCs6Cd4RMfJPYnzgvI4BNrFUKsjkcu+WD4OO2A27Pq1n50cMchmcaXadJhGrOqH5YmHdOCj5NSHzJYrsW0HPlpuAx/ECMeIZYDh6RMqaFM2DXzdKX9NmmyqzJ3o/0lkk/N97gfVRLW5hA29yeAwaCViZNCP8iC9aO0q9fQojoa7NQnAtw==\"}]}}}";
             string message = default;
             try
             {
                 ws.Send(hs);
-                message = "Handshake request sent." + Environment.NewLine;
+                message = "Handshake request sent.";
             }
             catch (Exception e)
             {
                 message = String.Format("{0}" + Environment.NewLine +
-                                        "{1} Exception occured: {2}" + Environment.NewLine, new string('-', 60), DateTime.Now.ToString("HH:mm:ss.fff"), e.Data);
+                                        "{1} Exception occured: {2}", new string('-', 60), DateTime.Now.ToString("HH:mm:ss.fff"), e.Data);
                 return;
             }
             finally
@@ -152,7 +220,7 @@ namespace LgTvController
         private void DisplayMessage(string message)
         {
             string msg = String.Format(new string('-', 60) + Environment.NewLine + DateTime.Now.ToString("HH:mm:ss.fff") + " ");
-            msg += message;
+            msg += message + Environment.NewLine;
             txtResponse.Invoke(new Action(() => { txtResponse.AppendText(msg); }));
         }
 
@@ -212,7 +280,7 @@ namespace LgTvController
             AudioStatusRequest asrq = new AudioStatusRequest { Id = "status_1", Type = "request", Uri = "ssap://audio/getStatus"};
 
             ws.Send(JsonConvert.SerializeObject(asrq));
-            DisplayMessage("GetAudioStatus request sent." + Environment.NewLine);
+            DisplayMessage("GetAudioStatus request sent.");
         }
 
         private void btnMute_Click(object sender, EventArgs e)
@@ -222,9 +290,10 @@ namespace LgTvController
                 ConnectionLostDialog();
                 return;
             }
-
-            string message = "{\"id\":\"2\",\"type\":\"request\",\"uri\":\"ssap://audio/setMute\",\"payload\":{\"mute\":false}}";
+            bool mute = !Global._isMuted;
+            string message = "{\"id\":\"toggle_mute\",\"type\":\"request\",\"uri\":\"ssap://audio/setMute\",\"payload\":{\"mute\":" + mute.ToString().ToLower() + "}}";
             ws.Send(message);
+            DisplayMessage("Toggle mute sent.");
         }
 
         private void btnTurnOn_Click(object sender, EventArgs e)
@@ -352,12 +421,47 @@ namespace LgTvController
         {
             CallFunctionRequest cfr = new CallFunctionRequest { Id = id, Type = "request", Uri = ep };
             ws.Send(JsonConvert.SerializeObject(cfr));
-            DisplayMessage(message + Environment.NewLine);
+            DisplayMessage(message);
         }
 
         private void btVolMinus_Click(object sender, EventArgs e)
         {
             CallFunction("volumedown_1", "ssap://audio/volumeDown", "Volume down request sent.");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            txtResponse.Invoke(new Action(() => { txtResponse.Text = ""; }));
+        }
+
+        private void btChan_Click(object sender, EventArgs e)
+        {
+            GetCurrentChannel();
+        }
+
+        private void GetCurrentChannel()
+        {
+            CallFunction("channelinfo_1", "ssap://tv/getCurrentChannel", "Channel info request sent.");
+        }
+
+        private void chanPlus_Click(object sender, EventArgs e)
+        {
+            CallFunction("channelup_1", "ssap://tv/channelUp", "Channel up request sent.");
+        }
+
+        private void chanMinus_Click(object sender, EventArgs e)
+        {
+            CallFunction("channeldown_1", "ssap://tv/channelDown", "Channel down request sent.");
+        }
+
+        private void btChList_Click(object sender, EventArgs e)
+        {
+            chWindow = new ChannelListWindow();
+            CallFunction("getchannels_1", "ssap://tv/getChannelList", "Channel list request sent.");
+            
+            // TODO: implement
+            //CallFunction("getchannels_2", "ssap://tv/getChannelProgramInfo", "Channel list request sent.");
+            chWindow.ShowDialog();
         }
     }
 }

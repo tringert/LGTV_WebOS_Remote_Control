@@ -1,6 +1,9 @@
 ﻿using System.Net.Sockets;
 
-public class WOLClass : UdpClient
+namespace LgTvController
 {
-    public WOLClass() : base() { }
+    public class WOLClass : UdpClient
+    {
+        public WOLClass() : base() { }
+    }
 }

@@ -42,15 +42,14 @@
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.button12 = new System.Windows.Forms.Button();
-            this.button13 = new System.Windows.Forms.Button();
+            this.chanMinus = new System.Windows.Forms.Button();
+            this.chanPlus = new System.Windows.Forms.Button();
             this.btnTurnOn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
-            this.btnMute = new System.Windows.Forms.Button();
             this.btnTurnOff = new System.Windows.Forms.Button();
             this.lblMacAddr = new System.Windows.Forms.Label();
             this.tbMac = new System.Windows.Forms.TextBox();
@@ -63,6 +62,10 @@
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btVol = new System.Windows.Forms.Button();
+            this.btChan = new System.Windows.Forms.Button();
+            this.btChList = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnMute = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,9 +90,9 @@
             // 
             // btVolPlus
             // 
-            this.btVolPlus.Location = new System.Drawing.Point(569, 95);
+            this.btVolPlus.Location = new System.Drawing.Point(569, 99);
             this.btVolPlus.Name = "btVolPlus";
-            this.btVolPlus.Size = new System.Drawing.Size(47, 31);
+            this.btVolPlus.Size = new System.Drawing.Size(47, 36);
             this.btVolPlus.TabIndex = 25;
             this.btVolPlus.Text = "+";
             this.btVolPlus.UseVisualStyleBackColor = true;
@@ -97,9 +100,9 @@
             // 
             // btVolMinus
             // 
-            this.btVolMinus.Location = new System.Drawing.Point(569, 132);
+            this.btVolMinus.Location = new System.Drawing.Point(569, 141);
             this.btVolMinus.Name = "btVolMinus";
-            this.btVolMinus.Size = new System.Drawing.Size(47, 31);
+            this.btVolMinus.Size = new System.Drawing.Size(47, 36);
             this.btVolMinus.TabIndex = 45;
             this.btVolMinus.Text = "-";
             this.btVolMinus.UseVisualStyleBackColor = true;
@@ -108,9 +111,9 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(625, 132);
+            this.button3.Location = new System.Drawing.Point(625, 184);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(47, 35);
+            this.button3.Size = new System.Drawing.Size(47, 36);
             this.button3.TabIndex = 50;
             this.button3.Text = "▲";
             this.button3.UseVisualStyleBackColor = true;
@@ -118,7 +121,7 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(625, 215);
+            this.button4.Location = new System.Drawing.Point(625, 267);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(47, 36);
             this.button4.TabIndex = 80;
@@ -128,7 +131,7 @@
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(569, 173);
+            this.button5.Location = new System.Drawing.Point(569, 225);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(47, 36);
             this.button5.TabIndex = 60;
@@ -138,7 +141,7 @@
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(679, 172);
+            this.button6.Location = new System.Drawing.Point(679, 225);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(47, 36);
             this.button6.TabIndex = 70;
@@ -147,7 +150,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(625, 173);
+            this.button7.Location = new System.Drawing.Point(625, 225);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(47, 36);
             this.button7.TabIndex = 65;
@@ -165,7 +168,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(569, 215);
+            this.button8.Location = new System.Drawing.Point(569, 268);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(47, 36);
             this.button8.TabIndex = 75;
@@ -174,18 +177,18 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(625, 95);
+            this.button9.Location = new System.Drawing.Point(679, 183);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(47, 31);
+            this.button9.Size = new System.Drawing.Size(47, 36);
             this.button9.TabIndex = 30;
             this.button9.Text = "Exit";
             this.button9.UseVisualStyleBackColor = true;
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(679, 214);
+            this.button10.Location = new System.Drawing.Point(569, 184);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(47, 37);
+            this.button10.Size = new System.Drawing.Size(47, 36);
             this.button10.TabIndex = 85;
             this.button10.Text = "Back";
             this.button10.UseVisualStyleBackColor = true;
@@ -199,27 +202,29 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Channel";
             // 
-            // button12
+            // chanMinus
             // 
-            this.button12.Location = new System.Drawing.Point(678, 132);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(48, 35);
-            this.button12.TabIndex = 55;
-            this.button12.Text = "-";
-            this.button12.UseVisualStyleBackColor = true;
+            this.chanMinus.Location = new System.Drawing.Point(679, 141);
+            this.chanMinus.Name = "chanMinus";
+            this.chanMinus.Size = new System.Drawing.Size(47, 36);
+            this.chanMinus.TabIndex = 55;
+            this.chanMinus.Text = "-";
+            this.chanMinus.UseVisualStyleBackColor = true;
+            this.chanMinus.Click += new System.EventHandler(this.chanMinus_Click);
             // 
-            // button13
+            // chanPlus
             // 
-            this.button13.Location = new System.Drawing.Point(678, 95);
-            this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(48, 31);
-            this.button13.TabIndex = 40;
-            this.button13.Text = "+";
-            this.button13.UseVisualStyleBackColor = true;
+            this.chanPlus.Location = new System.Drawing.Point(679, 99);
+            this.chanPlus.Name = "chanPlus";
+            this.chanPlus.Size = new System.Drawing.Size(47, 36);
+            this.chanPlus.TabIndex = 40;
+            this.chanPlus.Text = "+";
+            this.chanPlus.UseVisualStyleBackColor = true;
+            this.chanPlus.Click += new System.EventHandler(this.chanPlus_Click);
             // 
             // btnTurnOn
             // 
-            this.btnTurnOn.Location = new System.Drawing.Point(569, 257);
+            this.btnTurnOn.Location = new System.Drawing.Point(569, 310);
             this.btnTurnOn.Name = "btnTurnOn";
             this.btnTurnOn.Size = new System.Drawing.Size(157, 23);
             this.btnTurnOn.TabIndex = 90;
@@ -274,21 +279,9 @@
             this.btnDisconnect.UseVisualStyleBackColor = false;
             this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
-            // btnMute
-            // 
-            this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnMute.Location = new System.Drawing.Point(628, 58);
-            this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            this.btnMute.Name = "btnMute";
-            this.btnMute.Size = new System.Drawing.Size(39, 31);
-            this.btnMute.TabIndex = 20;
-            this.btnMute.Text = "Mute";
-            this.btnMute.UseVisualStyleBackColor = true;
-            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
-            // 
             // btnTurnOff
             // 
-            this.btnTurnOff.Location = new System.Drawing.Point(569, 286);
+            this.btnTurnOff.Location = new System.Drawing.Point(569, 339);
             this.btnTurnOff.Name = "btnTurnOff";
             this.btnTurnOff.Size = new System.Drawing.Size(157, 23);
             this.btnTurnOff.TabIndex = 95;
@@ -339,7 +332,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(734, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(845, 24);
             this.menuStrip1.TabIndex = 96;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -381,19 +374,66 @@
             // 
             // btVol
             // 
-            this.btVol.Location = new System.Drawing.Point(569, 58);
+            this.btVol.Location = new System.Drawing.Point(569, 57);
             this.btVol.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btVol.Name = "btVol";
-            this.btVol.Size = new System.Drawing.Size(56, 31);
+            this.btVol.Size = new System.Drawing.Size(76, 36);
             this.btVol.TabIndex = 99;
             this.btVol.UseVisualStyleBackColor = true;
             this.btVol.Click += new System.EventHandler(this.btVol_Click);
+            // 
+            // btChan
+            // 
+            this.btChan.Location = new System.Drawing.Point(650, 57);
+            this.btChan.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.btChan.Name = "btChan";
+            this.btChan.Size = new System.Drawing.Size(76, 36);
+            this.btChan.TabIndex = 101;
+            this.btChan.UseVisualStyleBackColor = true;
+            this.btChan.Click += new System.EventHandler(this.btChan_Click);
+            // 
+            // btChList
+            // 
+            this.btChList.Location = new System.Drawing.Point(624, 99);
+            this.btChList.Name = "btChList";
+            this.btChList.Size = new System.Drawing.Size(47, 36);
+            this.btChList.TabIndex = 102;
+            this.btChList.Text = "Ch. list";
+            this.btChList.UseVisualStyleBackColor = true;
+            this.btChList.Click += new System.EventHandler(this.btChList_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button1.Image = global::SmartTV.Properties.Resources.trash_20x20px;
+            this.button1.Location = new System.Drawing.Point(561, 419);
+            this.button1.Margin = new System.Windows.Forms.Padding(0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(30, 30);
+            this.button1.TabIndex = 100;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnMute
+            // 
+            this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnMute.Image = global::SmartTV.Properties.Resources.Speaker_on;
+            this.btnMute.Location = new System.Drawing.Point(624, 141);
+            this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            this.btnMute.Name = "btnMute";
+            this.btnMute.Size = new System.Drawing.Size(47, 36);
+            this.btnMute.TabIndex = 20;
+            this.btnMute.UseVisualStyleBackColor = true;
+            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
             // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 461);
+            this.ClientSize = new System.Drawing.Size(845, 461);
+            this.Controls.Add(this.btChList);
+            this.Controls.Add(this.btChan);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btVol);
             this.Controls.Add(this.tbMac);
             this.Controls.Add(this.lblMacAddr);
@@ -407,8 +447,8 @@
             this.Controls.Add(this.tbIP);
             this.Controls.Add(this.btnTurnOn);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.button12);
-            this.Controls.Add(this.button13);
+            this.Controls.Add(this.chanMinus);
+            this.Controls.Add(this.chanPlus);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
@@ -425,7 +465,7 @@
             this.Controls.Add(this.txtResponse);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximumSize = new System.Drawing.Size(750, 500);
+            this.MaximumSize = new System.Drawing.Size(900, 500);
             this.MinimumSize = new System.Drawing.Size(750, 500);
             this.Name = "RemoteControl";
             this.Text = "LG WebOs Remote Control";
@@ -454,8 +494,8 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button12;
-        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button chanMinus;
+        private System.Windows.Forms.Button chanPlus;
         private System.Windows.Forms.Button btnTurnOn;
         private System.Windows.Forms.TextBox tbIP;
         private System.Windows.Forms.Label label3;
@@ -474,6 +514,9 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Button btVol;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btChan;
+        private System.Windows.Forms.Button btChList;
     }
 }
 

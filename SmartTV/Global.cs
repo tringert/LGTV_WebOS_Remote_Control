@@ -1,10 +1,8 @@
-﻿static class Global
+﻿namespace LgTvController
 {
-    private static int _volume = 0;
-
-    public static int GlobalVolume
+    static class Global
     {
-        get { return _volume; }
-        set { _volume = value; }
+        internal static int _globalVolume { get; set; } = 0;
+        internal static bool _isMuted { get; set; } = false;
     }
 }
