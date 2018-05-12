@@ -3,7 +3,6 @@ using System.Net;
 using System.Globalization;
 using System.Windows.Forms;
 using WebSocketSharp;
-using SmartTV;
 using SmartTV.Properties;
 using System.Linq;
 using Newtonsoft.Json;
@@ -17,6 +16,7 @@ namespace LgTvController
     {
         WebSocket ws;
         ChannelListWindow chWindow;
+        DisplayMessage msgWindow;
         ChannelListResponse clr;
         private string apiKey = Settings.Default.apiKey;
         private string mac = Settings.Default.macAddr;
@@ -152,6 +152,13 @@ namespace LgTvController
                 else if (e.Data.Contains("getchannels_1") || e.Data.Contains("getchannels_2"))
                 {
                     ChannelListResponse clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
+                    chWindow = new ChannelListWindow();
+                    chWindow.channels = clr.Payload.ChannelList;
+                    chWindow.ShowDialog();
+                }
+                else if (e.Data.Contains("toast_1"))
+                {
+                    Console.WriteLine(e.Data);
                 }
                 else
                 {
@@ -424,6 +431,13 @@ namespace LgTvController
             DisplayMessage(message);
         }
 
+        internal void CallFunctionWithPayload(string id, string ep, string message, string payload)
+        {
+            CallFunctionRequestWithPayload cfr = new CallFunctionRequestWithPayload { Id = id, Type = "request", Uri = ep, Payload = payload };
+            ws.Send(JsonConvert.SerializeObject(cfr));
+            DisplayMessage(message);
+        }
+
         private void btVolMinus_Click(object sender, EventArgs e)
         {
             CallFunction("volumedown_1", "ssap://audio/volumeDown", "Volume down request sent.");
@@ -456,12 +470,17 @@ namespace LgTvController
 
         private void btChList_Click(object sender, EventArgs e)
         {
-            chWindow = new ChannelListWindow();
             CallFunction("getchannels_1", "ssap://tv/getChannelList", "Channel list request sent.");
             
             // TODO: implement
             //CallFunction("getchannels_2", "ssap://tv/getChannelProgramInfo", "Channel list request sent.");
-            chWindow.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            msgWindow = new DisplayMessage();
+            msgWindow.Show();
+            //CallFunction("toast_1", "ssap://system.notifications/createToast", "Channel list request sent.", "{\"message\": \"MSG\"}");
         }
     }
 }

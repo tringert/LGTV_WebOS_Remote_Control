@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace LgTvController
 {
@@ -15,6 +10,24 @@ namespace LgTvController
         public ChannelListWindow()
         {
             InitializeComponent();
+        }
+
+        internal List<Channel> channels;
+
+        private void ChannelListWindow_Load(object sender, System.EventArgs e)
+        {
+            var result = channels.Select(r => new
+            {
+                r.ChannelName,
+                r.ChannelNumber
+            }).ToList();
+
+            dataGridView1.DataSource = result;
+            DataGridViewColumn col1 = new DataGridViewTextBoxColumn();
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.Columns["ChannelName"].HeaderText = "Channel Name";
+            dataGridView1.Columns["ChannelNumber"].HeaderText = "Channel Number";
+
         }
     }
 }

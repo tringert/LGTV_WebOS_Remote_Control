@@ -28,26 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.channelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.channelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
-            this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.DataSource = this.channelBindingSource;
             this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(555, 372);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // channelBindingSource
-            // 
-            this.channelBindingSource.DataSource = typeof(LgTvController.Channel);
             // 
             // ChannelListWindow
             // 
@@ -57,8 +48,8 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "ChannelListWindow";
             this.Text = "Channel list";
+            this.Load += new System.EventHandler(this.ChannelListWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.channelBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -66,6 +57,5 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        internal System.Windows.Forms.BindingSource channelBindingSource;
     }
 }

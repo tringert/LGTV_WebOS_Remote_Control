@@ -25,6 +25,33 @@ namespace LgTvController
         public string Uri { get => uri; set => uri = value; }
     }
 
+    internal class CallFunctionRequestWithPayload
+    {
+        private string id;
+        private string type;
+        private string uri;
+        private string payload;
+
+        public CallFunctionRequestWithPayload() { }
+
+        public CallFunctionRequestWithPayload(string id, string type, string uri, string payload)
+        {
+            this.id = id;
+            this.type = type;
+            this.uri = uri;
+            this.payload = payload;
+        }
+
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get => id; set => id = value; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get => type; set => type = value; }
+        [JsonProperty(PropertyName = "uri")]
+        public string Uri { get => uri; set => uri = value; }
+        [JsonProperty(PropertyName = "payload")]
+        public string Payload { get => payload; set => payload = value; }
+    }
+
     internal class CallFunctionResponse
     {
         private string type;

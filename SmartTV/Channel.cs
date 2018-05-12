@@ -5,7 +5,6 @@ namespace LgTvController
 {
     internal class Channel
     {
-        internal string channelId;
         [JsonProperty(PropertyName = "channelId")]
         internal string ChannelId { get; set; }
         [JsonProperty(PropertyName = "programId")]
