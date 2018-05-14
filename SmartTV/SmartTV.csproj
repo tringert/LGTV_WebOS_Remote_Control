@@ -87,6 +87,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScannedChannelCount.cs" />
+    <Compile Include="SSDP.cs" />
     <Compile Include="Wol.cs" />
     <EmbeddedResource Include="ChannelListWindow.resx">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
@@ -130,11 +131,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Content\Icons\trash_200x200px.png" />
     <None Include="Content\Icons\trash_20x20px.png" />
     <None Include="Content\Icons\Speaker_on.png" />
     <None Include="Content\Icons\Speaker_off.png" />
-    <Content Include="Content\Icons\trash_40x40px.png" />
+    <None Include="Content\Icons\info_icon.png" />
+    <Content Include="Content\Icons\list_icon.ico" />
+    <Content Include="Content\Icons\remote-control.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace LgTvController
 {
@@ -16,8 +13,8 @@ namespace LgTvController
 
         private void btSend_Click(object sender, EventArgs e)
         {
-            string text = tbMessage.Text;
-            string payload = "{\"message\": \"" + text + "\"}";
+            string text = tbMessage.Text.Replace("\r\n", "<br>").Replace("\"", "\\\"");
+            var payload = JsonConvert.SerializeObject(new { message = text });
             (Application.OpenForms["RemoteControl"] as RemoteControl).CallFunctionWithPayload("toast_1", "ssap://system.notifications/createToast", "Toast message request sent.", payload);
         }
 

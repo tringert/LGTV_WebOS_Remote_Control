@@ -15,9 +15,10 @@ namespace LgTvController
     public partial class RemoteControl : Form
     {
         WebSocket ws;
-        ChannelListWindow chWindow;
-        DisplayMessage msgWindow;
+        private static ChannelListWindow chWindow;
+        private static DisplayMessage msgWindow;
         ChannelListResponse clr;
+        SSDP ssdp = new SSDP();
         private string apiKey = Settings.Default.apiKey;
         private string mac = Settings.Default.macAddr;
         private string ip = Settings.Default.ip;
@@ -149,16 +150,48 @@ namespace LgTvController
                         msg = cfr.Id == "channelup_1" ? "Channel up success." : "Channel down success.";
                     }
                 }
-                else if (e.Data.Contains("getchannels_1") || e.Data.Contains("getchannels_2"))
+                else if (e.Data.Contains("getchannels_1"))
                 {
-                    ChannelListResponse clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
-                    chWindow = new ChannelListWindow();
-                    chWindow.channels = clr.Payload.ChannelList;
-                    chWindow.ShowDialog();
+                    if (e.Data.Contains("\"returnValue\":true"))
+                    {
+                        ChannelListResponse clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
+                        chWindow = new ChannelListWindow
+                        {
+                            channels = clr.Payload.ChannelList
+                        };
+                        chWindow.ShowDialog();
+                        msg = "Channel list request succeeded.";
+                    }
+                    else
+                    {
+                        msg = "Channel list request unsuccessful.";
+                    }
+                    
                 }
                 else if (e.Data.Contains("toast_1"))
                 {
-                    Console.WriteLine(e.Data);
+                    CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
+                    if (cfr.Payload.returnValue)
+                    {
+                        msg = "Toast message request succeeded.";
+                    }
+                    else
+                    {
+                        msg = "Toast message request rejected.";
+                    }
+                }
+                else if (e.Data.Contains("openchannel_1"))
+                {
+                    // No response!!!
+                    //CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
+                    //if (cfr.Payload.returnValue)
+                    //{
+                    //    msg = "Open channel request succeeded.";
+                    //}
+                    //else
+                    //{
+                    //    msg = "Open channel request rejected.";
+                    //}
                 }
                 else
                 {
@@ -453,7 +486,7 @@ namespace LgTvController
             GetCurrentChannel();
         }
 
-        private void GetCurrentChannel()
+        internal void GetCurrentChannel()
         {
             CallFunction("channelinfo_1", "ssap://tv/getCurrentChannel", "Channel info request sent.");
         }
@@ -471,16 +504,30 @@ namespace LgTvController
         private void btChList_Click(object sender, EventArgs e)
         {
             CallFunction("getchannels_1", "ssap://tv/getChannelList", "Channel list request sent.");
-            
-            // TODO: implement
-            //CallFunction("getchannels_2", "ssap://tv/getChannelProgramInfo", "Channel list request sent.");
+        }
+
+        private void btMessage_Click(object sender, EventArgs e)
+        {
+            if (msgWindow != null) return;
+            msgWindow = new DisplayMessage();
+            msgWindow.FormClosing += msgWindow_FormClosing;
+            msgWindow.Show();
+        }
+
+        public void msgWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            msgWindow = null;
+        }
+
+        // TODO: finish this
+        private void button11_Click(object sender, EventArgs e)
+        {
+            CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            msgWindow = new DisplayMessage();
-            msgWindow.Show();
-            //CallFunction("toast_1", "ssap://system.notifications/createToast", "Channel list request sent.", "{\"message\": \"MSG\"}");
+            ssdp.FindDevices();
         }
     }
 }

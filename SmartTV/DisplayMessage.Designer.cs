@@ -36,6 +36,7 @@
             // tbMessage
             // 
             this.tbMessage.Location = new System.Drawing.Point(12, 12);
+            this.tbMessage.MaxLength = 135;
             this.tbMessage.Multiline = true;
             this.tbMessage.Name = "tbMessage";
             this.tbMessage.Size = new System.Drawing.Size(287, 135);
@@ -43,9 +44,9 @@
             // 
             // btSend
             // 
-            this.btSend.Location = new System.Drawing.Point(30, 166);
+            this.btSend.Location = new System.Drawing.Point(41, 157);
             this.btSend.Name = "btSend";
-            this.btSend.Size = new System.Drawing.Size(75, 23);
+            this.btSend.Size = new System.Drawing.Size(75, 40);
             this.btSend.TabIndex = 1;
             this.btSend.Text = "Send";
             this.btSend.UseVisualStyleBackColor = true;
@@ -53,9 +54,9 @@
             // 
             // btClose
             // 
-            this.btClose.Location = new System.Drawing.Point(202, 166);
+            this.btClose.Location = new System.Drawing.Point(199, 157);
             this.btClose.Name = "btClose";
-            this.btClose.Size = new System.Drawing.Size(75, 23);
+            this.btClose.Size = new System.Drawing.Size(75, 40);
             this.btClose.TabIndex = 2;
             this.btClose.Text = "Close";
             this.btClose.UseVisualStyleBackColor = true;
@@ -71,7 +72,7 @@
             this.Controls.Add(this.btSend);
             this.Controls.Add(this.tbMessage);
             this.Name = "DisplayMessage";
-            this.Text = "DisplayMessage";
+            this.Text = "Display a message";
             this.ResumeLayout(false);
             this.PerformLayout();
 

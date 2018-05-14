@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoteControl));
             this.txtResponse = new System.Windows.Forms.TextBox();
             this.btnRequestParing = new System.Windows.Forms.Button();
             this.btVolPlus = new System.Windows.Forms.Button();
@@ -64,9 +66,12 @@
             this.btVol = new System.Windows.Forms.Button();
             this.btChan = new System.Windows.Forms.Button();
             this.btChList = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btMessage = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnMute = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -91,6 +96,9 @@
             // 
             // btVolPlus
             // 
+            this.btVolPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btVolPlus.Location = new System.Drawing.Point(569, 99);
             this.btVolPlus.Name = "btVolPlus";
             this.btVolPlus.Size = new System.Drawing.Size(47, 36);
@@ -101,6 +109,9 @@
             // 
             // btVolMinus
             // 
+            this.btVolMinus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btVolMinus.Location = new System.Drawing.Point(569, 141);
             this.btVolMinus.Name = "btVolMinus";
             this.btVolMinus.Size = new System.Drawing.Size(47, 36);
@@ -111,6 +122,9 @@
             // 
             // button3
             // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.Location = new System.Drawing.Point(625, 184);
             this.button3.Name = "button3";
@@ -121,6 +135,9 @@
             // 
             // button4
             // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.Location = new System.Drawing.Point(625, 267);
             this.button4.Name = "button4";
@@ -131,6 +148,9 @@
             // 
             // button5
             // 
+            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.Location = new System.Drawing.Point(569, 225);
             this.button5.Name = "button5";
@@ -141,6 +161,9 @@
             // 
             // button6
             // 
+            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button6.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button6.Location = new System.Drawing.Point(679, 225);
             this.button6.Name = "button6";
@@ -151,6 +174,9 @@
             // 
             // button7
             // 
+            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button7.Location = new System.Drawing.Point(625, 225);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(47, 36);
@@ -160,6 +186,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(570, 41);
             this.label1.Name = "label1";
@@ -169,6 +198,9 @@
             // 
             // button8
             // 
+            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button8.Location = new System.Drawing.Point(569, 268);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(47, 36);
@@ -178,6 +210,9 @@
             // 
             // button9
             // 
+            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button9.Location = new System.Drawing.Point(679, 183);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(47, 36);
@@ -187,6 +222,9 @@
             // 
             // button10
             // 
+            this.button10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.button10.Location = new System.Drawing.Point(569, 184);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(47, 36);
@@ -196,6 +234,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(678, 41);
             this.label2.Name = "label2";
@@ -205,6 +246,9 @@
             // 
             // chanMinus
             // 
+            this.chanMinus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chanMinus.Location = new System.Drawing.Point(679, 141);
             this.chanMinus.Name = "chanMinus";
             this.chanMinus.Size = new System.Drawing.Size(47, 36);
@@ -215,6 +259,9 @@
             // 
             // chanPlus
             // 
+            this.chanPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chanPlus.Location = new System.Drawing.Point(679, 99);
             this.chanPlus.Name = "chanPlus";
             this.chanPlus.Size = new System.Drawing.Size(47, 36);
@@ -225,6 +272,9 @@
             // 
             // btnTurnOn
             // 
+            this.btnTurnOn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTurnOn.Location = new System.Drawing.Point(569, 310);
             this.btnTurnOn.Name = "btnTurnOn";
             this.btnTurnOn.Size = new System.Drawing.Size(157, 23);
@@ -282,6 +332,9 @@
             // 
             // btnTurnOff
             // 
+            this.btnTurnOff.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnTurnOff.Location = new System.Drawing.Point(569, 339);
             this.btnTurnOff.Name = "btnTurnOff";
             this.btnTurnOff.Size = new System.Drawing.Size(157, 23);
@@ -375,6 +428,9 @@
             // 
             // btVol
             // 
+            this.btVol.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btVol.Location = new System.Drawing.Point(569, 57);
             this.btVol.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btVol.Name = "btVol";
@@ -385,6 +441,9 @@
             // 
             // btChan
             // 
+            this.btChan.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btChan.Location = new System.Drawing.Point(650, 57);
             this.btChan.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btChan.Name = "btChan";
@@ -395,6 +454,9 @@
             // 
             // btChList
             // 
+            this.btChList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btChList.Location = new System.Drawing.Point(624, 99);
             this.btChList.Name = "btChList";
             this.btChList.Size = new System.Drawing.Size(47, 36);
@@ -403,15 +465,29 @@
             this.btChList.UseVisualStyleBackColor = true;
             this.btChList.Click += new System.EventHandler(this.btChList_Click);
             // 
-            // button2
+            // btMessage
             // 
-            this.button2.Location = new System.Drawing.Point(483, 57);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 103;
-            this.button2.Text = "Message";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btMessage.Location = new System.Drawing.Point(483, 57);
+            this.btMessage.Name = "btMessage";
+            this.btMessage.Size = new System.Drawing.Size(75, 23);
+            this.btMessage.TabIndex = 103;
+            this.btMessage.Text = "Message";
+            this.btMessage.UseVisualStyleBackColor = true;
+            this.btMessage.Click += new System.EventHandler(this.btMessage_Click);
+            // 
+            // button11
+            // 
+            this.button11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
+            this.button11.Location = new System.Drawing.Point(729, 57);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(36, 36);
+            this.button11.TabIndex = 104;
+            this.toolTip1.SetToolTip(this.button11, "Current channel info");
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // button1
             // 
@@ -427,6 +503,9 @@
             // 
             // btnMute
             // 
+            this.btnMute.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnMute.Image = global::SmartTV.Properties.Resources.Speaker_on;
             this.btnMute.Location = new System.Drawing.Point(624, 141);
@@ -437,12 +516,24 @@
             this.btnMute.UseVisualStyleBackColor = true;
             this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(758, 111);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 105;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 461);
             this.Controls.Add(this.button2);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.btMessage);
             this.Controls.Add(this.btChList);
             this.Controls.Add(this.btChan);
             this.Controls.Add(this.button1);
@@ -476,6 +567,7 @@
             this.Controls.Add(this.tbApiKey);
             this.Controls.Add(this.txtResponse);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximumSize = new System.Drawing.Size(900, 500);
             this.MinimumSize = new System.Drawing.Size(750, 500);
@@ -529,6 +621,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btChan;
         private System.Windows.Forms.Button btChList;
+        private System.Windows.Forms.Button btMessage;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button button2;
     }
 }
