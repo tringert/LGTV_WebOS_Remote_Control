@@ -63,6 +63,13 @@
     <Compile Include="ChannelListWindow.Designer.cs">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Device.cs" />
+    <Compile Include="DeviceListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeviceListWindow.Designer.cs">
+      <DependentUpon>DeviceListWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="DisplayMessage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +98,9 @@
     <Compile Include="Wol.cs" />
     <EmbeddedResource Include="ChannelListWindow.resx">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeviceListWindow.resx">
+      <DependentUpon>DeviceListWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DisplayMessage.resx">
       <DependentUpon>DisplayMessage.cs</DependentUpon>

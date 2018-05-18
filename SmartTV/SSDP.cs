@@ -5,69 +5,56 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace LgTvController
 {
-    public class SSDP
+    internal static class SSDP
     {
-        private const string searchRequest = "M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 5\r\nST: urn:lge-com:service:webos-second-screen:1\r\n\r\n";
-        private const int MaxResultSize = 4096;
-        private Socket socket;
-        private Timer timer;
-        private int sendCount;
-        internal List<SSDPResponse> deviceList = new List<SSDPResponse>();
-        private SocketAsyncEventArgs sendEvent;
-        SSDPResponse ssdr = new SSDPResponse();
-        private bool socketClosed;
-
-        public void FindDevices()
+        private const string searchRequest = "M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 4\r\nST: urn:lge-com:service:webos-second-screen:1\r\n\r\n";
+        private const int MaxResultSize = 1024;
+        private static Socket socket;
+        internal static List<Device> availableDevices = new List<Device>();
+        private static SocketAsyncEventArgs sendEvent;
+        private static Device ssdr = new Device();
+        public static void FindDevices()
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             byte[] multiCastData = Encoding.UTF8.GetBytes(searchRequest);
             socket.SendBufferSize = multiCastData.Length;
-            sendEvent.SetBuffer(multiCastData, 0, multiCastData.Length);
-            sendEvent.Completed += OnSocketSendEventCompleted;
 
             sendEvent = new SocketAsyncEventArgs
             {
                 RemoteEndPoint = new IPEndPoint(IPAddress.Parse("239.255.255.250"), 1900)
             };
 
-            TimerCallback cb = new TimerCallback((state) =>
+            sendEvent.SetBuffer(multiCastData, 0, multiCastData.Length);
+            sendEvent.Completed += OnSocketSendEventCompleted;
+            
+            try
             {
-                socketClosed = true;
-                socket.Close();
-            });
-
-            timer = new Timer(cb, null, TimeSpan.FromSeconds(5), new TimeSpan(-1));
-
-            sendCount = 3;
-            socketClosed = false;
-            socket.SendToAsync(sendEvent);
+                socket.SendToAsync(sendEvent);
+            }
+            catch (Exception)
+            {
+                // Debug
+                Console.WriteLine("Exception");
+                return;
+            }
         }
 
-        private void OnSocketSendEventCompleted(object sender, SocketAsyncEventArgs e)
+        private static void OnSocketSendEventCompleted(object sender, SocketAsyncEventArgs e)
         {
+            // Debug
+            Console.WriteLine("Packet sent.");
             if (e.SocketError == SocketError.Success)
             {
                 if (e.LastOperation == SocketAsyncOperation.SendTo)
                 {
-                    if (--sendCount != 0)
-                    {
-                        if (!socketClosed)
-                        {
-                            socket.SendToAsync(sendEvent);
-                        }
-                    }
-                    else
-                    {
-                        e.RemoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                        socket.ReceiveBufferSize = MaxResultSize;
-                        byte[] receiveBuffer = new byte[MaxResultSize];
-                        e.SetBuffer(receiveBuffer, 0, MaxResultSize);
-                        socket.ReceiveFromAsync(e);
-                    }
+                    e.RemoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                    socket.ReceiveBufferSize = MaxResultSize;
+                    byte[] receiveBuffer = new byte[MaxResultSize];
+                    e.SetBuffer(receiveBuffer, 0, MaxResultSize);
+                    socket.ReceiveFromAsync(e);
                 }
                 else if (e.LastOperation == SocketAsyncOperation.ReceiveFrom)
                 {
@@ -76,19 +63,18 @@ namespace LgTvController
                     {
                         if (ParseResponse(response)) AddDeviceToList();
                     }
-                    
-                    if (!socketClosed)
-                    {
-                        socket.ReceiveFromAsync(e);
-                    }
+
+                    socket.ReceiveFromAsync(e);
                 }
             }
         }
 
-        private void AddDeviceToList()
+        private static void AddDeviceToList()
         {
-            foreach (SSDPResponse item in deviceList)
+            foreach (Device item in availableDevices)
             {
+                // Debug
+                Console.WriteLine("Devices: {0}", availableDevices.Count);
                 if (ssdr.Location.Ip == item.Location.Ip &&
                     ssdr.Location.Port == item.Location.Port)
                 {
@@ -96,15 +82,17 @@ namespace LgTvController
                 }
             }
 
-            deviceList.Add(ssdr);
+            availableDevices.Add(ssdr);
         }
 
-        private bool ParseResponse(string response)
+        private static bool ParseResponse(string response)
         {
+            string friendlyName = "";
             string ip = "";
             string port = "";
             string server = "";
-            string usn = ""; 
+            string usn = "";
+            Guid uuid = Guid.Empty;
             string[] stringSeparator = new string[] { "\r\n" };
             string[] result = response.Replace("HTTP/1.1 200 OK\r\n", "").Split(stringSeparator, StringSplitOptions.RemoveEmptyEntries)
                 .Select(o => o.Trim()).ToArray();
@@ -129,6 +117,9 @@ namespace LgTvController
                 if (item.StartsWith("USN: ", StringComparison.InvariantCultureIgnoreCase))
                 {
                     usn = Regex.Replace(item, "USN: ", "", RegexOptions.IgnoreCase);
+                    var arr = usn.Split(new string[] { "::" }, StringSplitOptions.None);
+                    string uuids = Regex.Replace(arr[0].ToString(), "uuid:", "", RegexOptions.IgnoreCase);
+                    Guid.TryParse(uuids, out uuid);
                 }
             }
 
@@ -137,16 +128,18 @@ namespace LgTvController
                 !String.IsNullOrEmpty(server) &&
                 !String.IsNullOrEmpty(usn))
             {
-               
-                ssdr = new SSDPResponse
+
+                ssdr = new Device
                 {
+                    FriendlyName = friendlyName,
                     Location = new Location
                     {
                         Ip = ip,
                         Port = port
                     },
                     Server = server,
-                    Usn = usn
+                    Usn = usn,
+                    Uuid = uuid
                 };
 
                 return true;
@@ -155,19 +148,6 @@ namespace LgTvController
             {
                 return false;
             }
-        }
-
-        internal class SSDPResponse
-        {
-            internal Location Location { get; set; }
-            internal string Server { get; set; }
-            internal string Usn { get; set; }
-        }
-
-        internal class Location
-        {
-            internal string Ip { get; set; }
-            internal string Port { get; set; }
         }
     }
 }

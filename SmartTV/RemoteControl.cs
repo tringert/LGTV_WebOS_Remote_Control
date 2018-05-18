@@ -9,16 +9,18 @@ using Newtonsoft.Json;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace LgTvController
 {
     public partial class RemoteControl : Form
     {
-        WebSocket ws;
+        private WebSocket ws;
+        private ChannelListResponse clr;
         private static ChannelListWindow chWindow;
+        internal List<Device> deviceList;
         private static DisplayMessage msgWindow;
-        ChannelListResponse clr;
-        SSDP ssdp = new SSDP();
+        private static System.Threading.Timer timer;
         private string apiKey = Settings.Default.apiKey;
         private string mac = Settings.Default.macAddr;
         private string ip = Settings.Default.ip;
@@ -27,6 +29,15 @@ namespace LgTvController
         public RemoteControl()
         {
             InitializeComponent();
+
+            LoadSavedDeviceList();
+
+            // Start the device discovery
+            TimerCallback cb = new TimerCallback((state) =>
+            {
+                SSDP.FindDevices();
+            });
+            timer = new System.Threading.Timer(cb, null, 0, 5000);
 
             if (!String.IsNullOrEmpty(ip))
             {
@@ -41,6 +52,17 @@ namespace LgTvController
             Connect();
         }
 
+        private void SaveDeviceList(List<Device> deviceList)
+        {
+            Settings.Default.savedDeviceList = JsonConvert.SerializeObject(deviceList);
+            Settings.Default.Save();
+        }
+
+        private List<Device> LoadSavedDeviceList()
+        {
+            return JsonConvert.DeserializeObject<List<Device>>(Settings.Default.savedDeviceList);
+        }
+
         private void Connect()
         {
             string host = "ws://" + ip + ":3000/";
@@ -48,19 +70,25 @@ namespace LgTvController
             
             string hs = "{\"type\":\"register\",\"id\":\"register_0\",\"payload\":{\"forcePairing\":false,\"pairingType\":\"PROMPT\",\"client-key\":\"" + apiKey + "\",\"manifest\":{\"manifestVersion\":1,\"appVersion\":\"1.1\",\"signed\":{\"created\":\"20140509\",\"appId\":\"com.lge.test\",\"vendorId\":\"com.lge\",\"localizedAppNames\":{\"\":\"LGRemoteApp\",\"hu-HU\":\"RemoteApp\",\"zxx-XX\":\"LGRemoteApp\"},\"localizedVendorNames\":{\"\":\"LGElectronics\"},\"permissions\":[\"TEST_SECURE\",\"CONTROL_INPUT_TEXT\",\"CONTROL_MOUSE_AND_KEYBOARD\",\"READ_INSTALLED_APPS\",\"READ_LGE_SDX\",\"READ_NOTIFICATIONS\",\"SEARCH\",\"WRITE_SETTINGS\",\"WRITE_NOTIFICATION_ALERT\",\"CONTROL_POWER\",\"READ_CURRENT_CHANNEL\",\"READ_RUNNING_APPS\",\"READ_UPDATE_INFO\",\"UPDATE_FROM_REMOTE_APP\",\"READ_LGE_TV_INPUT_EVENTS\",\"READ_TV_CURRENT_TIME\"],\"serial\":\"2f930e2d2cfe083771f68e4fe7bb07\"},\"permissions\":[\"LAUNCH\",\"LAUNCH_WEBAPP\",\"APP_TO_APP\",\"CLOSE\",\"TEST_OPEN\",\"TEST_PROTECTED\",\"CONTROL_AUDIO\",\"CONTROL_DISPLAY\",\"CONTROL_INPUT_JOYSTICK\",\"CONTROL_INPUT_MEDIA_RECORDING\",\"CONTROL_INPUT_MEDIA_PLAYBACK\",\"CONTROL_INPUT_TV\",\"CONTROL_POWER\",\"READ_APP_STATUS\",\"READ_CURRENT_CHANNEL\",\"READ_INPUT_DEVICE_LIST\",\"READ_NETWORK_STATE\",\"READ_RUNNING_APPS\",\"READ_TV_CHANNEL_LIST\",\"WRITE_NOTIFICATION_TOAST\",\"READ_POWER_STATE\",\"READ_COUNTRY_INFO\"],\"signatures\":[{\"signatureVersion\":1,\"signature\":\"eyJhbGdvcml0aG0iOiJSU0EtU0hBMjU2Iiwia2V5SWQiOiJ0ZXN0LXNpZ25pbmctY2VydCIsInNpZ25hdHVyZVZlcnNpb24iOjF9.hrVRgjCwXVvE2OOSpDZ58hR+59aFNwYDyjQgKk3auukd7pcegmE2CzPCa0bJ0ZsRAcKkCTJrWo5iDzNhMBWRyaMOv5zWSrthlf7G128qvIlpMT0YNY+n/FaOHE73uLrS/g7swl3/qH/BGFG2Hu4RlL48eb3lLKqTt2xKHdCs6Cd4RMfJPYnzgvI4BNrFUKsjkcu+WD4OO2A27Pq1n50cMchmcaXadJhGrOqH5YmHdOCj5NSHzJYrsW0HPlpuAx/ECMeIZYDh6RMqaFM2DXzdKX9NmmyqzJ3o/0lkk/N97gfVRLW5hA29yeAwaCViZNCP8iC9aO0q9fQojoa7NQnAtw==\"}]}}}";
 
+            // WebSocket event subscriptions
             ws.OnMessage += Ws_OnMessage;
             ws.OnOpen += Ws_OnOpen;
             ws.OnClose += Ws_OnClose;
             ws.OnError += (sender, e) => Console.WriteLine("Error: " + e.Message);
 
+            // Debug
             Logger log = ws.Log;
             log.Level = LogLevel.Debug;
             Console.WriteLine("\n" + log.Output);
 
+            // Keep the connection alive (send back the pong)
             ws.EmitOnPing = true;
+
+            // Connect to the websocket
             ws.ConnectAsync();
         }
 
+        // Handling incoming messages
         private void Ws_OnMessage(object sender, MessageEventArgs e)
         {
             if (e.Data != String.Empty)
@@ -68,6 +96,7 @@ namespace LgTvController
                 string msg = "<unhandled message>";
                 bool getAudioStatus = default;
 
+                // Response for handshake
                 if (e.Data.Contains("register_0"))
                 {
                     RegisterResponse rr = JsonConvert.DeserializeObject<RegisterResponse>(e.Data);
@@ -75,14 +104,18 @@ namespace LgTvController
                     getAudioStatus = true;
                     GetCurrentChannel();
                 }
+                // Response for audio status request
                 else if (e.Data.Contains("status_1"))
                 {
                     AudioStatusResponse asr = JsonConvert.DeserializeObject<AudioStatusResponse>(e.Data);
                     msg = "Audio status received." + Environment.NewLine + asr.ToString();
                     Global._globalVolume = asr.Payload.volume;
+
+                    // Displaying the volume level
                     string txt = Global._globalVolume + "/" + asr.Payload.volumeMax;
                     btVol.Invoke(new Action(() => { btVol.Text = txt; }));
 
+                    // Setting the speaker icon on mute button
                     if (asr.Payload.mute)
                     {
                         btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_off; }));
@@ -94,6 +127,7 @@ namespace LgTvController
                         Global._isMuted = false;
                     }
                 }
+                // Response for volume up request
                 else if (e.Data.Contains("volumeup_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
@@ -108,6 +142,7 @@ namespace LgTvController
                         msg = "Volume up request rejected.";
                     }
                 }
+                // Response for volume down request
                 else if (e.Data.Contains("volumedown_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
@@ -121,6 +156,7 @@ namespace LgTvController
                         msg = "Volume down request rejected.";
                     }
                 }
+                // Response for toggle mute request
                 else if (e.Data.Contains("toggle_mute"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
@@ -134,13 +170,17 @@ namespace LgTvController
                         msg = "Toggle mute request rejected.";
                     }
                 }
+                // Response for current channel info request
                 else if (e.Data.Contains("channelinfo_1"))
                 {
                     ChannelInfo ci = JsonConvert.DeserializeObject<ChannelInfo>(e.Data);
+
+                    // Displaying the current channel
                     string chan = String.Format("({0}) {1}", ci.Payload.ChannelNumber, ci.Payload.ChannelName);
                     btVol.Invoke(new Action(() => { btChan.Text = chan; }));
                     msg = "Current channel info arrived.";
                 }
+                // Response for channel up/down request
                 else if (e.Data.Contains("channelup_1") || e.Data.Contains("channeldown_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
@@ -150,11 +190,14 @@ namespace LgTvController
                         msg = cfr.Id == "channelup_1" ? "Channel up success." : "Channel down success.";
                     }
                 }
+                // Response for get channels list request
                 else if (e.Data.Contains("getchannels_1"))
                 {
                     if (e.Data.Contains("\"returnValue\":true"))
                     {
-                        ChannelListResponse clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
+                        clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
+
+                        // Opening the channel list window
                         chWindow = new ChannelListWindow
                         {
                             channels = clr.Payload.ChannelList
@@ -168,6 +211,7 @@ namespace LgTvController
                     }
                     
                 }
+                // Response for displaying toast message on the screen request
                 else if (e.Data.Contains("toast_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
@@ -182,7 +226,7 @@ namespace LgTvController
                 }
                 else if (e.Data.Contains("openchannel_1"))
                 {
-                    // No response!!!
+                    // Missing response from WebOs!!!
                     //CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
                     //if (cfr.Payload.returnValue)
                     //{
@@ -204,6 +248,7 @@ namespace LgTvController
             }
         }
 
+        // Display a log message when the connection closes
         private void Ws_OnClose(object sender, CloseEventArgs e)
         {
             string message = String.Format("{0}" + Environment.NewLine +
@@ -228,6 +273,7 @@ namespace LgTvController
             }
         }
 
+        // When the connection opens
         private void Ws_OnOpen(object sender, EventArgs e)
         {
             retry = 0;
@@ -235,6 +281,7 @@ namespace LgTvController
             SendHandshake();
         }
 
+        // Sending handshake request when the device is paired with client
         private void SendHandshake()
         {
             string hs = "{\"type\":\"register\",\"id\":\"register_0\",\"payload\":{\"forcePairing\":false,\"pairingType\":\"PROMPT\",\"client-key\":\"" + apiKey + "\",\"manifest\":{\"manifestVersion\":1,\"appVersion\":\"1.1\",\"signed\":{\"created\":\"20140509\",\"appId\":\"com.lge.test\",\"vendorId\":\"com.lge\",\"localizedAppNames\":{\"\":\"LGRemoteApp\",\"en-EN\":\"RemoteApp\",\"zxx-XX\":\"LGRemoteApp\"},\"localizedVendorNames\":{\"\":\"LGElectronics\"},\"permissions\":[\"TEST_SECURE\",\"CONTROL_INPUT_TEXT\",\"CONTROL_MOUSE_AND_KEYBOARD\",\"READ_INSTALLED_APPS\",\"READ_LGE_SDX\",\"READ_NOTIFICATIONS\",\"SEARCH\",\"WRITE_SETTINGS\",\"WRITE_NOTIFICATION_ALERT\",\"CONTROL_POWER\",\"READ_CURRENT_CHANNEL\",\"READ_RUNNING_APPS\",\"READ_UPDATE_INFO\",\"UPDATE_FROM_REMOTE_APP\",\"READ_LGE_TV_INPUT_EVENTS\",\"READ_TV_CURRENT_TIME\"],\"serial\":\"2f930e2d2cfe083771f68e4fe7bb07\"},\"permissions\":[\"LAUNCH\",\"LAUNCH_WEBAPP\",\"APP_TO_APP\",\"CLOSE\",\"TEST_OPEN\",\"TEST_PROTECTED\",\"CONTROL_AUDIO\",\"CONTROL_DISPLAY\",\"CONTROL_INPUT_JOYSTICK\",\"CONTROL_INPUT_MEDIA_RECORDING\",\"CONTROL_INPUT_MEDIA_PLAYBACK\",\"CONTROL_INPUT_TV\",\"CONTROL_POWER\",\"READ_APP_STATUS\",\"READ_CURRENT_CHANNEL\",\"READ_INPUT_DEVICE_LIST\",\"READ_NETWORK_STATE\",\"READ_RUNNING_APPS\",\"READ_TV_CHANNEL_LIST\",\"WRITE_NOTIFICATION_TOAST\",\"READ_POWER_STATE\",\"READ_COUNTRY_INFO\"],\"signatures\":[{\"signatureVersion\":1,\"signature\":\"eyJhbGdvcml0aG0iOiJSU0EtU0hBMjU2Iiwia2V5SWQiOiJ0ZXN0LXNpZ25pbmctY2VydCIsInNpZ25hdHVyZVZlcnNpb24iOjF9.hrVRgjCwXVvE2OOSpDZ58hR+59aFNwYDyjQgKk3auukd7pcegmE2CzPCa0bJ0ZsRAcKkCTJrWo5iDzNhMBWRyaMOv5zWSrthlf7G128qvIlpMT0YNY+n/FaOHE73uLrS/g7swl3/qH/BGFG2Hu4RlL48eb3lLKqTt2xKHdCs6Cd4RMfJPYnzgvI4BNrFUKsjkcu+WD4OO2A27Pq1n50cMchmcaXadJhGrOqH5YmHdOCj5NSHzJYrsW0HPlpuAx/ECMeIZYDh6RMqaFM2DXzdKX9NmmyqzJ3o/0lkk/N97gfVRLW5hA29yeAwaCViZNCP8iC9aO0q9fQojoa7NQnAtw==\"}]}}}";
@@ -257,6 +304,7 @@ namespace LgTvController
             
         }
 
+        // Displaying messages in the log window
         private void DisplayMessage(string message)
         {
             string msg = String.Format(new string('-', 60) + Environment.NewLine + DateTime.Now.ToString("HH:mm:ss.fff") + " ");
@@ -264,6 +312,7 @@ namespace LgTvController
             txtResponse.Invoke(new Action(() => { txtResponse.AppendText(msg); }));
         }
 
+        // Turn off button
         private void btnTurnOff_Click(object sender, EventArgs e)
         {
             if (!CheckIsAlive())
@@ -274,6 +323,8 @@ namespace LgTvController
 
             string turnOff = "{ \"id\":\"1\",\"type\":\"request\",\"uri\":\"ssap://system/turnOff\"}";
             ws.Send(turnOff);
+            
+            // Log window
             DisplayMessage("Turn off signal sent.");
         }
 
@@ -380,6 +431,7 @@ namespace LgTvController
             DisplayMessage("Magic packet sent.");
         }
 
+        // When the form closes, save the settings
         private void RemoteControl_FormClosed(object sender, FormClosedEventArgs e)
         {
             Settings.Default.ip = tbIP.Text;
@@ -388,6 +440,7 @@ namespace LgTvController
             Settings.Default.Save();
         }
 
+        // Validating the user added IPv4 address
         public bool ValidateIPv4(string ipString)
         {
             if (String.IsNullOrWhiteSpace(ipString))
@@ -400,12 +453,11 @@ namespace LgTvController
             {
                 return false;
             }
-
-            byte tempForParsing;
-
-            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
+            
+            return splitValues.All(r => byte.TryParse(r, out byte tempForParsing));
         }
 
+        // Saving the IP field's value when leaving the cell
         private void tbIP_Leave(object sender, EventArgs e)
         {
             if (!ValidateIPv4(tbIP.Text))
@@ -420,12 +472,14 @@ namespace LgTvController
             }
         }
 
+        // Saving the API key field's value when leaving the cell
         private void tbApiKey_Leave(object sender, EventArgs e)
         {
             Settings.Default.apiKey = tbApiKey.Text;
             Settings.Default.Save();
         }
 
+        // Saving the MAC address field's value when leaving the cell
         private void tbMac_Leave(object sender, EventArgs e)
         {
             if (!ValidateMac(tbMac.Text))
@@ -523,11 +577,6 @@ namespace LgTvController
         private void button11_Click(object sender, EventArgs e)
         {
             CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ssdp.FindDevices();
         }
     }
 }

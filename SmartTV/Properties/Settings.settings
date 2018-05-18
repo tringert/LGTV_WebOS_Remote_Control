@@ -11,5 +11,8 @@
     <Setting Name="macAddr" Type="System.String" Scope="User">
       <Value Profile="(Default)">388C50FD4DA5</Value>
     </Setting>
+    <Setting Name="savedDeviceList" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

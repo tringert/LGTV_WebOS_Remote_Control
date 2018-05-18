@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoteControl));
             this.txtResponse = new System.Windows.Forms.TextBox();
-            this.btnRequestParing = new System.Windows.Forms.Button();
             this.btVolPlus = new System.Windows.Forms.Button();
             this.btVolMinus = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -71,28 +70,20 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnMute = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.button2 = new System.Windows.Forms.Button();
+            this.cbCurrentDevice = new System.Windows.Forms.ComboBox();
+            this.lbCurrentDevice = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtResponse
             // 
-            this.txtResponse.Location = new System.Drawing.Point(12, 136);
+            this.txtResponse.Location = new System.Drawing.Point(12, 251);
             this.txtResponse.Multiline = true;
             this.txtResponse.Name = "txtResponse";
             this.txtResponse.ReadOnly = true;
             this.txtResponse.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtResponse.Size = new System.Drawing.Size(546, 313);
+            this.txtResponse.Size = new System.Drawing.Size(546, 198);
             this.txtResponse.TabIndex = 0;
-            // 
-            // btnRequestParing
-            // 
-            this.btnRequestParing.Location = new System.Drawing.Point(287, 41);
-            this.btnRequestParing.Name = "btnRequestParing";
-            this.btnRequestParing.Size = new System.Drawing.Size(156, 23);
-            this.btnRequestParing.TabIndex = 4;
-            this.btnRequestParing.Text = "Request pairing";
-            this.btnRequestParing.UseVisualStyleBackColor = true;
             // 
             // btVolPlus
             // 
@@ -286,7 +277,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 48);
+            this.label3.Location = new System.Drawing.Point(13, 146);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(20, 13);
             this.label3.TabIndex = 0;
@@ -295,7 +286,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 71);
+            this.label4.Location = new System.Drawing.Point(13, 169);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(28, 13);
             this.label4.TabIndex = 0;
@@ -304,7 +295,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 120);
+            this.label5.Location = new System.Drawing.Point(13, 218);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(28, 13);
             this.label5.TabIndex = 0;
@@ -312,7 +303,7 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(287, 69);
+            this.btnConnect.Location = new System.Drawing.Point(287, 167);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 45);
             this.btnConnect.TabIndex = 5;
@@ -322,7 +313,7 @@
             // 
             // btnDisconnect
             // 
-            this.btnDisconnect.Location = new System.Drawing.Point(368, 69);
+            this.btnDisconnect.Location = new System.Drawing.Point(368, 167);
             this.btnDisconnect.Name = "btnDisconnect";
             this.btnDisconnect.Size = new System.Drawing.Size(75, 45);
             this.btnDisconnect.TabIndex = 6;
@@ -346,7 +337,7 @@
             // lblMacAddr
             // 
             this.lblMacAddr.AutoSize = true;
-            this.lblMacAddr.Location = new System.Drawing.Point(12, 97);
+            this.lblMacAddr.Location = new System.Drawing.Point(12, 195);
             this.lblMacAddr.Name = "lblMacAddr";
             this.lblMacAddr.Size = new System.Drawing.Size(57, 13);
             this.lblMacAddr.TabIndex = 0;
@@ -354,7 +345,7 @@
             // 
             // tbMac
             // 
-            this.tbMac.Location = new System.Drawing.Point(71, 94);
+            this.tbMac.Location = new System.Drawing.Point(71, 192);
             this.tbMac.Name = "tbMac";
             this.tbMac.Size = new System.Drawing.Size(210, 20);
             this.tbMac.TabIndex = 3;
@@ -363,7 +354,7 @@
             // 
             // tbIP
             // 
-            this.tbIP.Location = new System.Drawing.Point(71, 43);
+            this.tbIP.Location = new System.Drawing.Point(71, 141);
             this.tbIP.Name = "tbIP";
             this.tbIP.Size = new System.Drawing.Size(210, 20);
             this.tbIP.TabIndex = 1;
@@ -372,7 +363,7 @@
             // 
             // tbApiKey
             // 
-            this.tbApiKey.Location = new System.Drawing.Point(71, 69);
+            this.tbApiKey.Location = new System.Drawing.Point(71, 167);
             this.tbApiKey.Name = "tbApiKey";
             this.tbApiKey.Size = new System.Drawing.Size(210, 20);
             this.tbApiKey.TabIndex = 2;
@@ -467,7 +458,7 @@
             // 
             // btMessage
             // 
-            this.btMessage.Location = new System.Drawing.Point(483, 57);
+            this.btMessage.Location = new System.Drawing.Point(483, 155);
             this.btMessage.Name = "btMessage";
             this.btMessage.Size = new System.Drawing.Size(75, 23);
             this.btMessage.TabIndex = 103;
@@ -516,22 +507,30 @@
             this.btnMute.UseVisualStyleBackColor = true;
             this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
             // 
-            // button2
+            // cbCurrentDevice
             // 
-            this.button2.Location = new System.Drawing.Point(758, 111);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 105;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.cbCurrentDevice.FormattingEnabled = true;
+            this.cbCurrentDevice.Location = new System.Drawing.Point(71, 41);
+            this.cbCurrentDevice.Name = "cbCurrentDevice";
+            this.cbCurrentDevice.Size = new System.Drawing.Size(182, 21);
+            this.cbCurrentDevice.TabIndex = 105;
+            // 
+            // lbCurrentDevice
+            // 
+            this.lbCurrentDevice.AutoSize = true;
+            this.lbCurrentDevice.Location = new System.Drawing.Point(25, 44);
+            this.lbCurrentDevice.Name = "lbCurrentDevice";
+            this.lbCurrentDevice.Size = new System.Drawing.Size(44, 13);
+            this.lbCurrentDevice.TabIndex = 107;
+            this.lbCurrentDevice.Text = "Device:";
             // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 461);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.lbCurrentDevice);
+            this.Controls.Add(this.cbCurrentDevice);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.btMessage);
             this.Controls.Add(this.btChList);
@@ -563,7 +562,6 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btVolMinus);
             this.Controls.Add(this.btVolPlus);
-            this.Controls.Add(this.btnRequestParing);
             this.Controls.Add(this.tbApiKey);
             this.Controls.Add(this.txtResponse);
             this.Controls.Add(this.menuStrip1);
@@ -585,7 +583,6 @@
 
         private System.Windows.Forms.TextBox txtResponse;
         private System.Windows.Forms.TextBox tbApiKey;
-        private System.Windows.Forms.Button btnRequestParing;
         private System.Windows.Forms.Button btVolPlus;
         private System.Windows.Forms.Button btVolMinus;
         private System.Windows.Forms.Button button3;
@@ -624,7 +621,8 @@
         private System.Windows.Forms.Button btMessage;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox cbCurrentDevice;
+        private System.Windows.Forms.Label lbCurrentDevice;
     }
 }
 
