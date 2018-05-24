@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,9 +14,9 @@ namespace LgTvController
         private const string searchRequest = "M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 4\r\nST: urn:lge-com:service:webos-second-screen:1\r\n\r\n";
         private const int MaxResultSize = 1024;
         private static Socket socket;
-        internal static List<Device> availableDevices = new List<Device>();
+        internal static List<SSDPResponse> availableDevices = new List<SSDPResponse>();
         private static SocketAsyncEventArgs sendEvent;
-        private static Device ssdr = new Device();
+        private static SSDPResponse ssdr = new SSDPResponse();
         public static void FindDevices()
         {
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
@@ -45,7 +46,7 @@ namespace LgTvController
         private static void OnSocketSendEventCompleted(object sender, SocketAsyncEventArgs e)
         {
             // Debug
-            Console.WriteLine("Packet sent.");
+            //Console.WriteLine("Packet sent.");
             if (e.SocketError == SocketError.Success)
             {
                 if (e.LastOperation == SocketAsyncOperation.SendTo)
@@ -71,10 +72,10 @@ namespace LgTvController
 
         private static void AddDeviceToList()
         {
-            foreach (Device item in availableDevices)
+            foreach (SSDPResponse item in availableDevices)
             {
                 // Debug
-                Console.WriteLine("Devices: {0}", availableDevices.Count);
+                //Console.WriteLine("Devices: {0}", availableDevices.Count);
                 if (ssdr.Location.Ip == item.Location.Ip &&
                     ssdr.Location.Port == item.Location.Port)
                 {
@@ -87,7 +88,6 @@ namespace LgTvController
 
         private static bool ParseResponse(string response)
         {
-            string friendlyName = "";
             string ip = "";
             string port = "";
             string server = "";
@@ -129,9 +129,8 @@ namespace LgTvController
                 !String.IsNullOrEmpty(usn))
             {
 
-                ssdr = new Device
+                ssdr = new SSDPResponse
                 {
-                    FriendlyName = friendlyName,
                     Location = new Location
                     {
                         Ip = ip,
@@ -149,5 +148,25 @@ namespace LgTvController
                 return false;
             }
         }
+    }
+
+    internal class SSDPResponse
+    {
+        [JsonProperty(PropertyName = "Location")]
+        internal Location Location { get; set; }
+        [JsonProperty(PropertyName = "Server")]
+        internal string Server { get; set; }
+        [JsonProperty(PropertyName = "Uuid")]
+        internal Guid? Uuid { get; set; }
+        [JsonProperty(PropertyName = "Usn")]
+        internal string Usn { get; set; }
+    }
+
+    internal class Location
+    {
+        [JsonProperty(PropertyName = "Ip")]
+        internal string Ip { get; set; }
+        [JsonProperty(PropertyName = "Port")]
+        internal string Port { get; set; }
     }
 }

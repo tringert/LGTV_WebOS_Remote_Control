@@ -8,19 +8,11 @@ namespace LgTvController
         [JsonProperty(PropertyName = "FriendlyName")]
         internal string FriendlyName { get; set; }
         [JsonProperty(PropertyName = "Location")]
-        internal Location Location { get; set; }
-        [JsonProperty(PropertyName = "Server")]
         internal string Server { get; set; }
         [JsonProperty(PropertyName = "Uuid")]
         internal Guid? Uuid { get; set; }
-        [JsonProperty(PropertyName = "Usn")]
-        internal string Usn { get; set; }
-        [JsonProperty(PropertyName = "Saved")]
-        internal bool Saved { get; set; } = false;
-    }
-
-    internal class Location
-    {
+        [JsonProperty(PropertyName = "ApiKey")]
+        internal bool ApiKey { get; set; } = false;
         [JsonProperty(PropertyName = "Ip")]
         internal string Ip { get; set; }
         [JsonProperty(PropertyName = "Port")]

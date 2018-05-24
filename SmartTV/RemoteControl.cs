@@ -18,7 +18,7 @@ namespace LgTvController
         private WebSocket ws;
         private ChannelListResponse clr;
         private static ChannelListWindow chWindow;
-        internal List<Device> deviceList;
+        internal List<SSDPResponse> deviceList;
         private static DisplayMessage msgWindow;
         private static System.Threading.Timer timer;
         private string apiKey = Settings.Default.apiKey;
@@ -30,7 +30,8 @@ namespace LgTvController
         {
             InitializeComponent();
 
-            LoadSavedDeviceList();
+            // Load the saved devices from App.Config
+            deviceList = LoadSavedDeviceList();
 
             // Start the device discovery
             TimerCallback cb = new TimerCallback((state) =>
@@ -52,15 +53,15 @@ namespace LgTvController
             Connect();
         }
 
-        private void SaveDeviceList(List<Device> deviceList)
+        private void SaveDeviceList(List<SSDPResponse> deviceList)
         {
             Settings.Default.savedDeviceList = JsonConvert.SerializeObject(deviceList);
             Settings.Default.Save();
         }
 
-        private List<Device> LoadSavedDeviceList()
+        private List<SSDPResponse> LoadSavedDeviceList()
         {
-            return JsonConvert.DeserializeObject<List<Device>>(Settings.Default.savedDeviceList);
+            return JsonConvert.DeserializeObject<List<SSDPResponse>>(Settings.Default.savedDeviceList);
         }
 
         private void Connect()
