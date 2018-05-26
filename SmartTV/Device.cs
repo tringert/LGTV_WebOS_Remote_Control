@@ -12,7 +12,7 @@ namespace LgTvController
         [JsonProperty(PropertyName = "Uuid")]
         internal Guid? Uuid { get; set; }
         [JsonProperty(PropertyName = "ApiKey")]
-        internal bool ApiKey { get; set; } = false;
+        internal string ApiKey { get; set; }
         [JsonProperty(PropertyName = "Ip")]
         internal string Ip { get; set; }
         [JsonProperty(PropertyName = "Port")]

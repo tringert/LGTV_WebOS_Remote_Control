@@ -9,6 +9,7 @@ namespace LgTvController
     public partial class ChannelListWindow : Form
     {
         internal List<Channel> channels;
+        internal ChannelInfo ci;
 
         public ChannelListWindow()
         {
@@ -26,7 +27,6 @@ namespace LgTvController
             }).ToList();
 
             channelListTable.DataSource = result;
-            DataGridViewColumn col1 = new DataGridViewTextBoxColumn();
             channelListTable.AutoGenerateColumns = false;
             channelListTable.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             channelListTable.MultiSelect = false;
@@ -39,6 +39,14 @@ namespace LgTvController
             channelListTable.Columns["ChannelId"].Visible = false;
             lbTotalNoChannels.Text = "Total no. of channels: " + result.Count;
             lbRows.Text = "Rows: " + channelListTable.Rows.Count;
+
+            foreach (DataGridViewRow row in channelListTable.Rows)
+            {
+                if (row.Cells["ChannelId"].Value.ToString() == ci.Payload.ChannelId)
+                    row.Selected = true;
+            }
+
+            channelListTable.FirstDisplayedScrollingRowIndex = channelListTable.SelectedRows[0].Index;
         }
         
         private void TbSearch_TextChanged(object sender, System.EventArgs e)

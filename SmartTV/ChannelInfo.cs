@@ -13,6 +13,8 @@ namespace LgTvController
  
         internal class ChannelInfoPayload
         {
+            [JsonProperty(PropertyName = "subscribed")]
+            internal bool? Subscribed { get; set; }
             [JsonProperty(PropertyName = "returnValue")]
             internal bool ReturnValue { get; set; }
             [JsonProperty(PropertyName = "channelId")]

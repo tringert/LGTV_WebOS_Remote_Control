@@ -3,7 +3,7 @@ using System.Net;
 using System.Globalization;
 using System.Windows.Forms;
 using WebSocketSharp;
-using SmartTV.Properties;
+using LgTvController.Properties;
 using System.Linq;
 using Newtonsoft.Json;
 using System.Drawing;
@@ -17,9 +17,11 @@ namespace LgTvController
     {
         private WebSocket ws;
         private ChannelListResponse clr;
+        internal ChannelInfo ci;
         private static ChannelListWindow chWindow;
-        internal List<SSDPResponse> deviceList;
+        internal List<Device> deviceList;
         private static DisplayMessage msgWindow;
+        private static SavedDeviceListWindow deviceListWindow;
         private static System.Threading.Timer timer;
         private string apiKey = Settings.Default.apiKey;
         private string mac = Settings.Default.macAddr;
@@ -31,6 +33,7 @@ namespace LgTvController
             InitializeComponent();
 
             // Load the saved devices from App.Config
+            deviceList = new List<Device>();
             deviceList = LoadSavedDeviceList();
 
             // Start the device discovery
@@ -59,9 +62,9 @@ namespace LgTvController
             Settings.Default.Save();
         }
 
-        private List<SSDPResponse> LoadSavedDeviceList()
+        private List<Device> LoadSavedDeviceList()
         {
-            return JsonConvert.DeserializeObject<List<SSDPResponse>>(Settings.Default.savedDeviceList);
+            return JsonConvert.DeserializeObject<List<Device>>(Settings.Default.savedDeviceList);
         }
 
         private void Connect()
@@ -95,29 +98,33 @@ namespace LgTvController
             if (e.Data != String.Empty)
             {
                 string msg = "<unhandled message>";
-                bool getAudioStatus = default;
 
                 // Response for handshake
                 if (e.Data.Contains("register_0"))
                 {
                     RegisterResponse rr = JsonConvert.DeserializeObject<RegisterResponse>(e.Data);
                     msg = "Handshake successful." + Environment.NewLine + rr.ToString();
-                    getAudioStatus = true;
-                    GetCurrentChannel();
+                  
+                    // Subscribe to volume change
+                    ws.Send("{ \"id\":\"volume_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://audio/getVolume\"}");
+                    // Subscribe to channel change
+                    ws.Send("{ \"id\":\"channel_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getCurrentChannel\"}");
+                    // Subscribe to program info
+                    //ws.Send("{ \"id\":\"volumesub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getChannelProgramInfo\"}");
                 }
                 // Response for audio status request
-                else if (e.Data.Contains("status_1"))
+                else if (e.Data.Contains("volume_sub"))
                 {
                     AudioStatusResponse asr = JsonConvert.DeserializeObject<AudioStatusResponse>(e.Data);
                     msg = "Audio status received." + Environment.NewLine + asr.ToString();
-                    Global._globalVolume = asr.Payload.volume;
+                    Global._globalVolume = asr.Payload.Volume;
 
                     // Displaying the volume level
-                    string txt = Global._globalVolume + "/" + asr.Payload.volumeMax;
+                    string txt = Global._globalVolume + "/" + asr.Payload.VolumeMax;
                     btVol.Invoke(new Action(() => { btVol.Text = txt; }));
 
                     // Setting the speaker icon on mute button
-                    if (asr.Payload.mute)
+                    if (asr.Payload.Mute)
                     {
                         btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_off; }));
                         Global._isMuted = true;
@@ -135,7 +142,6 @@ namespace LgTvController
 
                     if (cfr.Payload.returnValue)
                     {
-                        getAudioStatus = true;
                         msg = "Volume up acknowledged.";
                     }
                     else
@@ -149,7 +155,6 @@ namespace LgTvController
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
                     if (cfr.Payload.returnValue)
                     {
-                        getAudioStatus = true;
                         msg = "Volume down acknowledged.";
                     }
                     else
@@ -163,7 +168,6 @@ namespace LgTvController
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
                     if (cfr.Payload.returnValue)
                     {
-                        getAudioStatus = true;
                         msg = "Toggle mute acknowledged.";
                     }
                     else
@@ -172,9 +176,9 @@ namespace LgTvController
                     }
                 }
                 // Response for current channel info request
-                else if (e.Data.Contains("channelinfo_1"))
+                else if (e.Data.Contains("channel_sub"))
                 {
-                    ChannelInfo ci = JsonConvert.DeserializeObject<ChannelInfo>(e.Data);
+                    ci = JsonConvert.DeserializeObject<ChannelInfo>(e.Data);
 
                     // Displaying the current channel
                     string chan = String.Format("({0}) {1}", ci.Payload.ChannelNumber, ci.Payload.ChannelName);
@@ -203,6 +207,7 @@ namespace LgTvController
                         {
                             channels = clr.Payload.ChannelList
                         };
+                        chWindow.ci = ci;
                         chWindow.ShowDialog();
                         msg = "Channel list request succeeded.";
                     }
@@ -243,9 +248,7 @@ namespace LgTvController
                     msg = e.Data;
                 }
 
-                DisplayMessage(msg);
-
-                if (getAudioStatus) GetAudioStatus(); 
+                DisplayMessage(msg); 
             }
         }
 
@@ -377,11 +380,6 @@ namespace LgTvController
 
         private void btnMute_Click(object sender, EventArgs e)
         {
-            if (!CheckIsAlive())
-            {
-                ConnectionLostDialog();
-                return;
-            }
             bool mute = !Global._isMuted;
             string message = "{\"id\":\"toggle_mute\",\"type\":\"request\",\"uri\":\"ssap://audio/setMute\",\"payload\":{\"mute\":" + mute.ToString().ToLower() + "}}";
             ws.Send(message);
@@ -578,6 +576,20 @@ namespace LgTvController
         private void button11_Click(object sender, EventArgs e)
         {
             CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
+        }
+
+        private void deviceListButton_Click(object sender, EventArgs e)
+        {
+            if (deviceListWindow != null) return;
+            deviceListWindow = new SavedDeviceListWindow();
+            deviceListWindow.FormClosing += deviceListWindow_FormClosing;
+            deviceListWindow.devList = deviceList;
+            deviceListWindow.Show();
+        }
+
+        private void deviceListWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            deviceListWindow = null;
         }
     }
 }

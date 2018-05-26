@@ -118,6 +118,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.channelListTable);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(400, 435);
             this.Name = "ChannelListWindow";
             this.Text = "Channel list";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChannelListWindow_FormClosed);

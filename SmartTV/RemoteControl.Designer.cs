@@ -72,6 +72,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.cbCurrentDevice = new System.Windows.Forms.ComboBox();
             this.lbCurrentDevice = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -349,7 +350,7 @@
             this.tbMac.Name = "tbMac";
             this.tbMac.Size = new System.Drawing.Size(210, 20);
             this.tbMac.TabIndex = 3;
-            this.tbMac.Text = global::SmartTV.Properties.Settings.Default.macAddr;
+            this.tbMac.Text = global::LgTvController.Properties.Settings.Default.macAddr;
             this.tbMac.Leave += new System.EventHandler(this.tbMac_Leave);
             // 
             // tbIP
@@ -358,7 +359,7 @@
             this.tbIP.Name = "tbIP";
             this.tbIP.Size = new System.Drawing.Size(210, 20);
             this.tbIP.TabIndex = 1;
-            this.tbIP.Text = global::SmartTV.Properties.Settings.Default.ip;
+            this.tbIP.Text = global::LgTvController.Properties.Settings.Default.ip;
             this.tbIP.Leave += new System.EventHandler(this.tbIP_Leave);
             // 
             // tbApiKey
@@ -367,7 +368,7 @@
             this.tbApiKey.Name = "tbApiKey";
             this.tbApiKey.Size = new System.Drawing.Size(210, 20);
             this.tbApiKey.TabIndex = 2;
-            this.tbApiKey.Text = global::SmartTV.Properties.Settings.Default.apiKey;
+            this.tbApiKey.Text = global::LgTvController.Properties.Settings.Default.apiKey;
             this.tbApiKey.Leave += new System.EventHandler(this.tbApiKey_Leave);
             // 
             // menuStrip1
@@ -483,7 +484,7 @@
             // button1
             // 
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Image = global::SmartTV.Properties.Resources.trash_20x20px;
+            this.button1.Image = global::LgTvController.Properties.Resources.trash_20x20px;
             this.button1.Location = new System.Drawing.Point(561, 419);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
@@ -498,7 +499,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnMute.Image = global::SmartTV.Properties.Resources.Speaker_on;
+            this.btnMute.Image = global::LgTvController.Properties.Resources.Speaker_on;
             this.btnMute.Location = new System.Drawing.Point(624, 141);
             this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnMute.Name = "btnMute";
@@ -524,11 +525,21 @@
             this.lbCurrentDevice.TabIndex = 107;
             this.lbCurrentDevice.Text = "Device:";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(259, 41);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(21, 21);
+            this.button2.TabIndex = 108;
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.deviceListButton_Click);
+            // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 461);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.lbCurrentDevice);
             this.Controls.Add(this.cbCurrentDevice);
             this.Controls.Add(this.button11);
@@ -623,6 +634,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox cbCurrentDevice;
         private System.Windows.Forms.Label lbCurrentDevice;
+        private System.Windows.Forms.Button button2;
     }
 }
 

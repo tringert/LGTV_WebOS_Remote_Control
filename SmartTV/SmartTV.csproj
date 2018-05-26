@@ -64,11 +64,11 @@
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Device.cs" />
-    <Compile Include="DeviceListWindow.cs">
+    <Compile Include="SavedDeviceListWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DeviceListWindow.Designer.cs">
-      <DependentUpon>DeviceListWindow.cs</DependentUpon>
+    <Compile Include="SavedDeviceListWindow.Designer.cs">
+      <DependentUpon>SavedDeviceListWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="DisplayMessage.cs">
       <SubType>Form</SubType>
@@ -99,8 +99,8 @@
     <EmbeddedResource Include="ChannelListWindow.resx">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DeviceListWindow.resx">
-      <DependentUpon>DeviceListWindow.cs</DependentUpon>
+    <EmbeddedResource Include="SavedDeviceListWindow.resx">
+      <DependentUpon>SavedDeviceListWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DisplayMessage.resx">
       <DependentUpon>DisplayMessage.cs</DependentUpon>
