@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            LgTvController.Properties.Settings settings1 = new LgTvController.Properties.Settings();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoteControl));
             this.txtResponse = new System.Windows.Forms.TextBox();
             this.btVolPlus = new System.Windows.Forms.Button();
@@ -350,7 +351,12 @@
             this.tbMac.Name = "tbMac";
             this.tbMac.Size = new System.Drawing.Size(210, 20);
             this.tbMac.TabIndex = 3;
-            this.tbMac.Text = global::LgTvController.Properties.Settings.Default.macAddr;
+            settings1.apiKey = "035957b84f78c710e48850726caa664a";
+            settings1.ip = "192.168.1.55";
+            settings1.macAddr = "388C50FD4DA5";
+            settings1.savedDeviceList = "";
+            settings1.SettingsKey = "";
+            this.tbMac.Text = settings1.macAddr;
             this.tbMac.Leave += new System.EventHandler(this.tbMac_Leave);
             // 
             // tbIP
@@ -359,7 +365,7 @@
             this.tbIP.Name = "tbIP";
             this.tbIP.Size = new System.Drawing.Size(210, 20);
             this.tbIP.TabIndex = 1;
-            this.tbIP.Text = global::LgTvController.Properties.Settings.Default.ip;
+            this.tbIP.Text = settings1.ip;
             this.tbIP.Leave += new System.EventHandler(this.tbIP_Leave);
             // 
             // tbApiKey
@@ -368,7 +374,7 @@
             this.tbApiKey.Name = "tbApiKey";
             this.tbApiKey.Size = new System.Drawing.Size(210, 20);
             this.tbApiKey.TabIndex = 2;
-            this.tbApiKey.Text = global::LgTvController.Properties.Settings.Default.apiKey;
+            this.tbApiKey.Text = settings1.apiKey;
             this.tbApiKey.Leave += new System.EventHandler(this.tbApiKey_Leave);
             // 
             // menuStrip1
@@ -484,7 +490,7 @@
             // button1
             // 
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Image = global::LgTvController.Properties.Resources.trash_20x20px;
+            this.button1.Image = global::SmartTV.Properties.Resources.trash_20x20px;
             this.button1.Location = new System.Drawing.Point(561, 419);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
@@ -499,7 +505,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnMute.Image = global::LgTvController.Properties.Resources.Speaker_on;
+            this.btnMute.Image = global::SmartTV.Properties.Resources.Speaker_on;
             this.btnMute.Location = new System.Drawing.Point(624, 141);
             this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnMute.Name = "btnMute";

@@ -46,8 +46,6 @@ namespace LgTvController
 
         private static void OnSocketSendEventCompleted(object sender, SocketAsyncEventArgs e)
         {
-            // Debug
-            //Console.WriteLine("Packet sent.");
             if (e.SocketError == SocketError.Success)
             {
                 if (e.LastOperation == SocketAsyncOperation.SendTo)
@@ -99,15 +97,13 @@ namespace LgTvController
                 }
             }
 
-            return arpEntry[1].Replace("-", "");
+            return arpEntry[1].Replace("-", "") ?? "";
         }
 
         private static void AddDeviceToList()
         {
             foreach (SSDPResponse item in availableDevices)
             {
-                // Debug
-                //Console.WriteLine("Devices: {0}", availableDevices.Count);
                 if (ssdr.Location.Ip == item.Location.Ip &&
                     ssdr.Location.Port == item.Location.Port)
                 {
