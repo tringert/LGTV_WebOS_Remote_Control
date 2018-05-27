@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LgTvController.Properties {
+namespace SmartTV.Properties {
     using System;
     
     

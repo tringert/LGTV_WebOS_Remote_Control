@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
+using SmartTV.Properties;
 
 namespace LgTvController
 {
