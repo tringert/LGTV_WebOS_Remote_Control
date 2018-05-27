@@ -79,7 +79,8 @@ namespace LgTvController
                 FileName = "arp",
                 Arguments = "-a",
                 RedirectStandardOutput = true,
-                UseShellExecute = false
+                UseShellExecute = false,
+                CreateNoWindow = true
             };
             process.StartInfo = startInfo;
 
@@ -114,6 +115,7 @@ namespace LgTvController
                 }
             }
 
+            ssdr.Mac = GetMacAddress(ssdr.Location.Ip);
             availableDevices.Add(ssdr);
         }
 
@@ -168,8 +170,7 @@ namespace LgTvController
                     },
                     Server = server,
                     Usn = usn,
-                    Uuid = uuid,
-                    Mac = GetMacAddress(ip)
+                    Uuid = uuid
                 };
 
                 return true;
