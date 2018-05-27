@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -11,6 +11,7 @@ namespace LgTvController
 {
     internal static class SSDP
     {
+        private static readonly string[] stringSeparator = new string[] { "\r\n" };
         private const string searchRequest = "M-SEARCH * HTTP/1.1\r\nHOST: 239.255.255.250:1900\r\nMAN: \"ssdp:discover\"\r\nMX: 4\r\nST: urn:lge-com:service:webos-second-screen:1\r\n\r\n";
         private const int MaxResultSize = 1024;
         private static Socket socket;
@@ -69,6 +70,36 @@ namespace LgTvController
                 }
             }
         }
+        
+        private static string GetMacAddress(string ipAddress)
+        {
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = "arp",
+                Arguments = "-a",
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+            process.StartInfo = startInfo;
+
+            process.Start();
+            String strData = process.StandardOutput.ReadToEnd();
+            string[] arpTable = strData.Split(stringSeparator, StringSplitOptions.RemoveEmptyEntries)
+                .Select(o => o.Trim()).ToArray();
+
+            string[] arpEntry = default;
+            foreach (var item in arpTable)
+            {
+                if (item.Contains(ipAddress))
+                {
+                    arpEntry = Regex.Split(item, @"\s{2,}").Select(o => o.Trim()).ToArray();
+                    break;
+                }
+            }
+
+            return arpEntry[1].Replace("-", "");
+        }
 
         private static void AddDeviceToList()
         {
@@ -93,7 +124,6 @@ namespace LgTvController
             string server = "";
             string usn = "";
             Guid uuid = Guid.Empty;
-            string[] stringSeparator = new string[] { "\r\n" };
             string[] result = response.Replace("HTTP/1.1 200 OK\r\n", "").Split(stringSeparator, StringSplitOptions.RemoveEmptyEntries)
                 .Select(o => o.Trim()).ToArray();
             
@@ -138,7 +168,8 @@ namespace LgTvController
                     },
                     Server = server,
                     Usn = usn,
-                    Uuid = uuid
+                    Uuid = uuid,
+                    Mac = GetMacAddress(ip)
                 };
 
                 return true;
@@ -152,21 +183,16 @@ namespace LgTvController
 
     internal class SSDPResponse
     {
-        [JsonProperty(PropertyName = "Location")]
         internal Location Location { get; set; }
-        [JsonProperty(PropertyName = "Server")]
         internal string Server { get; set; }
-        [JsonProperty(PropertyName = "Uuid")]
         internal Guid? Uuid { get; set; }
-        [JsonProperty(PropertyName = "Usn")]
         internal string Usn { get; set; }
+        internal string Mac { get; set; }
     }
 
     internal class Location
     {
-        [JsonProperty(PropertyName = "Ip")]
         internal string Ip { get; set; }
-        [JsonProperty(PropertyName = "Port")]
         internal string Port { get; set; }
     }
 }

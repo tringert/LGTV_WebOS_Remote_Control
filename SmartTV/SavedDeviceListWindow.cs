@@ -25,19 +25,21 @@ namespace LgTvController
                           orderby d.FriendlyName
                           select new
                           {
-                              Name = d.FriendlyName,
-                              d.Ip,
-                              d.Port,
-                              d.Uuid,
-                              d.ApiKey
+                              FriendlyName = d.FriendlyName,
+                              Ip = d.Ip,
+                              Port = d.Port,
+                              Uuid = d.Uuid,
+                              ApiKey = d.ApiKey,
+                              MacAddress = d.MacAddress
                           };
 
             dgvDevices.DataSource = columns.ToList();
-            dgvDevices.Columns["Name"].Width = 110;
+            dgvDevices.Columns["FriendlyName"].Width = 80;
             dgvDevices.Columns["Ip"].Width = 80;
             dgvDevices.Columns["Port"].Width = 40;
             dgvDevices.Columns["Uuid"].Width = 220;
             dgvDevices.Columns["ApiKey"].Width = 220;
+            dgvDevices.Columns["MacAddress"].Width = 80;
 
             //dgvDevices.DataSource = result;
             //DataGridViewColumn col1 = new DataGridViewTextBoxColumn();

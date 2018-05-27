@@ -56,7 +56,7 @@ namespace LgTvController
             Connect();
         }
 
-        private void SaveDeviceList(List<SSDPResponse> deviceList)
+        private void SaveDeviceList(List<Device> deviceList)
         {
             Settings.Default.savedDeviceList = JsonConvert.SerializeObject(deviceList);
             Settings.Default.Save();

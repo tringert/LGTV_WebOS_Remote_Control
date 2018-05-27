@@ -17,5 +17,7 @@ namespace LgTvController
         internal string Ip { get; set; }
         [JsonProperty(PropertyName = "Port")]
         internal string Port { get; set; }
+        [JsonProperty(PropertyName = "Mac")]
+        internal string MacAddress { get; set; }
     }
 }

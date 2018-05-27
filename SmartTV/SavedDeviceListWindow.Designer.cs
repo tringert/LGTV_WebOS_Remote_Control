@@ -40,6 +40,8 @@
             this.lbPort = new System.Windows.Forms.Label();
             this.lbUuid = new System.Windows.Forms.Label();
             this.lbApiKey = new System.Windows.Forms.Label();
+            this.tbMac = new System.Windows.Forms.TextBox();
+            this.lbMac = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,7 +51,7 @@
             this.dgvDevices.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgvDevices.Location = new System.Drawing.Point(12, 92);
             this.dgvDevices.Name = "dgvDevices";
-            this.dgvDevices.Size = new System.Drawing.Size(713, 218);
+            this.dgvDevices.Size = new System.Drawing.Size(769, 218);
             this.dgvDevices.TabIndex = 0;
             // 
             // tbName
@@ -63,7 +65,7 @@
             // 
             this.tbUuid.Location = new System.Drawing.Point(12, 66);
             this.tbUuid.Name = "tbUuid";
-            this.tbUuid.Size = new System.Drawing.Size(175, 20);
+            this.tbUuid.Size = new System.Drawing.Size(230, 20);
             this.tbUuid.TabIndex = 2;
             // 
             // tbPort
@@ -82,9 +84,9 @@
             // 
             // tbApiKey
             // 
-            this.tbApiKey.Location = new System.Drawing.Point(193, 66);
+            this.tbApiKey.Location = new System.Drawing.Point(248, 66);
             this.tbApiKey.Name = "tbApiKey";
-            this.tbApiKey.Size = new System.Drawing.Size(186, 20);
+            this.tbApiKey.Size = new System.Drawing.Size(237, 20);
             this.tbApiKey.TabIndex = 5;
             // 
             // lbName
@@ -126,17 +128,35 @@
             // lbApiKey
             // 
             this.lbApiKey.AutoSize = true;
-            this.lbApiKey.Location = new System.Drawing.Point(190, 50);
+            this.lbApiKey.Location = new System.Drawing.Point(245, 50);
             this.lbApiKey.Name = "lbApiKey";
             this.lbApiKey.Size = new System.Drawing.Size(40, 13);
             this.lbApiKey.TabIndex = 10;
             this.lbApiKey.Text = "ApiKey";
             // 
+            // tbMac
+            // 
+            this.tbMac.Location = new System.Drawing.Point(385, 27);
+            this.tbMac.Name = "tbMac";
+            this.tbMac.Size = new System.Drawing.Size(100, 20);
+            this.tbMac.TabIndex = 11;
+            // 
+            // lbMac
+            // 
+            this.lbMac.AutoSize = true;
+            this.lbMac.Location = new System.Drawing.Point(382, 11);
+            this.lbMac.Name = "lbMac";
+            this.lbMac.Size = new System.Drawing.Size(69, 13);
+            this.lbMac.TabIndex = 12;
+            this.lbMac.Text = "Mac Address";
+            // 
             // SavedDeviceListWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 324);
+            this.ClientSize = new System.Drawing.Size(794, 324);
+            this.Controls.Add(this.lbMac);
+            this.Controls.Add(this.tbMac);
             this.Controls.Add(this.lbApiKey);
             this.Controls.Add(this.lbUuid);
             this.Controls.Add(this.lbPort);
@@ -171,5 +191,7 @@
         private System.Windows.Forms.Label lbPort;
         private System.Windows.Forms.Label lbUuid;
         private System.Windows.Forms.Label lbApiKey;
+        private System.Windows.Forms.TextBox tbMac;
+        private System.Windows.Forms.Label lbMac;
     }
 }
