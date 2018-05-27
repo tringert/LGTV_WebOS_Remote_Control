@@ -98,7 +98,7 @@
             this.btVolPlus.TabIndex = 25;
             this.btVolPlus.Text = "+";
             this.btVolPlus.UseVisualStyleBackColor = true;
-            this.btVolPlus.Click += new System.EventHandler(this.btVolPlus_Click);
+            this.btVolPlus.Click += new System.EventHandler(this.BtVolPlus_Click);
             // 
             // btVolMinus
             // 
@@ -111,7 +111,7 @@
             this.btVolMinus.TabIndex = 45;
             this.btVolMinus.Text = "-";
             this.btVolMinus.UseVisualStyleBackColor = true;
-            this.btVolMinus.Click += new System.EventHandler(this.btVolMinus_Click);
+            this.btVolMinus.Click += new System.EventHandler(this.BtVolMinus_Click);
             // 
             // button3
             // 
@@ -248,7 +248,7 @@
             this.chanMinus.TabIndex = 55;
             this.chanMinus.Text = "-";
             this.chanMinus.UseVisualStyleBackColor = true;
-            this.chanMinus.Click += new System.EventHandler(this.chanMinus_Click);
+            this.chanMinus.Click += new System.EventHandler(this.ChanMinus_Click);
             // 
             // chanPlus
             // 
@@ -261,7 +261,7 @@
             this.chanPlus.TabIndex = 40;
             this.chanPlus.Text = "+";
             this.chanPlus.UseVisualStyleBackColor = true;
-            this.chanPlus.Click += new System.EventHandler(this.chanPlus_Click);
+            this.chanPlus.Click += new System.EventHandler(this.ChanPlus_Click);
             // 
             // btnTurnOn
             // 
@@ -274,7 +274,7 @@
             this.btnTurnOn.TabIndex = 90;
             this.btnTurnOn.Text = "Turn on";
             this.btnTurnOn.UseVisualStyleBackColor = true;
-            this.btnTurnOn.Click += new System.EventHandler(this.btnTurnOn_Click);
+            this.btnTurnOn.Click += new System.EventHandler(this.BtnTurnOn_Click);
             // 
             // label3
             // 
@@ -311,7 +311,7 @@
             this.btnConnect.TabIndex = 5;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = false;
-            this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
+            this.btnConnect.Click += new System.EventHandler(this.BtnConnect_Click);
             // 
             // btnDisconnect
             // 
@@ -321,7 +321,7 @@
             this.btnDisconnect.TabIndex = 6;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = false;
-            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
+            this.btnDisconnect.Click += new System.EventHandler(this.BtnDisconnect_Click);
             // 
             // btnTurnOff
             // 
@@ -334,7 +334,7 @@
             this.btnTurnOff.TabIndex = 95;
             this.btnTurnOff.Text = "Turn off";
             this.btnTurnOff.UseVisualStyleBackColor = true;
-            this.btnTurnOff.Click += new System.EventHandler(this.btnTurnOff_Click);
+            this.btnTurnOff.Click += new System.EventHandler(this.BtnTurnOff_Click);
             // 
             // lblMacAddr
             // 
@@ -357,7 +357,7 @@
             settings1.savedDeviceList = "";
             settings1.SettingsKey = "";
             this.tbMac.Text = settings1.macAddr;
-            this.tbMac.Leave += new System.EventHandler(this.tbMac_Leave);
+            this.tbMac.Leave += new System.EventHandler(this.TbMac_Leave);
             // 
             // tbIP
             // 
@@ -366,7 +366,7 @@
             this.tbIP.Size = new System.Drawing.Size(210, 20);
             this.tbIP.TabIndex = 1;
             this.tbIP.Text = settings1.ip;
-            this.tbIP.Leave += new System.EventHandler(this.tbIP_Leave);
+            this.tbIP.Leave += new System.EventHandler(this.TbIP_Leave);
             // 
             // tbApiKey
             // 
@@ -375,7 +375,7 @@
             this.tbApiKey.Size = new System.Drawing.Size(210, 20);
             this.tbApiKey.TabIndex = 2;
             this.tbApiKey.Text = settings1.apiKey;
-            this.tbApiKey.Leave += new System.EventHandler(this.tbApiKey_Leave);
+            this.tbApiKey.Leave += new System.EventHandler(this.TbApiKey_Leave);
             // 
             // menuStrip1
             // 
@@ -435,7 +435,7 @@
             this.btVol.Size = new System.Drawing.Size(76, 36);
             this.btVol.TabIndex = 99;
             this.btVol.UseVisualStyleBackColor = true;
-            this.btVol.Click += new System.EventHandler(this.btVol_Click);
+            this.btVol.Click += new System.EventHandler(this.BtVol_Click);
             // 
             // btChan
             // 
@@ -448,7 +448,7 @@
             this.btChan.Size = new System.Drawing.Size(76, 36);
             this.btChan.TabIndex = 101;
             this.btChan.UseVisualStyleBackColor = true;
-            this.btChan.Click += new System.EventHandler(this.btChan_Click);
+            this.btChan.Click += new System.EventHandler(this.BtChan_Click);
             // 
             // btChList
             // 
@@ -461,7 +461,7 @@
             this.btChList.TabIndex = 102;
             this.btChList.Text = "Ch. list";
             this.btChList.UseVisualStyleBackColor = true;
-            this.btChList.Click += new System.EventHandler(this.btChList_Click);
+            this.btChList.Click += new System.EventHandler(this.BtChList_Click);
             // 
             // btMessage
             // 
@@ -471,7 +471,7 @@
             this.btMessage.TabIndex = 103;
             this.btMessage.Text = "Message";
             this.btMessage.UseVisualStyleBackColor = true;
-            this.btMessage.Click += new System.EventHandler(this.btMessage_Click);
+            this.btMessage.Click += new System.EventHandler(this.BtMessage_Click);
             // 
             // button11
             // 
@@ -485,7 +485,7 @@
             this.button11.TabIndex = 104;
             this.toolTip1.SetToolTip(this.button11, "Current channel info");
             this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
+            this.button11.Click += new System.EventHandler(this.Button11_Click);
             // 
             // button1
             // 
@@ -497,7 +497,7 @@
             this.button1.Size = new System.Drawing.Size(30, 30);
             this.button1.TabIndex = 100;
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // btnMute
             // 
@@ -512,7 +512,7 @@
             this.btnMute.Size = new System.Drawing.Size(47, 36);
             this.btnMute.TabIndex = 20;
             this.btnMute.UseVisualStyleBackColor = true;
-            this.btnMute.Click += new System.EventHandler(this.btnMute_Click);
+            this.btnMute.Click += new System.EventHandler(this.BtnMute_Click);
             // 
             // cbCurrentDevice
             // 
@@ -538,7 +538,7 @@
             this.button2.Size = new System.Drawing.Size(21, 21);
             this.button2.TabIndex = 108;
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.deviceListButton_Click);
+            this.button2.Click += new System.EventHandler(this.DeviceListButton_Click);
             // 
             // RemoteControl
             // 

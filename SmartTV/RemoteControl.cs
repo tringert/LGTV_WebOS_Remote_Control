@@ -318,7 +318,7 @@ namespace LgTvController
         }
 
         // Turn off button
-        private void btnTurnOff_Click(object sender, EventArgs e)
+        private void BtnTurnOff_Click(object sender, EventArgs e)
         {
             if (!CheckIsAlive())
             {
@@ -346,12 +346,12 @@ namespace LgTvController
             return ws.IsAlive;
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private void BtnConnect_Click(object sender, EventArgs e)
         {
             Connect();
         }
 
-        private void btnDisconnect_Click(object sender, EventArgs e)
+        private void BtnDisconnect_Click(object sender, EventArgs e)
         {
             if (!CheckIsAlive())
             {
@@ -379,7 +379,7 @@ namespace LgTvController
             DisplayMessage("GetAudioStatus request sent.");
         }
 
-        private void btnMute_Click(object sender, EventArgs e)
+        private void BtnMute_Click(object sender, EventArgs e)
         {
             bool mute = !Global._isMuted;
             string message = "{\"id\":\"toggle_mute\",\"type\":\"request\",\"uri\":\"ssap://audio/setMute\",\"payload\":{\"mute\":" + mute.ToString().ToLower() + "}}";
@@ -387,7 +387,7 @@ namespace LgTvController
             DisplayMessage("Toggle mute sent.");
         }
 
-        private void btnTurnOn_Click(object sender, EventArgs e)
+        private void BtnTurnOn_Click(object sender, EventArgs e)
         {
             WakeUp(mac);
         }
@@ -458,7 +458,7 @@ namespace LgTvController
         }
 
         // Saving the IP field's value when leaving the cell
-        private void tbIP_Leave(object sender, EventArgs e)
+        private void TbIP_Leave(object sender, EventArgs e)
         {
             if (!ValidateIPv4(tbIP.Text))
             {
@@ -473,14 +473,14 @@ namespace LgTvController
         }
 
         // Saving the API key field's value when leaving the cell
-        private void tbApiKey_Leave(object sender, EventArgs e)
+        private void TbApiKey_Leave(object sender, EventArgs e)
         {
             Settings.Default.apiKey = tbApiKey.Text;
             Settings.Default.Save();
         }
 
         // Saving the MAC address field's value when leaving the cell
-        private void tbMac_Leave(object sender, EventArgs e)
+        private void TbMac_Leave(object sender, EventArgs e)
         {
             if (!ValidateMac(tbMac.Text))
             {
@@ -501,12 +501,12 @@ namespace LgTvController
             return match.Success;
         }
 
-        private void btVol_Click(object sender, EventArgs e)
+        private void BtVol_Click(object sender, EventArgs e)
         {
             GetAudioStatus();
         }
 
-        private void btVolPlus_Click(object sender, EventArgs e)
+        private void BtVolPlus_Click(object sender, EventArgs e)
         {
             CallFunction("volumeup_1", "ssap://audio/volumeUp", "Volume up request sent.");
         }
@@ -525,17 +525,17 @@ namespace LgTvController
             DisplayMessage(message);
         }
 
-        private void btVolMinus_Click(object sender, EventArgs e)
+        private void BtVolMinus_Click(object sender, EventArgs e)
         {
             CallFunction("volumedown_1", "ssap://audio/volumeDown", "Volume down request sent.");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             txtResponse.Invoke(new Action(() => { txtResponse.Text = ""; }));
         }
 
-        private void btChan_Click(object sender, EventArgs e)
+        private void BtChan_Click(object sender, EventArgs e)
         {
             GetCurrentChannel();
         }
@@ -545,50 +545,50 @@ namespace LgTvController
             CallFunction("channelinfo_1", "ssap://tv/getCurrentChannel", "Channel info request sent.");
         }
 
-        private void chanPlus_Click(object sender, EventArgs e)
+        private void ChanPlus_Click(object sender, EventArgs e)
         {
             CallFunction("channelup_1", "ssap://tv/channelUp", "Channel up request sent.");
         }
 
-        private void chanMinus_Click(object sender, EventArgs e)
+        private void ChanMinus_Click(object sender, EventArgs e)
         {
             CallFunction("channeldown_1", "ssap://tv/channelDown", "Channel down request sent.");
         }
 
-        private void btChList_Click(object sender, EventArgs e)
+        private void BtChList_Click(object sender, EventArgs e)
         {
             CallFunction("getchannels_1", "ssap://tv/getChannelList", "Channel list request sent.");
         }
 
-        private void btMessage_Click(object sender, EventArgs e)
+        private void BtMessage_Click(object sender, EventArgs e)
         {
             if (msgWindow != null) return;
             msgWindow = new DisplayMessage();
-            msgWindow.FormClosing += msgWindow_FormClosing;
+            msgWindow.FormClosing += MsgWindow_FormClosing;
             msgWindow.Show();
         }
 
-        public void msgWindow_FormClosing(object sender, FormClosingEventArgs e)
+        public void MsgWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             msgWindow = null;
         }
 
         // TODO: finish this
-        private void button11_Click(object sender, EventArgs e)
+        private void Button11_Click(object sender, EventArgs e)
         {
             CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
         }
 
-        private void deviceListButton_Click(object sender, EventArgs e)
+        private void DeviceListButton_Click(object sender, EventArgs e)
         {
             if (deviceListWindow != null) return;
             deviceListWindow = new SavedDeviceListWindow();
-            deviceListWindow.FormClosing += deviceListWindow_FormClosing;
+            deviceListWindow.FormClosing += DeviceListWindow_FormClosing;
             deviceListWindow.devList = deviceList;
             deviceListWindow.Show();
         }
 
-        private void deviceListWindow_FormClosing(object sender, FormClosingEventArgs e)
+        private void DeviceListWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             deviceListWindow = null;
         }
