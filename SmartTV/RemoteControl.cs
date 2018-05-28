@@ -20,6 +20,7 @@ namespace LgTvController
         private ChannelListResponse clr;
         internal ChannelInfo ci;
         private static ChannelListWindow chWindow;
+        private static InputListWindow inputWindow;
         internal List<Device> deviceList;
         private static DisplayMessage msgWindow;
         private static SavedDeviceListWindow deviceListWindow;
@@ -216,7 +217,21 @@ namespace LgTvController
                     {
                         msg = "Channel list request unsuccessful.";
                     }
-                    
+
+                }
+                else if (e.Data.Contains("get_inputlist"))
+                {
+                    if (e.Data.Contains("\"returnValue\":true"))
+                    {
+                        Input response = new Input();
+                        response = JsonConvert.DeserializeObject<Input>(e.Data);
+
+                        inputWindow = new InputListWindow
+                        {
+                            inputList = response.Payload.Devices
+                        };
+                        inputWindow.ShowDialog();
+                    }
                 }
                 // Response for displaying toast message on the screen request
                 else if (e.Data.Contains("toast_1"))
@@ -494,7 +509,7 @@ namespace LgTvController
             }
         }
 
-        private bool ValidateMac(string mac)
+        public bool ValidateMac(string mac)
         {
             var regex = "[0-9A-F]{12}";
             var match = Regex.Match(mac, regex, RegexOptions.IgnoreCase);
@@ -584,13 +599,27 @@ namespace LgTvController
             if (deviceListWindow != null) return;
             deviceListWindow = new SavedDeviceListWindow();
             deviceListWindow.FormClosing += DeviceListWindow_FormClosing;
-            deviceListWindow.devList = deviceList;
-            deviceListWindow.Show();
+            deviceListWindow.DevList = deviceList;
+
+            var thread = new Thread(new ParameterizedThreadStart(param => { deviceListWindow.ShowDialog(); }));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
 
         private void DeviceListWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             deviceListWindow = null;
+        }
+
+        private void BtnInput_Click(object sender, EventArgs e)
+        {
+            CallFunction("get_inputlist", "ssap://tv/getExternalInputList", "Input list request sent.");
+        }
+
+        private void Button12_Click(object sender, EventArgs e)
+        {
+            var payload = JsonConvert.SerializeObject(new { id = "com.webos.app.livetv" });
+            CallFunctionWithPayload("change_input", "ssap://system.launcher/launch", "LiveTv_input_change_request_sent.", payload);
         }
     }
 }

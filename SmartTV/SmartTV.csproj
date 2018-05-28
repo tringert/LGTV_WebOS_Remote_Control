@@ -64,6 +64,13 @@
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Device.cs" />
+    <Compile Include="Input.cs" />
+    <Compile Include="InputListWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputListWindow.Designer.cs">
+      <DependentUpon>InputListWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="SavedDeviceListWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +106,9 @@
     <EmbeddedResource Include="ChannelListWindow.resx">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="InputListWindow.resx">
+      <DependentUpon>InputListWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SavedDeviceListWindow.resx">
       <DependentUpon>SavedDeviceListWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +129,8 @@
     <None Include="Properties\DataSources\LgTvController.ChannelListPayload.datasource" />
     <None Include="Properties\DataSources\LgTvController.ChannelListResponse.datasource" />
     <None Include="Properties\DataSources\LgTvController.ChannelListWindow.datasource" />
+    <None Include="Properties\DataSources\LgTvController.Device.datasource" />
+    <None Include="Properties\DataSources\LgTvController.SavedDeviceListWindow.datasource" />
     <None Include="Properties\DataSources\LgTvController.ScannedChannelCount.datasource" />
     <None Include="Properties\DataSources\SmartTV.Properties.Settings.datasource" />
     <None Include="Properties\Settings.settings">

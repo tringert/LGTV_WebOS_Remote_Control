@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            LgTvController.Properties.Settings settings1 = new LgTvController.Properties.Settings();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoteControl));
             this.txtResponse = new System.Windows.Forms.TextBox();
             this.btVolPlus = new System.Windows.Forms.Button();
@@ -74,6 +73,8 @@
             this.cbCurrentDevice = new System.Windows.Forms.ComboBox();
             this.lbCurrentDevice = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
+            this.btnInput = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -351,12 +352,7 @@
             this.tbMac.Name = "tbMac";
             this.tbMac.Size = new System.Drawing.Size(210, 20);
             this.tbMac.TabIndex = 3;
-            settings1.apiKey = "035957b84f78c710e48850726caa664a";
-            settings1.ip = "192.168.1.55";
-            settings1.macAddr = "388C50FD4DA5";
-            settings1.savedDeviceList = "";
-            settings1.SettingsKey = "";
-            this.tbMac.Text = settings1.macAddr;
+            this.tbMac.Text = "388C50FD4DA5";
             this.tbMac.Leave += new System.EventHandler(this.TbMac_Leave);
             // 
             // tbIP
@@ -365,7 +361,7 @@
             this.tbIP.Name = "tbIP";
             this.tbIP.Size = new System.Drawing.Size(210, 20);
             this.tbIP.TabIndex = 1;
-            this.tbIP.Text = settings1.ip;
+            this.tbIP.Text = "192.168.1.55";
             this.tbIP.Leave += new System.EventHandler(this.TbIP_Leave);
             // 
             // tbApiKey
@@ -374,7 +370,7 @@
             this.tbApiKey.Name = "tbApiKey";
             this.tbApiKey.Size = new System.Drawing.Size(210, 20);
             this.tbApiKey.TabIndex = 2;
-            this.tbApiKey.Text = settings1.apiKey;
+            this.tbApiKey.Text = "035957b84f78c710e48850726caa664a";
             this.tbApiKey.Leave += new System.EventHandler(this.TbApiKey_Leave);
             // 
             // menuStrip1
@@ -490,7 +486,6 @@
             // button1
             // 
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Image = global::SmartTV.Properties.Resources.trash_20x20px;
             this.button1.Location = new System.Drawing.Point(561, 419);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
@@ -505,7 +500,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnMute.Image = global::SmartTV.Properties.Resources.Speaker_on;
             this.btnMute.Location = new System.Drawing.Point(624, 141);
             this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnMute.Name = "btnMute";
@@ -540,11 +534,33 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.DeviceListButton_Click);
             // 
+            // btnInput
+            // 
+            this.btnInput.Location = new System.Drawing.Point(332, 38);
+            this.btnInput.Name = "btnInput";
+            this.btnInput.Size = new System.Drawing.Size(75, 23);
+            this.btnInput.TabIndex = 109;
+            this.btnInput.Text = "Inputs";
+            this.btnInput.UseVisualStyleBackColor = true;
+            this.btnInput.Click += new System.EventHandler(this.BtnInput_Click);
+            // 
+            // button12
+            // 
+            this.button12.Location = new System.Drawing.Point(332, 68);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(75, 23);
+            this.button12.TabIndex = 110;
+            this.button12.Text = "button12";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.Button12_Click);
+            // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 461);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.btnInput);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.lbCurrentDevice);
             this.Controls.Add(this.cbCurrentDevice);
@@ -641,6 +657,8 @@
         private System.Windows.Forms.ComboBox cbCurrentDevice;
         private System.Windows.Forms.Label lbCurrentDevice;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnInput;
+        private System.Windows.Forms.Button button12;
     }
 }
 
