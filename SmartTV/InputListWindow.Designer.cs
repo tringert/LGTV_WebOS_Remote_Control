@@ -36,18 +36,20 @@
             // 
             this.dgvInputList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInputList.Location = new System.Drawing.Point(12, 12);
+            this.dgvInputList.MultiSelect = false;
             this.dgvInputList.Name = "dgvInputList";
-            this.dgvInputList.Size = new System.Drawing.Size(223, 200);
+            this.dgvInputList.RowHeadersVisible = false;
+            this.dgvInputList.Size = new System.Drawing.Size(363, 152);
             this.dgvInputList.TabIndex = 0;
-            this.dgvInputList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvInputList_CellDoubleClick);
+            this.dgvInputList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInputList_CellClick);
             // 
             // InputListWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(247, 224);
+            this.ClientSize = new System.Drawing.Size(387, 182);
             this.Controls.Add(this.dgvInputList);
-            this.MaximumSize = new System.Drawing.Size(263, 263);
+            this.MaximumSize = new System.Drawing.Size(403, 263);
             this.Name = "InputListWindow";
             this.Text = "InputListWindow";
             this.Load += new System.EventHandler(this.InputListWindow_Load);

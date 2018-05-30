@@ -99,7 +99,7 @@ namespace LgTvController
         {
             if (e.Data != String.Empty)
             {
-                string msg = "<unhandled message>";
+                string msg = "<empty message>";
 
                 // Response for handshake
                 if (e.Data.Contains("register_0"))
@@ -228,7 +228,7 @@ namespace LgTvController
 
                         inputWindow = new InputListWindow
                         {
-                            inputList = response.Payload.Devices
+                            InputList = response.Payload.Devices
                         };
                         inputWindow.ShowDialog();
                     }
@@ -594,18 +594,6 @@ namespace LgTvController
             CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
         }
 
-        private void DeviceListButton_Click(object sender, EventArgs e)
-        {
-            if (deviceListWindow != null) return;
-            deviceListWindow = new SavedDeviceListWindow();
-            deviceListWindow.FormClosing += DeviceListWindow_FormClosing;
-            deviceListWindow.DevList = deviceList;
-
-            var thread = new Thread(new ParameterizedThreadStart(param => { deviceListWindow.ShowDialog(); }));
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-        }
-
         private void DeviceListWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             deviceListWindow = null;
@@ -618,8 +606,19 @@ namespace LgTvController
 
         private void Button12_Click(object sender, EventArgs e)
         {
-            var payload = JsonConvert.SerializeObject(new { id = "com.webos.app.livetv" });
-            CallFunctionWithPayload("change_input", "ssap://system.launcher/launch", "LiveTv_input_change_request_sent.", payload);
+            
+        }
+
+        private void ToolStripMenuItemMac_Click(object sender, EventArgs e)
+        {
+            if (deviceListWindow != null) return;
+            deviceListWindow = new SavedDeviceListWindow();
+            deviceListWindow.FormClosing += DeviceListWindow_FormClosing;
+            deviceListWindow.DevList = deviceList;
+
+            var thread = new Thread(new ParameterizedThreadStart(param => { deviceListWindow.ShowDialog(); }));
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
     }
 }

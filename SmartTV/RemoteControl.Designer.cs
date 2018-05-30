@@ -72,7 +72,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.cbCurrentDevice = new System.Windows.Forms.ComboBox();
             this.lbCurrentDevice = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.btnInput = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -396,8 +395,9 @@
             // toolStripMenuItemMac
             // 
             this.toolStripMenuItemMac.Name = "toolStripMenuItemMac";
-            this.toolStripMenuItemMac.Size = new System.Drawing.Size(144, 22);
-            this.toolStripMenuItemMac.Text = "MAC address";
+            this.toolStripMenuItemMac.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemMac.Text = "Device manager";
+            this.toolStripMenuItemMac.Click += new System.EventHandler(this.ToolStripMenuItemMac_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -461,7 +461,7 @@
             // 
             // btMessage
             // 
-            this.btMessage.Location = new System.Drawing.Point(483, 155);
+            this.btMessage.Location = new System.Drawing.Point(413, 39);
             this.btMessage.Name = "btMessage";
             this.btMessage.Size = new System.Drawing.Size(75, 23);
             this.btMessage.TabIndex = 103;
@@ -525,15 +525,6 @@
             this.lbCurrentDevice.TabIndex = 107;
             this.lbCurrentDevice.Text = "Device:";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(259, 41);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(21, 21);
-            this.button2.TabIndex = 108;
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.DeviceListButton_Click);
-            // 
             // btnInput
             // 
             this.btnInput.Location = new System.Drawing.Point(332, 38);
@@ -561,7 +552,6 @@
             this.ClientSize = new System.Drawing.Size(845, 461);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.btnInput);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.lbCurrentDevice);
             this.Controls.Add(this.cbCurrentDevice);
             this.Controls.Add(this.button11);
@@ -656,7 +646,6 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox cbCurrentDevice;
         private System.Windows.Forms.Label lbCurrentDevice;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnInput;
         private System.Windows.Forms.Button button12;
     }
