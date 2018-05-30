@@ -20,6 +20,11 @@ namespace LgTvController
 
         private void DeviceListWindow_Load(object sender, EventArgs e)
         {
+            SetGrid();
+        }
+
+        private void SetGrid()
+        {
             dgvDevices.DataSource = DevList;
 
             dgvDevices.Columns["FriendlyName"].HeaderText = "Name";
@@ -40,8 +45,6 @@ namespace LgTvController
             dgvDevices.Columns["MacAddress"].DisplayIndex = 4;
 
             dgvDevices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            AddRowHeaderText();
         }
 
         private void DgvDevices_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -155,12 +158,21 @@ namespace LgTvController
                     MacAddress = tbMac.Text,
                     Port = tbPort.Text,
                     Server = tbServer.Text,
+                    ApiKey = tbApiKey.Text,
                     Uuid = tbUuid.Text == "" ? (Guid?)null : Guid.Parse(tbUuid.Text)
                 };
 
                 DevList.Add(d);
                 RefreshGrid();
                 SaveDevices();
+
+                foreach (TextBox tb in Controls.OfType<TextBox>())
+                {
+                    tb.Text = "";
+                }
+
+                dgvDevices.Rows[dgvDevices.RowCount-1].Selected = true;
+                dgvDevices.FirstDisplayedScrollingRowIndex = dgvDevices.SelectedRows[0].Index;
             }
             else
             {
@@ -171,9 +183,7 @@ namespace LgTvController
         private void RefreshGrid()
         {
             dgvDevices.DataSource = null;
-            dgvDevices.DataSource = DevList;
-
-            AddRowHeaderText();
+            SetGrid();
         }
 
         private void AddRowHeaderText()
@@ -212,14 +222,18 @@ namespace LgTvController
                 DevList.RemoveAt(index);
                 SaveDevices();
                 RefreshGrid();
-
-                dgvDevices.Rows[(index - 1) % dgvDevices.RowCount].Selected = true;
-                dgvDevices.FirstDisplayedScrollingRowIndex = dgvDevices.SelectedRows[0].Index;
+                
+                dgvDevices.ClearSelection();
             }
             else
             {
                 return;
             }
+        }
+
+        private void DgvDevices_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            AddRowHeaderText();
         }
     }
 }

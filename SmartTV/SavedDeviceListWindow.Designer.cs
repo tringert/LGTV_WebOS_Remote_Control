@@ -60,6 +60,7 @@
             this.dgvDevices.Size = new System.Drawing.Size(635, 218);
             this.dgvDevices.TabIndex = 9;
             this.dgvDevices.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvDevices_CellValueChanged);
+            this.dgvDevices.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.DgvDevices_DataBindingComplete);
             // 
             // tbName
             // 
