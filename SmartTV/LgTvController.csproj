@@ -51,6 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioStatus.cs" />
+    <Compile Include="AvailableDevice.cs" />
+    <Compile Include="AvailableDeviceList.cs" />
+    <Compile Include="AvailableDevicesWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AvailableDevicesWindow.Designer.cs">
+      <DependentUpon>AvailableDevicesWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="CallFunction.cs" />
     <Compile Include="CASystemID.cs" />
     <Compile Include="Channel.cs" />
@@ -64,6 +72,7 @@
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Device.cs" />
+    <Compile Include="GetTextInputDialog.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="InputListWindow.cs">
       <SubType>Form</SubType>
@@ -103,6 +112,9 @@
     <Compile Include="ScannedChannelCount.cs" />
     <Compile Include="SSDP.cs" />
     <Compile Include="Wol.cs" />
+    <EmbeddedResource Include="AvailableDevicesWindow.resx">
+      <DependentUpon>AvailableDevicesWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChannelListWindow.resx">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -153,10 +165,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Icons\TV_wifi.ico" />
     <None Include="Content\Icons\trash_20x20px.png" />
     <None Include="Content\Icons\Speaker_on.png" />
     <None Include="Content\Icons\Speaker_off.png" />
     <None Include="Content\Icons\info_icon.png" />
+    <Content Include="Content\Icons\input.ico" />
     <Content Include="Content\Icons\list_icon.ico" />
     <Content Include="Content\Icons\remote-control.ico" />
   </ItemGroup>

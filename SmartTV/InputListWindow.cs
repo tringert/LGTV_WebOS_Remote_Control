@@ -18,12 +18,10 @@ namespace LgTvController
 
         private void InputListWindow_Load(object sender, EventArgs e)
         {
-            bool allFalse = !InputList.Any(x => x.Connected == true);
-
             Devices liveTv = new Devices { Id = "Live_TV",
                                            Label = "LiveTV",
                                            AppId = "com.webos.app.livetv",
-                                           Icon = "",
+                                           IconUrl = "",
                                            Connected = true};
             InputList.Add(liveTv);
 
@@ -36,7 +34,7 @@ namespace LgTvController
                 l.Favorite,
                 l.Modified,
                 l.AppId,
-                l.Icon
+                l.IconUrl
             }).OrderByDescending(x => x.Connected).ThenBy(y => y.Port).ToList();
 
             dgvInputList.DataSource = list;
@@ -75,7 +73,7 @@ namespace LgTvController
             (Application.OpenForms["RemoteControl"] as RemoteControl).CallFunctionWithPayload("change_input", "ssap://system.launcher/launch", "LiveTv_input_change_request_sent.", payload);
         }
 
-        private void dgvInputList_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvInputList_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             ChangeInput(dgvInputList.Rows[e.RowIndex].Cells["AppId"].Value.ToString());
         }

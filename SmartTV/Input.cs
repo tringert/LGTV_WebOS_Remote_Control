@@ -32,7 +32,7 @@ namespace LgTvController
         [JsonProperty(PropertyName = "appId")]
         public string AppId { get; set; }
         [JsonProperty(PropertyName = "icon")]
-        public string Icon { get; set; }
+        public string IconUrl { get; set; }
         [JsonProperty(PropertyName = "modified")]
         public bool Modified { get; set; }
         [JsonProperty(PropertyName = "lastUniqueId")]

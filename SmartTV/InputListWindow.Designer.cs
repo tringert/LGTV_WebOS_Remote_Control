@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InputListWindow));
             this.dgvInputList = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInputList)).BeginInit();
             this.SuspendLayout();
@@ -41,7 +42,7 @@
             this.dgvInputList.RowHeadersVisible = false;
             this.dgvInputList.Size = new System.Drawing.Size(363, 152);
             this.dgvInputList.TabIndex = 0;
-            this.dgvInputList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInputList_CellClick);
+            this.dgvInputList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvInputList_CellClick);
             // 
             // InputListWindow
             // 
@@ -49,6 +50,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(387, 182);
             this.Controls.Add(this.dgvInputList);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(403, 263);
             this.Name = "InputListWindow";
             this.Text = "InputListWindow";

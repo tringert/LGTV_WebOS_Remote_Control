@@ -59,6 +59,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMac = new System.Windows.Forms.ToolStripMenuItem();
+            this.pairDeviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,7 +74,6 @@
             this.cbCurrentDevice = new System.Windows.Forms.ComboBox();
             this.lbCurrentDevice = new System.Windows.Forms.Label();
             this.btnInput = new System.Windows.Forms.Button();
-            this.button12 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -386,7 +386,8 @@
             // toolStripMenuSetting
             // 
             this.toolStripMenuSetting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemMac});
+            this.toolStripMenuItemMac,
+            this.pairDeviceToolStripMenuItem});
             this.toolStripMenuSetting.MergeAction = System.Windows.Forms.MergeAction.Remove;
             this.toolStripMenuSetting.Name = "toolStripMenuSetting";
             this.toolStripMenuSetting.Size = new System.Drawing.Size(61, 20);
@@ -395,9 +396,16 @@
             // toolStripMenuItemMac
             // 
             this.toolStripMenuItemMac.Name = "toolStripMenuItemMac";
-            this.toolStripMenuItemMac.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemMac.Size = new System.Drawing.Size(159, 22);
             this.toolStripMenuItemMac.Text = "Device manager";
             this.toolStripMenuItemMac.Click += new System.EventHandler(this.ToolStripMenuItemMac_Click);
+            // 
+            // pairDeviceToolStripMenuItem
+            // 
+            this.pairDeviceToolStripMenuItem.Name = "pairDeviceToolStripMenuItem";
+            this.pairDeviceToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.pairDeviceToolStripMenuItem.Text = "Pair new device";
+            this.pairDeviceToolStripMenuItem.Click += new System.EventHandler(this.PairDeviceToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -511,7 +519,7 @@
             // cbCurrentDevice
             // 
             this.cbCurrentDevice.FormattingEnabled = true;
-            this.cbCurrentDevice.Location = new System.Drawing.Point(71, 41);
+            this.cbCurrentDevice.Location = new System.Drawing.Point(60, 41);
             this.cbCurrentDevice.Name = "cbCurrentDevice";
             this.cbCurrentDevice.Size = new System.Drawing.Size(182, 21);
             this.cbCurrentDevice.TabIndex = 105;
@@ -519,7 +527,7 @@
             // lbCurrentDevice
             // 
             this.lbCurrentDevice.AutoSize = true;
-            this.lbCurrentDevice.Location = new System.Drawing.Point(25, 44);
+            this.lbCurrentDevice.Location = new System.Drawing.Point(13, 44);
             this.lbCurrentDevice.Name = "lbCurrentDevice";
             this.lbCurrentDevice.Size = new System.Drawing.Size(44, 13);
             this.lbCurrentDevice.TabIndex = 107;
@@ -535,22 +543,11 @@
             this.btnInput.UseVisualStyleBackColor = true;
             this.btnInput.Click += new System.EventHandler(this.BtnInput_Click);
             // 
-            // button12
-            // 
-            this.button12.Location = new System.Drawing.Point(332, 68);
-            this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(75, 23);
-            this.button12.TabIndex = 110;
-            this.button12.Text = "button12";
-            this.button12.UseVisualStyleBackColor = true;
-            this.button12.Click += new System.EventHandler(this.Button12_Click);
-            // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 461);
-            this.Controls.Add(this.button12);
             this.Controls.Add(this.btnInput);
             this.Controls.Add(this.lbCurrentDevice);
             this.Controls.Add(this.cbCurrentDevice);
@@ -647,7 +644,7 @@
         private System.Windows.Forms.ComboBox cbCurrentDevice;
         private System.Windows.Forms.Label lbCurrentDevice;
         private System.Windows.Forms.Button btnInput;
-        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.ToolStripMenuItem pairDeviceToolStripMenuItem;
     }
 }
 
