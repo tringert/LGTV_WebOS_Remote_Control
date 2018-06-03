@@ -69,6 +69,7 @@
             this.tbName.Name = "tbName";
             this.tbName.Size = new System.Drawing.Size(155, 20);
             this.tbName.TabIndex = 1;
+            this.tbName.Leave += new System.EventHandler(this.TbName_Leave);
             // 
             // tbApiKey
             // 
@@ -229,7 +230,7 @@
             this.Controls.Add(this.dgvDevices);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SavedDeviceListWindow";
-            this.Text = "DeviceList";
+            this.Text = "Paired device manager";
             this.Load += new System.EventHandler(this.DeviceListWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDevices)).EndInit();
             this.ResumeLayout(false);

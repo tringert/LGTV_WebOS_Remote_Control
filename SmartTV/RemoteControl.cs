@@ -1,6 +1,4 @@
-﻿using LgTvController.Properties;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -10,6 +8,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using WebSocketSharp;
+using LgTvController.Properties;
+using SmartTV.Properties;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace LgTvController
 {
@@ -27,9 +29,9 @@ namespace LgTvController
         private static AvailableDevicesWindow adWindow;
         private static Device newDevice;
         private static System.Threading.Timer timer;
-        private string apiKey = Settings.Default.apiKey;
-        private string mac = Settings.Default.macAddr;
-        private string ip = Settings.Default.ip;
+        private string apiKey;
+        private string mac;
+        private string ip;
         bool isPair = default;
         ushort retry = 0;
 
@@ -40,8 +42,10 @@ namespace LgTvController
             // Load the saved devices from App.Config
             deviceListFromConfig = new List<Device>();
             deviceListFromConfig = LoadSavedDeviceList();
-
             availableDeviceList = new AvailableDeviceList();
+
+            cbSavedDevices.DataSource = deviceListFromConfig;
+            cbSavedDevices.DisplayMember = "FriendlyName";
 
             // Start the device discovery
             TimerCallback cb = new TimerCallback((state) =>
@@ -50,17 +54,10 @@ namespace LgTvController
             });
             timer = new System.Threading.Timer(cb, null, 0, 5000);
 
-            if (!String.IsNullOrEmpty(ip))
+            if (cbSavedDevices.SelectedItem != null)
             {
-                tbIP.Text = ip;
+                Connect();
             }
-
-            if (!String.IsNullOrEmpty(apiKey))
-            {
-                tbApiKey.Text = apiKey;
-            }
-
-            //Connect();
         }
 
         private List<Device> LoadSavedDeviceList()
@@ -70,6 +67,9 @@ namespace LgTvController
 
         private void Connect()
         {
+            ip = ((Device)cbSavedDevices.SelectedItem).Ip;
+            apiKey = ((Device)cbSavedDevices.SelectedItem).ApiKey;
+            mac = ((Device)cbSavedDevices.SelectedItem).MacAddress;
             string host = "ws://" + ip + ":3000/";
             ws = new WebSocket(host);
             
@@ -302,19 +302,24 @@ namespace LgTvController
                 ApiKey = ""
             };
 
-            ip = newDevice.Ip;
+            deviceListFromConfig.Add(newDevice);
+            SaveDeviceList();
+            RefreshDeviceListComboBoxDelegate();
+            SetActiveDeviceDelegate(newDevice.FriendlyName);
+            
             isPair = true;
 
-            Connect();
+            cbSavedDevices.Invoke((Action)delegate
+            {
+                Connect();
+            });
         }
 
         // Display a log message when the connection closes
         private void Ws_OnClose(object sender, CloseEventArgs e)
         {
-            string message = String.Format("{0}" + Environment.NewLine +
-                                           "{1} Connection closed. | Reason: {2} | WasClean: {3} | Close status code: {4}",
-                                           new string('-', 60), DateTime.Now.ToString("HH:mm:ss.fff"), String.IsNullOrEmpty(e.Reason) ? "-": e.Reason, e.WasClean,
-                                           e.Code);
+            string message = String.Format("Connection closed. | Reason: {0} | WasClean: {1} | Close status code: {2}",
+                                           String.IsNullOrEmpty(e.Reason) ? "-": e.Reason, e.WasClean, e.Code);
             DisplayMessage(message);
         }
 
@@ -344,7 +349,7 @@ namespace LgTvController
         {
             retry = 0;
             DisplayMessage("Connection established.");
-            //SendHandshake(true);
+            //SendHandshake();
         }
 
         // Sending handshake request when the device is paired with client
@@ -500,9 +505,6 @@ namespace LgTvController
         // When the form closes, save the settings
         private void RemoteControl_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Settings.Default.ip = tbIP.Text;
-            Settings.Default.macAddr = tbMac.Text;
-            Settings.Default.apiKey = tbApiKey.Text;
             Settings.Default.Save();
         }
 
@@ -645,9 +647,45 @@ namespace LgTvController
             CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
         }
 
-        private void DeviceListWindow_FormClosing(object sender, FormClosingEventArgs e)
+        private void SavedDeviceListWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
             deviceListWindow = null;
+        }
+
+        public void RefreshDeviceListComboBoxDelegate()
+        {
+            cbSavedDevices.Invoke((Action)delegate
+            {
+                RefreshDeviceListComboBox();
+            });
+        }
+
+        private void RefreshDeviceListComboBox()
+        {
+            cbSavedDevices.DataSource = null;
+            cbSavedDevices.Items.Clear();
+            deviceListFromConfig = LoadSavedDeviceList();
+            cbSavedDevices.DataSource = deviceListFromConfig;
+            cbSavedDevices.DisplayMember = "FriendlyName";
+            cbSavedDevices.Refresh();
+        }
+
+        public void SetActiveDeviceDelegate(string name)
+        {
+            cbSavedDevices.Invoke((Action)delegate
+            {
+                SetActiveDevice(name);
+            });
+        }
+
+        public void SetActiveDevice(string name)
+        {
+            cbSavedDevices.SelectedItem = name;
+
+            cbSavedDevices.Invoke((Action)delegate
+            {
+                Connect();
+            });
         }
 
         private void BtnInput_Click(object sender, EventArgs e)
@@ -655,11 +693,11 @@ namespace LgTvController
             CallFunction("get_inputlist", "ssap://tv/getExternalInputList", "Input list request sent.");
         }
 
-        private void ToolStripMenuItemMac_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemDevManager_Click(object sender, EventArgs e)
         {
             if (deviceListWindow != null) return;
             deviceListWindow = new SavedDeviceListWindow();
-            deviceListWindow.FormClosing += DeviceListWindow_FormClosing;
+            deviceListWindow.FormClosing += SavedDeviceListWindow_FormClosing;
             deviceListWindow.DevList = deviceListFromConfig;
 
             var thread = new Thread(new ParameterizedThreadStart(param => { deviceListWindow.ShowDialog(); }));
@@ -680,6 +718,14 @@ namespace LgTvController
             thread.SetApartmentState(ApartmentState.STA);
             adWindow.FormClosing += AdWindow_FormClosing;
             thread.Start();
+        }
+
+        private void CbSavedDevices_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            Settings.Default.lastUsedDevice = ((Device)cbSavedDevices.SelectedItem).FriendlyName;
+            Settings.Default.Save();
+
+            Connect();
         }
     }
 }

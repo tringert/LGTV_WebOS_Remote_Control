@@ -1,5 +1,6 @@
 ﻿using LgTvController.Properties;
 using Newtonsoft.Json;
+using SmartTV.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,6 +16,7 @@ namespace LgTvController
         public SavedDeviceListWindow()
         {
             InitializeComponent();
+            DevList = new List<Device>();
         }
 
         private void DeviceListWindow_Load(object sender, EventArgs e)
@@ -44,6 +46,7 @@ namespace LgTvController
             dgvDevices.Columns["MacAddress"].DisplayIndex = 4;
 
             dgvDevices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDevices.ReadOnly = true;
         }
 
         private void DgvDevices_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -55,6 +58,21 @@ namespace LgTvController
         {
             Settings.Default.savedDeviceList = JsonConvert.SerializeObject(DevList);
             Settings.Default.Save();
+        }
+
+        private void TbName_Leave(object sender, EventArgs e)
+        {
+            bool notUnique = DevList.Any(x => x.FriendlyName == tbName.Text);
+
+            if (notUnique)
+            {
+                tbName.BackColor = Color.Red;
+                MessageBox.Show("The name must be unique!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                tbName.BackColor = Color.White;
+            }
         }
 
         private void TbIP_Leave(object sender, EventArgs e)
@@ -164,14 +182,25 @@ namespace LgTvController
                 DevList.Add(d);
                 RefreshGrid();
                 SaveDevices();
+                (Application.OpenForms["RemoteControl"] as RemoteControl).RefreshDeviceListComboBoxDelegate();
+                (Application.OpenForms["RemoteControl"] as RemoteControl).SetActiveDevice(d.FriendlyName);
 
                 foreach (TextBox tb in Controls.OfType<TextBox>())
                 {
                     tb.Text = "";
                 }
 
-                dgvDevices.Rows[dgvDevices.RowCount-1].Selected = true;
+                if (dgvDevices.RowCount == 1)
+                {
+                    dgvDevices.Rows[0].Selected = true;
+                }
+                else if (dgvDevices.RowCount > 1)
+                {
+                    dgvDevices.Rows[dgvDevices.RowCount - 1].Selected = true;
+                }
+                
                 dgvDevices.FirstDisplayedScrollingRowIndex = dgvDevices.SelectedRows[0].Index;
+
             }
             else
             {
@@ -220,6 +249,7 @@ namespace LgTvController
             {
                 DevList.RemoveAt(index);
                 SaveDevices();
+                (Application.OpenForms["RemoteControl"] as RemoteControl).RefreshDeviceListComboBoxDelegate();
                 RefreshGrid();
                 
                 dgvDevices.ClearSelection();

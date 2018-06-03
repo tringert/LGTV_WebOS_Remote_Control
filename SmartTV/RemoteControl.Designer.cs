@@ -71,7 +71,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnMute = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cbCurrentDevice = new System.Windows.Forms.ComboBox();
+            this.cbSavedDevices = new System.Windows.Forms.ComboBox();
             this.lbCurrentDevice = new System.Windows.Forms.Label();
             this.btnInput = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
@@ -398,7 +398,7 @@
             this.toolStripMenuItemMac.Name = "toolStripMenuItemMac";
             this.toolStripMenuItemMac.Size = new System.Drawing.Size(159, 22);
             this.toolStripMenuItemMac.Text = "Device manager";
-            this.toolStripMenuItemMac.Click += new System.EventHandler(this.ToolStripMenuItemMac_Click);
+            this.toolStripMenuItemMac.Click += new System.EventHandler(this.ToolStripMenuItemDevManager_Click);
             // 
             // pairDeviceToolStripMenuItem
             // 
@@ -516,13 +516,14 @@
             this.btnMute.UseVisualStyleBackColor = true;
             this.btnMute.Click += new System.EventHandler(this.BtnMute_Click);
             // 
-            // cbCurrentDevice
+            // cbSavedDevices
             // 
-            this.cbCurrentDevice.FormattingEnabled = true;
-            this.cbCurrentDevice.Location = new System.Drawing.Point(60, 41);
-            this.cbCurrentDevice.Name = "cbCurrentDevice";
-            this.cbCurrentDevice.Size = new System.Drawing.Size(182, 21);
-            this.cbCurrentDevice.TabIndex = 105;
+            this.cbSavedDevices.FormattingEnabled = true;
+            this.cbSavedDevices.Location = new System.Drawing.Point(60, 41);
+            this.cbSavedDevices.Name = "cbSavedDevices";
+            this.cbSavedDevices.Size = new System.Drawing.Size(182, 21);
+            this.cbSavedDevices.TabIndex = 105;
+            this.cbSavedDevices.SelectionChangeCommitted += new System.EventHandler(this.CbSavedDevices_SelectionChangeCommitted);
             // 
             // lbCurrentDevice
             // 
@@ -550,7 +551,7 @@
             this.ClientSize = new System.Drawing.Size(845, 461);
             this.Controls.Add(this.btnInput);
             this.Controls.Add(this.lbCurrentDevice);
-            this.Controls.Add(this.cbCurrentDevice);
+            this.Controls.Add(this.cbSavedDevices);
             this.Controls.Add(this.button11);
             this.Controls.Add(this.btMessage);
             this.Controls.Add(this.btChList);
@@ -641,7 +642,7 @@
         private System.Windows.Forms.Button btMessage;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ComboBox cbCurrentDevice;
+        private System.Windows.Forms.ComboBox cbSavedDevices;
         private System.Windows.Forms.Label lbCurrentDevice;
         private System.Windows.Forms.Button btnInput;
         private System.Windows.Forms.ToolStripMenuItem pairDeviceToolStripMenuItem;

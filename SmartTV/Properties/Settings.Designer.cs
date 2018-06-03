@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LgTvController.Properties {
+namespace SmartTV.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -68,6 +68,18 @@ namespace LgTvController.Properties {
             }
             set {
                 this["savedDeviceList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string lastUsedDevice {
+            get {
+                return ((string)(this["lastUsedDevice"]));
+            }
+            set {
+                this["lastUsedDevice"] = value;
             }
         }
     }

@@ -130,8 +130,6 @@ namespace LgTvController
                 name = GetTextInputDialog.ShowDialog("Add a name before pairing:", "");
             }
 
-
-            
             (Application.OpenForms["RemoteControl"] as RemoteControl).StartPairNewDevice(uuid, name);
             Close();
         }
