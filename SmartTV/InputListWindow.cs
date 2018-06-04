@@ -53,7 +53,7 @@ namespace LgTvController
 
             dgvInputList.Columns["AppId"].Visible = false;
             dgvInputList.Columns["AppId"].DisplayIndex = 6;
-            dgvInputList.Columns["Icon"].Visible = false;
+            dgvInputList.Columns["IconUrl"].Visible = false;
             
             dgvInputList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 

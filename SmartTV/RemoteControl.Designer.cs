@@ -46,16 +46,10 @@
             this.chanMinus = new System.Windows.Forms.Button();
             this.chanPlus = new System.Windows.Forms.Button();
             this.btnTurnOn = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnTurnOff = new System.Windows.Forms.Button();
-            this.lblMacAddr = new System.Windows.Forms.Label();
-            this.tbMac = new System.Windows.Forms.TextBox();
-            this.tbIP = new System.Windows.Forms.TextBox();
-            this.tbApiKey = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuSetting = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemMac = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,12 +73,12 @@
             // 
             // txtResponse
             // 
-            this.txtResponse.Location = new System.Drawing.Point(12, 251);
+            this.txtResponse.Location = new System.Drawing.Point(12, 115);
             this.txtResponse.Multiline = true;
             this.txtResponse.Name = "txtResponse";
             this.txtResponse.ReadOnly = true;
             this.txtResponse.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtResponse.Size = new System.Drawing.Size(546, 198);
+            this.txtResponse.Size = new System.Drawing.Size(546, 334);
             this.txtResponse.TabIndex = 0;
             // 
             // btVolPlus
@@ -276,28 +270,10 @@
             this.btnTurnOn.UseVisualStyleBackColor = true;
             this.btnTurnOn.Click += new System.EventHandler(this.BtnTurnOn_Click);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 146);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(20, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "IP:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 169);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(28, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Key:";
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 218);
+            this.label5.Location = new System.Drawing.Point(13, 99);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(28, 13);
             this.label5.TabIndex = 0;
@@ -305,9 +281,9 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(287, 167);
+            this.btnConnect.Location = new System.Drawing.Point(60, 68);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 45);
+            this.btnConnect.Size = new System.Drawing.Size(75, 23);
             this.btnConnect.TabIndex = 5;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = false;
@@ -315,9 +291,9 @@
             // 
             // btnDisconnect
             // 
-            this.btnDisconnect.Location = new System.Drawing.Point(368, 167);
+            this.btnDisconnect.Location = new System.Drawing.Point(141, 68);
             this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(75, 45);
+            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
             this.btnDisconnect.TabIndex = 6;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = false;
@@ -335,42 +311,6 @@
             this.btnTurnOff.Text = "Turn off";
             this.btnTurnOff.UseVisualStyleBackColor = true;
             this.btnTurnOff.Click += new System.EventHandler(this.BtnTurnOff_Click);
-            // 
-            // lblMacAddr
-            // 
-            this.lblMacAddr.AutoSize = true;
-            this.lblMacAddr.Location = new System.Drawing.Point(12, 195);
-            this.lblMacAddr.Name = "lblMacAddr";
-            this.lblMacAddr.Size = new System.Drawing.Size(57, 13);
-            this.lblMacAddr.TabIndex = 0;
-            this.lblMacAddr.Text = "MAC addr:";
-            // 
-            // tbMac
-            // 
-            this.tbMac.Location = new System.Drawing.Point(71, 192);
-            this.tbMac.Name = "tbMac";
-            this.tbMac.Size = new System.Drawing.Size(210, 20);
-            this.tbMac.TabIndex = 3;
-            this.tbMac.Text = "388C50FD4DA5";
-            this.tbMac.Leave += new System.EventHandler(this.TbMac_Leave);
-            // 
-            // tbIP
-            // 
-            this.tbIP.Location = new System.Drawing.Point(71, 141);
-            this.tbIP.Name = "tbIP";
-            this.tbIP.Size = new System.Drawing.Size(210, 20);
-            this.tbIP.TabIndex = 1;
-            this.tbIP.Text = "192.168.1.55";
-            this.tbIP.Leave += new System.EventHandler(this.TbIP_Leave);
-            // 
-            // tbApiKey
-            // 
-            this.tbApiKey.Location = new System.Drawing.Point(71, 167);
-            this.tbApiKey.Name = "tbApiKey";
-            this.tbApiKey.Size = new System.Drawing.Size(210, 20);
-            this.tbApiKey.TabIndex = 2;
-            this.tbApiKey.Text = "035957b84f78c710e48850726caa664a";
-            this.tbApiKey.Leave += new System.EventHandler(this.TbApiKey_Leave);
             // 
             // menuStrip1
             // 
@@ -469,7 +409,7 @@
             // 
             // btMessage
             // 
-            this.btMessage.Location = new System.Drawing.Point(413, 39);
+            this.btMessage.Location = new System.Drawing.Point(329, 39);
             this.btMessage.Name = "btMessage";
             this.btMessage.Size = new System.Drawing.Size(75, 23);
             this.btMessage.TabIndex = 103;
@@ -536,7 +476,7 @@
             // 
             // btnInput
             // 
-            this.btnInput.Location = new System.Drawing.Point(332, 38);
+            this.btnInput.Location = new System.Drawing.Point(248, 39);
             this.btnInput.Name = "btnInput";
             this.btnInput.Size = new System.Drawing.Size(75, 23);
             this.btnInput.TabIndex = 109;
@@ -558,16 +498,11 @@
             this.Controls.Add(this.btChan);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btVol);
-            this.Controls.Add(this.tbMac);
-            this.Controls.Add(this.lblMacAddr);
             this.Controls.Add(this.btnTurnOff);
             this.Controls.Add(this.btnMute);
             this.Controls.Add(this.btnDisconnect);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.tbIP);
             this.Controls.Add(this.btnTurnOn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.chanMinus);
@@ -583,7 +518,6 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btVolMinus);
             this.Controls.Add(this.btVolPlus);
-            this.Controls.Add(this.tbApiKey);
             this.Controls.Add(this.txtResponse);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -603,7 +537,6 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtResponse;
-        private System.Windows.Forms.TextBox tbApiKey;
         private System.Windows.Forms.Button btVolPlus;
         private System.Windows.Forms.Button btVolMinus;
         private System.Windows.Forms.Button button3;
@@ -619,16 +552,11 @@
         private System.Windows.Forms.Button chanMinus;
         private System.Windows.Forms.Button chanPlus;
         private System.Windows.Forms.Button btnTurnOn;
-        private System.Windows.Forms.TextBox tbIP;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Button btnDisconnect;
         private System.Windows.Forms.Button btnMute;
         private System.Windows.Forms.Button btnTurnOff;
-        private System.Windows.Forms.Label lblMacAddr;
-        private System.Windows.Forms.TextBox tbMac;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuSetting;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMac;

@@ -11,7 +11,6 @@ using WebSocketSharp;
 using LgTvController.Properties;
 using SmartTV.Properties;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 
 namespace LgTvController
 {
@@ -27,12 +26,11 @@ namespace LgTvController
         private static DisplayMessage msgWindow;
         private static SavedDeviceListWindow deviceListWindow;
         private static AvailableDevicesWindow adWindow;
-        private static Device newDevice;
+        private static Device selectedDevice;
         private static System.Threading.Timer timer;
         private string apiKey;
         private string mac;
         private string ip;
-        bool isPair = default;
         ushort retry = 0;
 
         public RemoteControl()
@@ -67,9 +65,10 @@ namespace LgTvController
 
         private void Connect()
         {
-            ip = ((Device)cbSavedDevices.SelectedItem).Ip;
-            apiKey = ((Device)cbSavedDevices.SelectedItem).ApiKey;
-            mac = ((Device)cbSavedDevices.SelectedItem).MacAddress;
+            selectedDevice = ((Device)cbSavedDevices.SelectedItem);
+            ip = selectedDevice.Ip;
+            apiKey = selectedDevice.ApiKey;
+            mac = selectedDevice.MacAddress;
             string host = "ws://" + ip + ":3000/";
             ws = new WebSocket(host);
             
@@ -103,15 +102,10 @@ namespace LgTvController
                 {
                     RegisterResponse rr = JsonConvert.DeserializeObject<RegisterResponse>(e.Data);
                     msg = "Handshake successful." + Environment.NewLine + rr.ToString();
-                  
-                    // Subscribe to volume change
-                    ws.Send("{ \"id\":\"volume_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://audio/getVolume\"}");
-                    // Subscribe to channel change
-                    ws.Send("{ \"id\":\"channel_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getCurrentChannel\"}");
-                    // Subscribe to program info
-                    //ws.Send("{ \"id\":\"volumesub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getChannelProgramInfo\"}");
+
+                    SubscribeWebsocketEvents();
                 }
-                else if (e.Data.Contains("newPair"))
+                else if (e.Data.Contains("newPair") || e.Data.Contains("register_0"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
 
@@ -127,10 +121,13 @@ namespace LgTvController
                     {
                         RegisterResponse rr = JsonConvert.DeserializeObject<RegisterResponse>(e.Data);
 
-                        newDevice.ApiKey = rr.Payload.client_key;
-                        deviceListFromConfig.Add(newDevice);
-
+                        if (String.IsNullOrEmpty(selectedDevice.ApiKey))
+                        {
+                            selectedDevice.ApiKey = rr.Payload.client_key;
+                        }
+                        
                         SaveDeviceList();
+                        SubscribeWebsocketEvents();
                     }
                 }
                 // Response for audio status request
@@ -287,11 +284,21 @@ namespace LgTvController
             }
         }
 
+        private void SubscribeWebsocketEvents()
+        {
+            // Subscribe to volume change
+            ws.Send("{ \"id\":\"volume_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://audio/getVolume\"}");
+            // Subscribe to channel change
+            ws.Send("{ \"id\":\"channel_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getCurrentChannel\"}");
+            // Subscribe to program info
+            //ws.Send("{ \"id\":\"volumesub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getChannelProgramInfo\"}");
+        }
+
         internal void StartPairNewDevice(Guid uuid, string name)
         {
             AvailableDevice ad = new AvailableDevice();
             ad = availableDeviceList.availableDevList.Where(s => s.Uuid == uuid).FirstOrDefault();
-            newDevice = new Device
+            selectedDevice = new Device
             {
                 FriendlyName = name,
                 Ip = ad.Ip,
@@ -302,17 +309,20 @@ namespace LgTvController
                 ApiKey = ""
             };
 
-            deviceListFromConfig.Add(newDevice);
+            deviceListFromConfig.Add(selectedDevice);
             SaveDeviceList();
             RefreshDeviceListComboBoxDelegate();
-            SetActiveDeviceDelegate(newDevice.FriendlyName);
-            
-            isPair = true;
 
+            cbSavedDevices.Invoke((Action)delegate
+            {
+                SetActiveDevice(name);
+            });
+            
             cbSavedDevices.Invoke((Action)delegate
             {
                 Connect();
             });
+            
         }
 
         // Display a log message when the connection closes
@@ -334,7 +344,7 @@ namespace LgTvController
             if (retry < 5)
             {
                 retry++;
-                Thread.Sleep(5000);
+                Thread.Sleep(2000);
                 DisplayMessage("Reconnecting...");
                 ws.ConnectAsync();
             }
@@ -349,18 +359,31 @@ namespace LgTvController
         {
             retry = 0;
             DisplayMessage("Connection established.");
-            //SendHandshake();
+            SendHandshake();
         }
 
         // Sending handshake request when the device is paired with client
         private void SendHandshake()
         {
-            string hs = "{\"type\":\"register\",\"id\":\"register_0\",\"payload\":{\"forcePairing\":false,\"pairingType\":\"PROMPT\",";
-            hs += isPair == true ? "\"client-key\":\"" + apiKey + "\"," : "";
-            hs += "\"manifest\":{\"manifestVersion\":1,\"appVersion\":\"1.1\",\"signed\":{\"created\":\"20140509\",\"appId\":\"com.lge.test\",\"vendorId\":\"com.lge\",\"localizedAppNames\":{\"\":\"LGRemoteApp\",\"en-EN\":\"RemoteApp\",\"zxx-XX\":\"LGRemoteApp\"},\"localizedVendorNames\":{\"\":\"LGElectronics\"},\"permissions\":[\"TEST_SECURE\",\"CONTROL_INPUT_TEXT\",\"CONTROL_MOUSE_AND_KEYBOARD\",\"READ_INSTALLED_APPS\",\"READ_LGE_SDX\",\"READ_NOTIFICATIONS\",\"SEARCH\",\"WRITE_SETTINGS\",\"WRITE_NOTIFICATION_ALERT\",\"CONTROL_POWER\",\"READ_CURRENT_CHANNEL\",\"READ_RUNNING_APPS\",\"READ_UPDATE_INFO\",\"UPDATE_FROM_REMOTE_APP\",\"READ_LGE_TV_INPUT_EVENTS\",\"READ_TV_CURRENT_TIME\"],\"serial\":\"2f930e2d2cfe083771f68e4fe7bb07\"},\"permissions\":[\"LAUNCH\",\"LAUNCH_WEBAPP\",\"APP_TO_APP\",\"CLOSE\",\"TEST_OPEN\",\"TEST_PROTECTED\",\"CONTROL_AUDIO\",\"CONTROL_DISPLAY\",\"CONTROL_INPUT_JOYSTICK\",\"CONTROL_INPUT_MEDIA_RECORDING\",\"CONTROL_INPUT_MEDIA_PLAYBACK\",\"CONTROL_INPUT_TV\",\"CONTROL_POWER\",\"READ_APP_STATUS\",\"READ_CURRENT_CHANNEL\",\"READ_INPUT_DEVICE_LIST\",\"READ_NETWORK_STATE\",\"READ_RUNNING_APPS\",\"READ_TV_CHANNEL_LIST\",\"WRITE_NOTIFICATION_TOAST\",\"READ_POWER_STATE\",\"READ_COUNTRY_INFO\"],\"signatures\":[{\"signatureVersion\":1,\"signature\":\"eyJhbGdvcml0aG0iOiJSU0EtU0hBMjU2Iiwia2V5SWQiOiJ0ZXN0LXNpZ25pbmctY2VydCIsInNpZ25hdHVyZVZlcnNpb24iOjF9.hrVRgjCwXVvE2OOSpDZ58hR+59aFNwYDyjQgKk3auukd7pcegmE2CzPCa0bJ0ZsRAcKkCTJrWo5iDzNhMBWRyaMOv5zWSrthlf7G128qvIlpMT0YNY+n/FaOHE73uLrS/g7swl3/qH/BGFG2Hu4RlL48eb3lLKqTt2xKHdCs6Cd4RMfJPYnzgvI4BNrFUKsjkcu+WD4OO2A27Pq1n50cMchmcaXadJhGrOqH5YmHdOCj5NSHzJYrsW0HPlpuAx/ECMeIZYDh6RMqaFM2DXzdKX9NmmyqzJ3o/0lkk/N97gfVRLW5hA29yeAwaCViZNCP8iC9aO0q9fQojoa7NQnAtw==\"}]}}}";
-            string message = default;
+            bool isPaired = selectedDevice.ApiKey == "" ? false : true;
 
-            isPair = false;
+            string hs = "{\"type\":\"register\",\"id\":";
+            if (isPaired)
+            {
+                hs += "\"register_0\"";
+            }
+            else
+            {
+                hs += "\"newPair\"";
+            }
+            hs += ",\"payload\":{\"forcePairing\":false,\"pairingType\":\"PROMPT\",";
+            if (isPaired)
+            {
+                hs += "\"client-key\":\"" + apiKey + "\",";
+            }
+            hs += "\"manifest\":{\"manifestVersion\":1,\"appVersion\":\"1.1\",\"signed\":{\"created\":\"20140509\",\"appId\":\"com.lge.test\",\"vendorId\":\"com.lge\",\"localizedAppNames\":{\"\":\"LGRemoteApp\",\"en-EN\":\"RemoteApp\",\"zxx-XX\":\"LGRemoteApp\"},\"localizedVendorNames\":{\"\":\"LGElectronics\"},\"permissions\":[\"TEST_SECURE\",\"CONTROL_INPUT_TEXT\",\"CONTROL_MOUSE_AND_KEYBOARD\",\"READ_INSTALLED_APPS\",\"READ_LGE_SDX\",\"READ_NOTIFICATIONS\",\"SEARCH\",\"WRITE_SETTINGS\",\"WRITE_NOTIFICATION_ALERT\",\"CONTROL_POWER\",\"READ_CURRENT_CHANNEL\",\"READ_RUNNING_APPS\",\"READ_UPDATE_INFO\",\"UPDATE_FROM_REMOTE_APP\",\"READ_LGE_TV_INPUT_EVENTS\",\"READ_TV_CURRENT_TIME\"],\"serial\":\"2f930e2d2cfe083771f68e4fe7bb07\"},\"permissions\":[\"LAUNCH\",\"LAUNCH_WEBAPP\",\"APP_TO_APP\",\"CLOSE\",\"TEST_OPEN\",\"TEST_PROTECTED\",\"CONTROL_AUDIO\",\"CONTROL_DISPLAY\",\"CONTROL_INPUT_JOYSTICK\",\"CONTROL_INPUT_MEDIA_RECORDING\",\"CONTROL_INPUT_MEDIA_PLAYBACK\",\"CONTROL_INPUT_TV\",\"CONTROL_POWER\",\"READ_APP_STATUS\",\"READ_CURRENT_CHANNEL\",\"READ_INPUT_DEVICE_LIST\",\"READ_NETWORK_STATE\",\"READ_RUNNING_APPS\",\"READ_TV_CHANNEL_LIST\",\"WRITE_NOTIFICATION_TOAST\",\"READ_POWER_STATE\",\"READ_COUNTRY_INFO\"],\"signatures\":[{\"signatureVersion\":1,\"signature\":\"eyJhbGdvcml0aG0iOiJSU0EtU0hBMjU2Iiwia2V5SWQiOiJ0ZXN0LXNpZ25pbmctY2VydCIsInNpZ25hdHVyZVZlcnNpb24iOjF9.hrVRgjCwXVvE2OOSpDZ58hR+59aFNwYDyjQgKk3auukd7pcegmE2CzPCa0bJ0ZsRAcKkCTJrWo5iDzNhMBWRyaMOv5zWSrthlf7G128qvIlpMT0YNY+n/FaOHE73uLrS/g7swl3/qH/BGFG2Hu4RlL48eb3lLKqTt2xKHdCs6Cd4RMfJPYnzgvI4BNrFUKsjkcu+WD4OO2A27Pq1n50cMchmcaXadJhGrOqH5YmHdOCj5NSHzJYrsW0HPlpuAx/ECMeIZYDh6RMqaFM2DXzdKX9NmmyqzJ3o/0lkk/N97gfVRLW5hA29yeAwaCViZNCP8iC9aO0q9fQojoa7NQnAtw==\"}]}}}";
+
+            string message = default;
 
             try
             {
@@ -525,43 +548,6 @@ namespace LgTvController
             return splitValues.All(r => byte.TryParse(r, out byte tempForParsing));
         }
 
-        // Saving the IP field's value when leaving the cell
-        private void TbIP_Leave(object sender, EventArgs e)
-        {
-            if (!ValidateIPv4(tbIP.Text))
-            {
-                tbIP.ForeColor = Color.Red;
-            }
-            else
-            {
-                tbIP.ForeColor = Color.Black;
-                Settings.Default.ip = tbIP.Text;
-                Settings.Default.Save();
-            }
-        }
-
-        // Saving the API key field's value when leaving the cell
-        private void TbApiKey_Leave(object sender, EventArgs e)
-        {
-            Settings.Default.apiKey = tbApiKey.Text;
-            Settings.Default.Save();
-        }
-
-        // Saving the MAC address field's value when leaving the cell
-        private void TbMac_Leave(object sender, EventArgs e)
-        {
-            if (!ValidateMac(tbMac.Text))
-            {
-                tbMac.ForeColor = Color.Red;
-            }
-            else
-            {
-                tbMac.ForeColor = Color.Black;
-                Settings.Default.macAddr = tbMac.Text;
-                Settings.Default.Save();
-            }
-        }
-
         public bool ValidateMac(string mac)
         {
             var regex = "[0-9A-F]{12}";
@@ -681,11 +667,7 @@ namespace LgTvController
         public void SetActiveDevice(string name)
         {
             cbSavedDevices.SelectedItem = name;
-
-            cbSavedDevices.Invoke((Action)delegate
-            {
-                Connect();
-            });
+            selectedDevice = (Device)cbSavedDevices.SelectedItem;
         }
 
         private void BtnInput_Click(object sender, EventArgs e)
