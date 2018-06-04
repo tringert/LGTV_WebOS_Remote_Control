@@ -109,7 +109,9 @@ namespace LgTvController
             Guid uuid = (Guid)dgvAvailableDevices.Rows[e.RowIndex].Cells["Uuid"].Value;
             string mac = dgvAvailableDevices.Rows[e.RowIndex].Cells["Mac"].Value.ToString();
             List<Device> savedDeviceList = (Application.OpenForms["RemoteControl"] as RemoteControl).deviceListFromConfig;
-            var isAlreadySaved = savedDeviceList.Exists(x => x.Uuid == uuid || x.MacAddress == mac);
+            bool isAlreadySaved = default;
+            if (savedDeviceList != null)
+                isAlreadySaved = savedDeviceList.Exists(x => x.Uuid == uuid || x.MacAddress == mac);
 
             if (isAlreadySaved)
             {

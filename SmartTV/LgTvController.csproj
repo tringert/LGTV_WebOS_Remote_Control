@@ -7,8 +7,8 @@
     <ProjectGuid>{4C004821-0F42-4D28-AAF4-EEE1776DEEE6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SmartTV</RootNamespace>
-    <AssemblyName>SmartTV</AssemblyName>
+    <RootNamespace>LgTvController</RootNamespace>
+    <AssemblyName>LgTvController</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

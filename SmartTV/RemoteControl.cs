@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -9,7 +8,6 @@ using System.Threading;
 using System.Windows.Forms;
 using WebSocketSharp;
 using LgTvController.Properties;
-using SmartTV.Properties;
 using Newtonsoft.Json;
 
 namespace LgTvController
@@ -39,7 +37,12 @@ namespace LgTvController
 
             // Load the saved devices from App.Config
             deviceListFromConfig = new List<Device>();
-            deviceListFromConfig = LoadSavedDeviceList();
+
+            if (!String.IsNullOrEmpty(Settings.Default.savedDeviceList))
+            {
+                deviceListFromConfig = LoadSavedDeviceList();
+            }
+            
             availableDeviceList = new AvailableDeviceList();
 
             cbSavedDevices.DataSource = deviceListFromConfig;
@@ -135,10 +138,10 @@ namespace LgTvController
                 {
                     AudioStatusResponse asr = JsonConvert.DeserializeObject<AudioStatusResponse>(e.Data);
                     msg = "Audio status received." + Environment.NewLine + asr.ToString();
-                    Global._globalVolume = asr.Payload.Volume;
 
                     // Displaying the volume level
-                    string txt = Global._globalVolume + "/" + asr.Payload.VolumeMax;
+                    string txt = asr.Payload.Volume + "/" + asr.Payload.VolumeMax;
+
                     btVol.Invoke(new Action(() => { btVol.Text = txt; }));
 
                     // Setting the speaker icon on mute button
@@ -414,11 +417,8 @@ namespace LgTvController
         // Turn off button
         private void BtnTurnOff_Click(object sender, EventArgs e)
         {
-            if (!CheckIsAlive())
-            {
-                ConnectionLostDialog();
+            if (ws == null)
                 return;
-            }
 
             string turnOff = "{ \"id\":\"1\",\"type\":\"request\",\"uri\":\"ssap://system/turnOff\"}";
             ws.Send(turnOff);
@@ -434,12 +434,6 @@ namespace LgTvController
             return;
         }
 
-        private bool CheckIsAlive()
-        {
-            if (ws == null) return false;
-            return ws.IsAlive;
-        }
-
         private void BtnConnect_Click(object sender, EventArgs e)
         {
             Connect();
@@ -447,13 +441,13 @@ namespace LgTvController
 
         private void BtnDisconnect_Click(object sender, EventArgs e)
         {
-            if (!CheckIsAlive())
-            {
-                ConnectionLostDialog();
+            if (ws == null)
                 return;
-            }
 
             Disconnect();
+            btVol.Invoke(new Action(() => { btVol.Text = ""; }));
+            btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_on; }));
+            btVol.Invoke(new Action(() => { btChan.Text = ""; }));
         }
 
         private void Disconnect()
@@ -475,6 +469,9 @@ namespace LgTvController
 
         private void BtnMute_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             bool mute = !Global._isMuted;
             string message = "{\"id\":\"toggle_mute\",\"type\":\"request\",\"uri\":\"ssap://audio/setMute\",\"payload\":{\"mute\":" + mute.ToString().ToLower() + "}}";
             ws.Send(message);
@@ -557,16 +554,25 @@ namespace LgTvController
 
         private void BtVol_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             GetAudioStatus();
         }
 
         private void BtVolPlus_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             CallFunction("volumeup_1", "ssap://audio/volumeUp", "Volume up request sent.");
         }
 
         private void CallFunction(string id, string ep, string message)
         {
+            if (ws == null)
+                return;
+
             CallFunctionRequest cfr = new CallFunctionRequest { Id = id, Type = "request", Uri = ep };
             ws.Send(JsonConvert.SerializeObject(cfr));
             DisplayMessage(message);
@@ -581,6 +587,9 @@ namespace LgTvController
 
         private void BtVolMinus_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             CallFunction("volumedown_1", "ssap://audio/volumeDown", "Volume down request sent.");
         }
 
@@ -591,6 +600,9 @@ namespace LgTvController
 
         private void BtChan_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             GetCurrentChannel();
         }
 
@@ -601,21 +613,33 @@ namespace LgTvController
 
         private void ChanPlus_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             CallFunction("channelup_1", "ssap://tv/channelUp", "Channel up request sent.");
         }
 
         private void ChanMinus_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             CallFunction("channeldown_1", "ssap://tv/channelDown", "Channel down request sent.");
         }
 
         private void BtChList_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             CallFunction("getchannels_1", "ssap://tv/getChannelList", "Channel list request sent.");
         }
 
         private void BtMessage_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             if (msgWindow != null) return;
             msgWindow = new DisplayMessage();
             msgWindow.FormClosing += MsgWindow_FormClosing;
@@ -630,6 +654,9 @@ namespace LgTvController
         // TODO: finish this
         private void Button11_Click(object sender, EventArgs e)
         {
+            if (ws == null)
+                return;
+
             CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
         }
 

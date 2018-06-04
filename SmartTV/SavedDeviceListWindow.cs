@@ -1,6 +1,5 @@
 ﻿using LgTvController.Properties;
 using Newtonsoft.Json;
-using SmartTV.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,7 +15,7 @@ namespace LgTvController
         public SavedDeviceListWindow()
         {
             InitializeComponent();
-            DevList = new List<Device>();
+            //DevList = new List<Device>();
         }
 
         private void DeviceListWindow_Load(object sender, EventArgs e)
@@ -28,22 +27,33 @@ namespace LgTvController
         {
             dgvDevices.DataSource = DevList;
 
-            dgvDevices.Columns["FriendlyName"].HeaderText = "Name";
+            dgvDevices.Columns.Add("FriendlyName", "Name");
             dgvDevices.Columns["FriendlyName"].Width = 100;
             dgvDevices.Columns["FriendlyName"].DisplayIndex = 0;
-            dgvDevices.Columns["Server"].Width = 100;
-            dgvDevices.Columns["Server"].DisplayIndex = 5;
-            dgvDevices.Columns["Uuid"].Width = 220;
-            dgvDevices.Columns["Uuid"].DisplayIndex = 6;
-            dgvDevices.Columns["ApiKey"].Width = 220;
-            dgvDevices.Columns["ApiKey"].DisplayIndex = 3;
+
+            dgvDevices.Columns.Add("Ip", "Ip");
             dgvDevices.Columns["Ip"].Width = 100;
             dgvDevices.Columns["Ip"].DisplayIndex = 1;
+
+            dgvDevices.Columns.Add("Port", "Port");
             dgvDevices.Columns["Port"].Width = 50;
             dgvDevices.Columns["Port"].DisplayIndex = 2;
-            dgvDevices.Columns["MacAddress"].HeaderText = "Mac address";
+
+            dgvDevices.Columns.Add("ApiKey", "ApiKey");
+            dgvDevices.Columns["ApiKey"].Width = 220;
+            dgvDevices.Columns["ApiKey"].DisplayIndex = 3;
+
+            dgvDevices.Columns.Add("MacAddress", "Mac address");
             dgvDevices.Columns["MacAddress"].Width = 97;
             dgvDevices.Columns["MacAddress"].DisplayIndex = 4;
+
+            dgvDevices.Columns.Add("Server", "Server");
+            dgvDevices.Columns["Server"].Width = 100;
+            dgvDevices.Columns["Server"].DisplayIndex = 5;
+
+            dgvDevices.Columns.Add("Uuid", "Uuid");
+            dgvDevices.Columns["Uuid"].Width = 220;
+            dgvDevices.Columns["Uuid"].DisplayIndex = 6;
 
             dgvDevices.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvDevices.ReadOnly = true;
@@ -62,6 +72,9 @@ namespace LgTvController
 
         private void TbName_Leave(object sender, EventArgs e)
         {
+            if (DevList == null)
+                return;
+
             bool notUnique = DevList.Any(x => x.FriendlyName == tbName.Text);
 
             if (notUnique)
@@ -224,6 +237,9 @@ namespace LgTvController
 
         private void BtRemove_Click(object sender, EventArgs e)
         {
+            if (DevList == null)
+                return;
+
             if (dgvDevices.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Select a row first!", "Nothing selected", MessageBoxButtons.OK, MessageBoxIcon.Error);

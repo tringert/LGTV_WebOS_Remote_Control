@@ -1,16 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SmartTV.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LgTvController.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ip" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.1.55</Value>
-    </Setting>
-    <Setting Name="apiKey" Type="System.String" Scope="User">
-      <Value Profile="(Default)">035957b84f78c710e48850726caa664a</Value>
-    </Setting>
-    <Setting Name="macAddr" Type="System.String" Scope="User">
-      <Value Profile="(Default)">388C50FD4DA5</Value>
-    </Setting>
     <Setting Name="savedDeviceList" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

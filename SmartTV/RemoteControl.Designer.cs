@@ -434,6 +434,7 @@
             // button1
             // 
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.button1.Image = global::LgTvController.Properties.Resources.trash_20x20px;
             this.button1.Location = new System.Drawing.Point(561, 419);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
@@ -448,6 +449,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnMute.Image = global::LgTvController.Properties.Resources.Speaker_on;
             this.btnMute.Location = new System.Drawing.Point(624, 141);
             this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnMute.Name = "btnMute";
