@@ -112,6 +112,12 @@
     <Compile Include="ScannedChannelCount.cs" />
     <Compile Include="SSDP.cs" />
     <Compile Include="Wol.cs" />
+    <Compile Include="YoutubeWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="YoutubeWindow.Designer.cs">
+      <DependentUpon>YoutubeWindow.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AvailableDevicesWindow.resx">
       <DependentUpon>AvailableDevicesWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,6 +140,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="YoutubeWindow.resx">
+      <DependentUpon>YoutubeWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\LgTvController.Channel.datasource" />
@@ -166,6 +175,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Icons\TV_wifi.ico" />
+    <Content Include="Content\Icons\youtube_icon.ico" />
+    <Content Include="Content\Icons\youtube_icon_35x35px.png" />
+    <None Include="Resources\youtube_icon_35x35px.png" />
     <None Include="Content\Icons\trash_20x20px.png" />
     <None Include="Content\Icons\Speaker_on.png" />
     <None Include="Content\Icons\Speaker_off.png" />

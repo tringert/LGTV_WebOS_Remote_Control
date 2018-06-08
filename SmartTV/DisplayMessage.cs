@@ -14,7 +14,7 @@ namespace LgTvController
         private void btSend_Click(object sender, EventArgs e)
         {
             string text = tbMessage.Text.Replace("\r\n", "<br>").Replace("\"", "\\\"");
-            var payload = JsonConvert.SerializeObject(new { message = text });
+            var payload = new { message = text };
             (Application.OpenForms["RemoteControl"] as RemoteControl).CallFunctionWithPayload("toast_1", "ssap://system.notifications/createToast", "Toast message request sent.", payload);
         }
 

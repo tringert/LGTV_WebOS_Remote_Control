@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoteControl));
             this.txtResponse = new System.Windows.Forms.TextBox();
             this.btVolPlus = new System.Windows.Forms.Button();
@@ -64,10 +63,11 @@
             this.button11 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnMute = new System.Windows.Forms.Button();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.cbSavedDevices = new System.Windows.Forms.ComboBox();
             this.lbCurrentDevice = new System.Windows.Forms.Label();
             this.btnInput = new System.Windows.Forms.Button();
+            this.btSwInfo = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,6 +112,7 @@
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Enabled = false;
             this.button3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.Location = new System.Drawing.Point(625, 184);
             this.button3.Name = "button3";
@@ -125,6 +126,7 @@
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Enabled = false;
             this.button4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.Location = new System.Drawing.Point(625, 267);
             this.button4.Name = "button4";
@@ -138,6 +140,7 @@
             this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Enabled = false;
             this.button5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.Location = new System.Drawing.Point(569, 225);
             this.button5.Name = "button5";
@@ -151,6 +154,7 @@
             this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Enabled = false;
             this.button6.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button6.Location = new System.Drawing.Point(679, 225);
             this.button6.Name = "button6";
@@ -164,6 +168,7 @@
             this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Enabled = false;
             this.button7.Location = new System.Drawing.Point(625, 225);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(47, 36);
@@ -188,6 +193,7 @@
             this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.Enabled = false;
             this.button8.Location = new System.Drawing.Point(569, 268);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(47, 36);
@@ -200,6 +206,7 @@
             this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button9.Enabled = false;
             this.button9.Location = new System.Drawing.Point(679, 183);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(47, 36);
@@ -212,6 +219,7 @@
             this.button10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button10.Enabled = false;
             this.button10.Location = new System.Drawing.Point(569, 184);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(47, 36);
@@ -427,14 +435,13 @@
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(36, 36);
             this.button11.TabIndex = 104;
-            this.toolTip1.SetToolTip(this.button11, "Current channel info");
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.Button11_Click);
             // 
             // button1
             // 
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button1.Image = global::LgTvController.Properties.Resources.trash_20x20px;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.Location = new System.Drawing.Point(561, 419);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
@@ -449,7 +456,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnMute.Image = global::LgTvController.Properties.Resources.Speaker_on;
+            this.btnMute.Image = ((System.Drawing.Image)(resources.GetObject("btnMute.Image")));
             this.btnMute.Location = new System.Drawing.Point(624, 141);
             this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnMute.Name = "btnMute";
@@ -486,11 +493,33 @@
             this.btnInput.UseVisualStyleBackColor = true;
             this.btnInput.Click += new System.EventHandler(this.BtnInput_Click);
             // 
+            // btSwInfo
+            // 
+            this.btSwInfo.Image = global::LgTvController.Properties.Resources.youtube_icon_35x35px;
+            this.btSwInfo.Location = new System.Drawing.Point(410, 39);
+            this.btSwInfo.Name = "btSwInfo";
+            this.btSwInfo.Size = new System.Drawing.Size(40, 40);
+            this.btSwInfo.TabIndex = 110;
+            this.btSwInfo.UseVisualStyleBackColor = true;
+            this.btSwInfo.Click += new System.EventHandler(this.BtYoutube_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(330, 69);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 111;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(845, 461);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btSwInfo);
             this.Controls.Add(this.btnInput);
             this.Controls.Add(this.lbCurrentDevice);
             this.Controls.Add(this.cbSavedDevices);
@@ -571,11 +600,12 @@
         private System.Windows.Forms.Button btChList;
         private System.Windows.Forms.Button btMessage;
         private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox cbSavedDevices;
         private System.Windows.Forms.Label lbCurrentDevice;
         private System.Windows.Forms.Button btnInput;
         private System.Windows.Forms.ToolStripMenuItem pairDeviceToolStripMenuItem;
+        private System.Windows.Forms.Button btSwInfo;
+        private System.Windows.Forms.Button button2;
     }
 }
 

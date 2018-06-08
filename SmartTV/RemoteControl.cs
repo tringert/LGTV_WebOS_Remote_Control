@@ -22,6 +22,7 @@ namespace LgTvController
         internal List<Device> deviceListFromConfig;
         public AvailableDeviceList availableDeviceList;
         private static DisplayMessage msgWindow;
+        private static YoutubeWindow youtubeWindow;
         private static SavedDeviceListWindow deviceListWindow;
         private static AvailableDevicesWindow adWindow;
         private static Device selectedDevice;
@@ -81,11 +82,6 @@ namespace LgTvController
             ws.OnClose += Ws_OnClose;
             ws.OnError += (sender, e) => Console.WriteLine("Error: " + e.Message);
 
-            // Debug
-            Logger log = ws.Log;
-            log.Level = LogLevel.Debug;
-            Console.WriteLine("\n" + log.Output);
-
             // Keep the connection alive (send back the pong)
             ws.EmitOnPing = true;
 
@@ -112,11 +108,11 @@ namespace LgTvController
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
 
-                    if (cfr.Payload.returnValue && cfr.Type == "response")
+                    if (cfr.Payload.ReturnValue && cfr.Type == "response")
                     {
                         msg = "Pairing request acknowledged.";
                     }
-                    else if (!cfr.Payload.returnValue && cfr.Type == "response")
+                    else if (!cfr.Payload.ReturnValue && cfr.Type == "response")
                     {
                         msg = "Pairing request unsuccessful.";
                     }
@@ -161,7 +157,7 @@ namespace LgTvController
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
 
-                    if (cfr.Payload.returnValue)
+                    if (cfr.Payload.ReturnValue)
                     {
                         msg = "Volume up acknowledged.";
                     }
@@ -174,7 +170,7 @@ namespace LgTvController
                 else if (e.Data.Contains("volumedown_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
-                    if (cfr.Payload.returnValue)
+                    if (cfr.Payload.ReturnValue)
                     {
                         msg = "Volume down acknowledged.";
                     }
@@ -187,7 +183,7 @@ namespace LgTvController
                 else if (e.Data.Contains("toggle_mute"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
-                    if (cfr.Payload.returnValue)
+                    if (cfr.Payload.ReturnValue)
                     {
                         msg = "Toggle mute acknowledged.";
                     }
@@ -210,7 +206,7 @@ namespace LgTvController
                 else if (e.Data.Contains("channelup_1") || e.Data.Contains("channeldown_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
-                    if (cfr.Payload.returnValue)
+                    if (cfr.Payload.ReturnValue)
                     {
                         GetCurrentChannel();
                         msg = cfr.Id == "channelup_1" ? "Channel up success." : "Channel down success.";
@@ -256,7 +252,7 @@ namespace LgTvController
                 else if (e.Data.Contains("toast_1"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
-                    if (cfr.Payload.returnValue)
+                    if (cfr.Payload.ReturnValue)
                     {
                         msg = "Toast message request succeeded.";
                     }
@@ -334,6 +330,7 @@ namespace LgTvController
             string message = String.Format("Connection closed. | Reason: {0} | WasClean: {1} | Close status code: {2}",
                                            String.IsNullOrEmpty(e.Reason) ? "-": e.Reason, e.WasClean, e.Code);
             DisplayMessage(message);
+            Disconnect();
         }
 
         private void SaveDeviceList()
@@ -362,6 +359,7 @@ namespace LgTvController
         {
             retry = 0;
             DisplayMessage("Connection established.");
+            btVol.Invoke(new Action(() => { btnConnect.Enabled = false; }));
             SendHandshake();
         }
 
@@ -445,9 +443,6 @@ namespace LgTvController
                 return;
 
             Disconnect();
-            btVol.Invoke(new Action(() => { btVol.Text = ""; }));
-            btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_on; }));
-            btVol.Invoke(new Action(() => { btChan.Text = ""; }));
         }
 
         private void Disconnect()
@@ -457,6 +452,11 @@ namespace LgTvController
                 ws.Close();
                 ws = null;
             }
+
+            btVol.Invoke(new Action(() => { btVol.Text = ""; }));
+            btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_on; }));
+            btVol.Invoke(new Action(() => { btChan.Text = ""; }));
+            btnConnect.Enabled = true;
         }
 
         private void GetAudioStatus()
@@ -578,10 +578,21 @@ namespace LgTvController
             DisplayMessage(message);
         }
 
-        internal void CallFunctionWithPayload(string id, string ep, string message, string payload)
+        internal void CallFunctionWithPayload(string id, string ep, string message, object payload)
         {
             CallFunctionRequestWithPayload cfr = new CallFunctionRequestWithPayload { Id = id, Type = "request", Uri = ep, Payload = payload };
+
+            //DEBUG
+            DisplayMessage(JsonConvert.SerializeObject(cfr));
             ws.Send(JsonConvert.SerializeObject(cfr));
+            DisplayMessage(message);
+        }
+
+        internal void CallFunctionWithPayload(CallFunctionRequestWithPayload request, string message)
+        {
+            //DEBUG
+            DisplayMessage(JsonConvert.SerializeObject(request));
+            ws.Send(JsonConvert.SerializeObject(request));
             DisplayMessage(message);
         }
 
@@ -640,7 +651,11 @@ namespace LgTvController
             if (ws == null)
                 return;
 
-            if (msgWindow != null) return;
+            if (msgWindow != null)
+            {
+                msgWindow.BringToFront();
+                return;
+            }
             msgWindow = new DisplayMessage();
             msgWindow.FormClosing += MsgWindow_FormClosing;
             msgWindow.Show();
@@ -735,6 +750,39 @@ namespace LgTvController
             Settings.Default.Save();
 
             Connect();
+        }
+
+        private void BtYoutube_Click(object sender, EventArgs e)
+        {
+            if (ws == null)
+                return;
+
+            if (youtubeWindow != null)
+            {
+                youtubeWindow.BringToFront();
+                return;
+            }
+            youtubeWindow = new YoutubeWindow();
+            youtubeWindow.FormClosing += YoutubeWindow_FormClosing;
+            youtubeWindow.Show();
+
+            //CallFunction("getServiceList", "ssap://api/getServiceList", "Get service list request sent.");
+            // Response: {"type":"response","id":"getServiceList","payload":{"returnValue":true,"services":[{"name":"api","version":1},{"name":"audio","version":1},{"name":"config","version":1},{"name":"media.controls","version":1},{"name":"media.viewer","version":1},{"name":"pairing","version":1},{"name":"settings","version":1},{"name":"system","version":1},{"name":"system.launcher","version":1},{"name":"system.notifications","version":1},{"name":"timer","version":1},{"name":"tv","version":1},{"name":"user","version":1},{"name":"webapp","version":2}]}}
+
+
+
+            //CallFunctionWithPayload("swInfo", "ssap://com.webos.service.update/getCurrentSWInformation", "Software info request sent.", "");
+            //CallFunction("swInfo", "ssap://com.webos.service.networkinput/getPointerInputSocket", "getPointerInputSocket request sent.");
+        }
+
+        private void YoutubeWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            youtubeWindow = null;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ws.Send("{\"id\":\"you_1\",\"type\":\"request\",\"uri\":\"ssap://system.launcher/launch\",\"payload\":{\"id\":\"youtube.leanback.v4\",\"contentId\":\"SDAt01CuqoM\"}}");
         }
     }
 }

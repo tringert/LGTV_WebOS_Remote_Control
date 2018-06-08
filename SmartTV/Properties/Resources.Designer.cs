@@ -99,5 +99,15 @@ namespace LgTvController.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap youtube_icon_35x35px {
+            get {
+                object obj = ResourceManager.GetObject("youtube_icon_35x35px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

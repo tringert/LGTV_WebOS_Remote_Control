@@ -30,11 +30,11 @@ namespace LgTvController
         private string id;
         private string type;
         private string uri;
-        private string payload;
+        private object payload;
 
         public CallFunctionRequestWithPayload() { }
 
-        public CallFunctionRequestWithPayload(string id, string type, string uri, string payload)
+        public CallFunctionRequestWithPayload(string id, string type, string uri, object payload)
         {
             this.id = id;
             this.type = type;
@@ -49,9 +49,9 @@ namespace LgTvController
         [JsonProperty(PropertyName = "uri")]
         public string Uri { get => uri; set => uri = value; }
         [JsonProperty(PropertyName = "payload")]
-        public string Payload { get => payload; set => payload = value; }
+        public object Payload { get => payload; set => payload = value; }
     }
-
+    
     internal class CallFunctionResponse
     {
         private string type;
@@ -72,7 +72,7 @@ namespace LgTvController
         internal class CallFunctionResponsePayload
         {
             [JsonProperty(PropertyName = "returnValue")]
-            public bool returnValue { get; set; }
+            public bool ReturnValue { get; set; }
         }
     }
 }

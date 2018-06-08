@@ -68,8 +68,7 @@ namespace LgTvController
 
         private void ChangeInput(string AppId)
         {
-            var payload = JsonConvert.SerializeObject(new { id = AppId });
-
+            var payload = new { id = AppId };
             (Application.OpenForms["RemoteControl"] as RemoteControl).CallFunctionWithPayload("change_input", "ssap://system.launcher/launch", "LiveTv_input_change_request_sent.", payload);
         }
 

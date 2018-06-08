@@ -65,7 +65,7 @@ namespace LgTvController
         private void ChannelListTable_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             string chanId = channelListTable.Rows[e.RowIndex].Cells["ChannelId"].Value.ToString();
-            var payload = JsonConvert.SerializeObject(new { channelId = chanId });
+            var payload = new { channelId = chanId };
             (Application.OpenForms["RemoteControl"] as RemoteControl).CallFunctionWithPayload("openchannel_1", "ssap://tv/openChannel", "Open channel request sent.", payload);
         }
 
