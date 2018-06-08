@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace LgTvController
@@ -197,6 +198,7 @@ namespace LgTvController
             };
 
             availableDevices.Add(ssdr);
+            Thread.Sleep(1000);
             (Application.OpenForms["RemoteControl"] as RemoteControl).availableDeviceList.Load(ad);
         }
 
