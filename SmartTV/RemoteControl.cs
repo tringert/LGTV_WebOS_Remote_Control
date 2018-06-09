@@ -36,6 +36,8 @@ namespace LgTvController
         {
             InitializeComponent();
 
+            toolStripMenuItemShowLog.Checked = Settings.Default.showLog;
+
             // Load the saved devices from App.Config
             deviceListFromConfig = new List<Device>();
 
@@ -784,17 +786,19 @@ namespace LgTvController
 
         private void ToggleShowMenu()
         {
-            //if (Global._showLog == true)
-            //{
-            //    Global._showLog = false;
-            //    toolStripMenuItemShowLog.Checked = false;
-            //}
-            //else
-            //{
-            //    Global._showLog = true;
-            //    toolStripMenuItemShowLog.Checked = true;
+            if (Settings.Default.showLog)
+            {
+                Settings.Default.showLog = false;
+                toolStripMenuItemShowLog.Checked = false;
+            }
+            else
+            {
+                Settings.Default.showLog = true;
+                toolStripMenuItemShowLog.Checked = true;
 
-            //}
+            }
+
+            Settings.Default.Save();
         }
 
         //CallFunction("getServiceList", "ssap://api/getServiceList", "Get service list request sent.");
