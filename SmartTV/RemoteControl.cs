@@ -765,14 +765,6 @@ namespace LgTvController
             youtubeWindow = new YoutubeWindow();
             youtubeWindow.FormClosing += YoutubeWindow_FormClosing;
             youtubeWindow.Show();
-
-            //CallFunction("getServiceList", "ssap://api/getServiceList", "Get service list request sent.");
-            // Response: {"type":"response","id":"getServiceList","payload":{"returnValue":true,"services":[{"name":"api","version":1},{"name":"audio","version":1},{"name":"config","version":1},{"name":"media.controls","version":1},{"name":"media.viewer","version":1},{"name":"pairing","version":1},{"name":"settings","version":1},{"name":"system","version":1},{"name":"system.launcher","version":1},{"name":"system.notifications","version":1},{"name":"timer","version":1},{"name":"tv","version":1},{"name":"user","version":1},{"name":"webapp","version":2}]}}
-
-
-
-            //CallFunctionWithPayload("swInfo", "ssap://com.webos.service.update/getCurrentSWInformation", "Software info request sent.", "");
-            //CallFunction("swInfo", "ssap://com.webos.service.networkinput/getPointerInputSocket", "getPointerInputSocket request sent.");
         }
 
         private void YoutubeWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -780,9 +772,34 @@ namespace LgTvController
             youtubeWindow = null;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void TestButton_Click(object sender, EventArgs e)
         {
             ws.Send("{\"id\":\"you_1\",\"type\":\"request\",\"uri\":\"ssap://system.launcher/launch\",\"payload\":{\"id\":\"youtube.leanback.v4\",\"contentId\":\"SDAt01CuqoM\"}}");
         }
+
+        private void ShowLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToggleShowMenu();
+        }
+
+        private void ToggleShowMenu()
+        {
+            //if (Global._showLog == true)
+            //{
+            //    Global._showLog = false;
+            //    toolStripMenuItemShowLog.Checked = false;
+            //}
+            //else
+            //{
+            //    Global._showLog = true;
+            //    toolStripMenuItemShowLog.Checked = true;
+
+            //}
+        }
+
+        //CallFunction("getServiceList", "ssap://api/getServiceList", "Get service list request sent.");
+        // Response: {"type":"response","id":"getServiceList","payload":{"returnValue":true,"services":[{"name":"api","version":1},{"name":"audio","version":1},{"name":"config","version":1},{"name":"media.controls","version":1},{"name":"media.viewer","version":1},{"name":"pairing","version":1},{"name":"settings","version":1},{"name":"system","version":1},{"name":"system.launcher","version":1},{"name":"system.notifications","version":1},{"name":"timer","version":1},{"name":"tv","version":1},{"name":"user","version":1},{"name":"webapp","version":2}]}}
+        //CallFunctionWithPayload("swInfo", "ssap://com.webos.service.update/getCurrentSWInformation", "Software info request sent.", "");
+        //CallFunction("swInfo", "ssap://com.webos.service.networkinput/getPointerInputSocket", "getPointerInputSocket request sent.");
     }
 }

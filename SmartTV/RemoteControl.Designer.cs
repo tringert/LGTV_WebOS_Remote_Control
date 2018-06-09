@@ -49,10 +49,11 @@
             this.btnConnect = new System.Windows.Forms.Button();
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnTurnOff = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuSetting = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemMac = new System.Windows.Forms.ToolStripMenuItem();
-            this.pairDeviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemDevManager = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemPairDevice = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemShowLog = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,25 +69,23 @@
             this.btnInput = new System.Windows.Forms.Button();
             this.btSwInfo = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.menuStrip1.SuspendLayout();
+            this.menuStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtResponse
             // 
-            this.txtResponse.Location = new System.Drawing.Point(12, 115);
+            this.txtResponse.Location = new System.Drawing.Point(326, 51);
             this.txtResponse.Multiline = true;
             this.txtResponse.Name = "txtResponse";
             this.txtResponse.ReadOnly = true;
             this.txtResponse.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtResponse.Size = new System.Drawing.Size(546, 334);
+            this.txtResponse.Size = new System.Drawing.Size(546, 398);
             this.txtResponse.TabIndex = 0;
             // 
             // btVolPlus
             // 
-            this.btVolPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btVolPlus.Location = new System.Drawing.Point(569, 99);
+            this.btVolPlus.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btVolPlus.Location = new System.Drawing.Point(30, 182);
             this.btVolPlus.Name = "btVolPlus";
             this.btVolPlus.Size = new System.Drawing.Size(47, 36);
             this.btVolPlus.TabIndex = 25;
@@ -96,10 +95,8 @@
             // 
             // btVolMinus
             // 
-            this.btVolMinus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btVolMinus.Location = new System.Drawing.Point(569, 141);
+            this.btVolMinus.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btVolMinus.Location = new System.Drawing.Point(30, 224);
             this.btVolMinus.Name = "btVolMinus";
             this.btVolMinus.Size = new System.Drawing.Size(47, 36);
             this.btVolMinus.TabIndex = 45;
@@ -109,12 +106,10 @@
             // 
             // button3
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button3.Enabled = false;
             this.button3.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(625, 184);
+            this.button3.Location = new System.Drawing.Point(86, 267);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(47, 36);
             this.button3.TabIndex = 50;
@@ -123,12 +118,10 @@
             // 
             // button4
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button4.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button4.Enabled = false;
             this.button4.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(625, 267);
+            this.button4.Location = new System.Drawing.Point(86, 350);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(47, 36);
             this.button4.TabIndex = 80;
@@ -137,12 +130,10 @@
             // 
             // button5
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button5.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button5.Enabled = false;
             this.button5.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(569, 225);
+            this.button5.Location = new System.Drawing.Point(30, 308);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(47, 36);
             this.button5.TabIndex = 60;
@@ -151,12 +142,10 @@
             // 
             // button6
             // 
-            this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button6.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button6.Enabled = false;
             this.button6.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(679, 225);
+            this.button6.Location = new System.Drawing.Point(140, 308);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(47, 36);
             this.button6.TabIndex = 70;
@@ -165,11 +154,9 @@
             // 
             // button7
             // 
-            this.button7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button7.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button7.Enabled = false;
-            this.button7.Location = new System.Drawing.Point(625, 225);
+            this.button7.Location = new System.Drawing.Point(86, 308);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(47, 36);
             this.button7.TabIndex = 65;
@@ -178,11 +165,9 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(570, 41);
+            this.label1.Location = new System.Drawing.Point(31, 124);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 0;
@@ -190,11 +175,9 @@
             // 
             // button8
             // 
-            this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button8.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button8.Enabled = false;
-            this.button8.Location = new System.Drawing.Point(569, 268);
+            this.button8.Location = new System.Drawing.Point(30, 351);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(47, 36);
             this.button8.TabIndex = 75;
@@ -203,11 +186,9 @@
             // 
             // button9
             // 
-            this.button9.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button9.Enabled = false;
-            this.button9.Location = new System.Drawing.Point(679, 183);
+            this.button9.Location = new System.Drawing.Point(140, 266);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(47, 36);
             this.button9.TabIndex = 30;
@@ -216,11 +197,9 @@
             // 
             // button10
             // 
-            this.button10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button10.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button10.Enabled = false;
-            this.button10.Location = new System.Drawing.Point(569, 184);
+            this.button10.Location = new System.Drawing.Point(30, 267);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(47, 36);
             this.button10.TabIndex = 85;
@@ -229,11 +208,9 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(678, 41);
+            this.label2.Location = new System.Drawing.Point(139, 124);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 0;
@@ -241,10 +218,8 @@
             // 
             // chanMinus
             // 
-            this.chanMinus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chanMinus.Location = new System.Drawing.Point(679, 141);
+            this.chanMinus.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chanMinus.Location = new System.Drawing.Point(140, 224);
             this.chanMinus.Name = "chanMinus";
             this.chanMinus.Size = new System.Drawing.Size(47, 36);
             this.chanMinus.TabIndex = 55;
@@ -254,10 +229,8 @@
             // 
             // chanPlus
             // 
-            this.chanPlus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chanPlus.Location = new System.Drawing.Point(679, 99);
+            this.chanPlus.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.chanPlus.Location = new System.Drawing.Point(140, 182);
             this.chanPlus.Name = "chanPlus";
             this.chanPlus.Size = new System.Drawing.Size(47, 36);
             this.chanPlus.TabIndex = 40;
@@ -267,10 +240,8 @@
             // 
             // btnTurnOn
             // 
-            this.btnTurnOn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTurnOn.Location = new System.Drawing.Point(569, 310);
+            this.btnTurnOn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTurnOn.Location = new System.Drawing.Point(30, 393);
             this.btnTurnOn.Name = "btnTurnOn";
             this.btnTurnOn.Size = new System.Drawing.Size(157, 23);
             this.btnTurnOn.TabIndex = 90;
@@ -281,7 +252,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 99);
+            this.label5.Location = new System.Drawing.Point(323, 35);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(28, 13);
             this.label5.TabIndex = 0;
@@ -289,9 +260,9 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(60, 68);
+            this.btnConnect.Location = new System.Drawing.Point(17, 84);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect.Size = new System.Drawing.Size(89, 23);
             this.btnConnect.TabIndex = 5;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = false;
@@ -299,9 +270,9 @@
             // 
             // btnDisconnect
             // 
-            this.btnDisconnect.Location = new System.Drawing.Point(141, 68);
+            this.btnDisconnect.Location = new System.Drawing.Point(112, 84);
             this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(75, 23);
+            this.btnDisconnect.Size = new System.Drawing.Size(87, 23);
             this.btnDisconnect.TabIndex = 6;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = false;
@@ -309,10 +280,8 @@
             // 
             // btnTurnOff
             // 
-            this.btnTurnOff.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTurnOff.Location = new System.Drawing.Point(569, 339);
+            this.btnTurnOff.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnTurnOff.Location = new System.Drawing.Point(30, 422);
             this.btnTurnOff.Name = "btnTurnOff";
             this.btnTurnOff.Size = new System.Drawing.Size(157, 23);
             this.btnTurnOff.TabIndex = 95;
@@ -320,40 +289,49 @@
             this.btnTurnOff.UseVisualStyleBackColor = true;
             this.btnTurnOff.Click += new System.EventHandler(this.BtnTurnOff_Click);
             // 
-            // menuStrip1
+            // menuStripMain
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStripMain.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuSetting,
             this.helpToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(845, 24);
-            this.menuStrip1.TabIndex = 96;
-            this.menuStrip1.Text = "menuStrip1";
+            this.menuStripMain.Location = new System.Drawing.Point(2, 0);
+            this.menuStripMain.Name = "menuStripMain";
+            this.menuStripMain.Size = new System.Drawing.Size(233, 24);
+            this.menuStripMain.TabIndex = 96;
+            this.menuStripMain.Text = "menuStrip1";
             // 
             // toolStripMenuSetting
             // 
             this.toolStripMenuSetting.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemMac,
-            this.pairDeviceToolStripMenuItem});
+            this.toolStripMenuItemDevManager,
+            this.toolStripMenuItemPairDevice,
+            this.toolStripMenuItemShowLog});
             this.toolStripMenuSetting.MergeAction = System.Windows.Forms.MergeAction.Remove;
             this.toolStripMenuSetting.Name = "toolStripMenuSetting";
             this.toolStripMenuSetting.Size = new System.Drawing.Size(61, 20);
             this.toolStripMenuSetting.Text = "Settings";
             // 
-            // toolStripMenuItemMac
+            // toolStripMenuItemDevManager
             // 
-            this.toolStripMenuItemMac.Name = "toolStripMenuItemMac";
-            this.toolStripMenuItemMac.Size = new System.Drawing.Size(159, 22);
-            this.toolStripMenuItemMac.Text = "Device manager";
-            this.toolStripMenuItemMac.Click += new System.EventHandler(this.ToolStripMenuItemDevManager_Click);
+            this.toolStripMenuItemDevManager.Name = "toolStripMenuItemDevManager";
+            this.toolStripMenuItemDevManager.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemDevManager.Text = "Device manager";
+            this.toolStripMenuItemDevManager.Click += new System.EventHandler(this.ToolStripMenuItemDevManager_Click);
             // 
-            // pairDeviceToolStripMenuItem
+            // toolStripMenuItemPairDevice
             // 
-            this.pairDeviceToolStripMenuItem.Name = "pairDeviceToolStripMenuItem";
-            this.pairDeviceToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.pairDeviceToolStripMenuItem.Text = "Pair new device";
-            this.pairDeviceToolStripMenuItem.Click += new System.EventHandler(this.PairDeviceToolStripMenuItem_Click);
+            this.toolStripMenuItemPairDevice.Name = "toolStripMenuItemPairDevice";
+            this.toolStripMenuItemPairDevice.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemPairDevice.Text = "Pair new device";
+            this.toolStripMenuItemPairDevice.Click += new System.EventHandler(this.PairDeviceToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItemShowLog
+            // 
+            this.toolStripMenuItemShowLog.Name = "toolStripMenuItemShowLog";
+            this.toolStripMenuItemShowLog.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItemShowLog.Text = "Show log";
+            this.toolStripMenuItemShowLog.Click += new System.EventHandler(this.ShowLogToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -367,21 +345,19 @@
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.helpToolStripMenuItem1.Text = "Help";
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // btVol
             // 
-            this.btVol.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btVol.Location = new System.Drawing.Point(569, 57);
+            this.btVol.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btVol.Location = new System.Drawing.Point(30, 140);
             this.btVol.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btVol.Name = "btVol";
             this.btVol.Size = new System.Drawing.Size(76, 36);
@@ -391,10 +367,8 @@
             // 
             // btChan
             // 
-            this.btChan.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btChan.Location = new System.Drawing.Point(650, 57);
+            this.btChan.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btChan.Location = new System.Drawing.Point(111, 140);
             this.btChan.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btChan.Name = "btChan";
             this.btChan.Size = new System.Drawing.Size(76, 36);
@@ -404,10 +378,8 @@
             // 
             // btChList
             // 
-            this.btChList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btChList.Location = new System.Drawing.Point(624, 99);
+            this.btChList.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btChList.Location = new System.Drawing.Point(85, 182);
             this.btChList.Name = "btChList";
             this.btChList.Size = new System.Drawing.Size(47, 36);
             this.btChList.TabIndex = 102;
@@ -417,9 +389,9 @@
             // 
             // btMessage
             // 
-            this.btMessage.Location = new System.Drawing.Point(329, 39);
+            this.btMessage.Location = new System.Drawing.Point(205, 84);
             this.btMessage.Name = "btMessage";
-            this.btMessage.Size = new System.Drawing.Size(75, 23);
+            this.btMessage.Size = new System.Drawing.Size(86, 23);
             this.btMessage.TabIndex = 103;
             this.btMessage.Text = "Message";
             this.btMessage.UseVisualStyleBackColor = true;
@@ -427,13 +399,11 @@
             // 
             // button11
             // 
-            this.button11.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button11.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
-            this.button11.Location = new System.Drawing.Point(729, 57);
+            this.button11.Location = new System.Drawing.Point(251, 110);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(36, 36);
+            this.button11.Size = new System.Drawing.Size(40, 40);
             this.button11.TabIndex = 104;
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.Button11_Click);
@@ -442,7 +412,7 @@
             // 
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(561, 419);
+            this.button1.Location = new System.Drawing.Point(842, 18);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(30, 30);
@@ -452,12 +422,10 @@
             // 
             // btnMute
             // 
-            this.btnMute.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMute.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnMute.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.btnMute.Image = ((System.Drawing.Image)(resources.GetObject("btnMute.Image")));
-            this.btnMute.Location = new System.Drawing.Point(624, 141);
+            this.btnMute.Location = new System.Drawing.Point(85, 224);
             this.btnMute.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.btnMute.Name = "btnMute";
             this.btnMute.Size = new System.Drawing.Size(47, 36);
@@ -468,7 +436,7 @@
             // cbSavedDevices
             // 
             this.cbSavedDevices.FormattingEnabled = true;
-            this.cbSavedDevices.Location = new System.Drawing.Point(60, 41);
+            this.cbSavedDevices.Location = new System.Drawing.Point(17, 57);
             this.cbSavedDevices.Name = "cbSavedDevices";
             this.cbSavedDevices.Size = new System.Drawing.Size(182, 21);
             this.cbSavedDevices.TabIndex = 105;
@@ -477,7 +445,7 @@
             // lbCurrentDevice
             // 
             this.lbCurrentDevice.AutoSize = true;
-            this.lbCurrentDevice.Location = new System.Drawing.Point(13, 44);
+            this.lbCurrentDevice.Location = new System.Drawing.Point(14, 41);
             this.lbCurrentDevice.Name = "lbCurrentDevice";
             this.lbCurrentDevice.Size = new System.Drawing.Size(44, 13);
             this.lbCurrentDevice.TabIndex = 107;
@@ -485,9 +453,9 @@
             // 
             // btnInput
             // 
-            this.btnInput.Location = new System.Drawing.Point(248, 39);
+            this.btnInput.Location = new System.Drawing.Point(205, 57);
             this.btnInput.Name = "btnInput";
-            this.btnInput.Size = new System.Drawing.Size(75, 23);
+            this.btnInput.Size = new System.Drawing.Size(86, 23);
             this.btnInput.TabIndex = 109;
             this.btnInput.Text = "Inputs";
             this.btnInput.UseVisualStyleBackColor = true;
@@ -496,7 +464,7 @@
             // btSwInfo
             // 
             this.btSwInfo.Image = global::LgTvController.Properties.Resources.youtube_icon_35x35px;
-            this.btSwInfo.Location = new System.Drawing.Point(410, 39);
+            this.btSwInfo.Location = new System.Drawing.Point(205, 110);
             this.btSwInfo.Name = "btSwInfo";
             this.btSwInfo.Size = new System.Drawing.Size(40, 40);
             this.btSwInfo.TabIndex = 110;
@@ -505,19 +473,19 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(330, 69);
+            this.button2.Location = new System.Drawing.Point(205, 156);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(86, 23);
             this.button2.TabIndex = 111;
-            this.button2.Text = "button2";
+            this.button2.Text = "test";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.TestButton_Click);
             // 
             // RemoteControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(845, 461);
+            this.ClientSize = new System.Drawing.Size(884, 461);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btSwInfo);
             this.Controls.Add(this.btnInput);
@@ -550,16 +518,16 @@
             this.Controls.Add(this.btVolMinus);
             this.Controls.Add(this.btVolPlus);
             this.Controls.Add(this.txtResponse);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.menuStripMain);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.menuStripMain;
             this.MaximumSize = new System.Drawing.Size(900, 500);
             this.MinimumSize = new System.Drawing.Size(750, 500);
             this.Name = "RemoteControl";
             this.Text = "LG WebOs Remote Control";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.RemoteControl_FormClosed);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.menuStripMain.ResumeLayout(false);
+            this.menuStripMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -588,9 +556,9 @@
         private System.Windows.Forms.Button btnDisconnect;
         private System.Windows.Forms.Button btnMute;
         private System.Windows.Forms.Button btnTurnOff;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip menuStripMain;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuSetting;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemMac;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDevManager;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
@@ -603,9 +571,10 @@
         private System.Windows.Forms.ComboBox cbSavedDevices;
         private System.Windows.Forms.Label lbCurrentDevice;
         private System.Windows.Forms.Button btnInput;
-        private System.Windows.Forms.ToolStripMenuItem pairDeviceToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemPairDevice;
         private System.Windows.Forms.Button btSwInfo;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemShowLog;
     }
 }
 
