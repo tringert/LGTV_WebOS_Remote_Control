@@ -25,6 +25,8 @@ namespace LgTvController
         public string Uri { get => uri; set => uri = value; }
     }
 
+    internal class SubscribeWsEvent : CallFunctionRequest { }
+
     internal class CallFunctionRequestWithPayload
     {
         private string id;
@@ -51,7 +53,7 @@ namespace LgTvController
         [JsonProperty(PropertyName = "payload")]
         public object Payload { get => payload; set => payload = value; }
     }
-    
+
     internal class CallFunctionResponse
     {
         private string type;

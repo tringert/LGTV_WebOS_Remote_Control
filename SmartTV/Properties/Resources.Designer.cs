@@ -63,9 +63,49 @@ namespace LgTvController.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap fastforward_icon_20x20px {
+            get {
+                object obj = ResourceManager.GetObject("fastforward_icon_20x20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap info_icon {
             get {
                 object obj = ResourceManager.GetObject("info_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap pause_icon_20x20px {
+            get {
+                object obj = ResourceManager.GetObject("pause_icon_20x20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap play_icon_20x20px {
+            get {
+                object obj = ResourceManager.GetObject("play_icon_20x20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap rewind_icon_20x20px {
+            get {
+                object obj = ResourceManager.GetObject("rewind_icon_20x20px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,6 +133,16 @@ namespace LgTvController.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap stop_icon_20x20px {
+            get {
+                object obj = ResourceManager.GetObject("stop_icon_20x20px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap trash_20x20px {
             get {
                 object obj = ResourceManager.GetObject("trash_20x20px", resourceCulture);
@@ -106,6 +156,16 @@ namespace LgTvController.Properties {
         public static System.Drawing.Bitmap youtube_icon_35x35px {
             get {
                 object obj = ResourceManager.GetObject("youtube_icon_35x35px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Youtube_icon_red {
+            get {
+                object obj = ResourceManager.GetObject("Youtube_icon_red", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

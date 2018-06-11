@@ -14,7 +14,7 @@ namespace LgTvController
 {
     public partial class RemoteControl : Form
     {
-        private WebSocket ws;
+        public WebSocket ws;
         private ChannelListResponse clr;
         internal ChannelInfo ci;
         private static ChannelListWindow chWindow;
@@ -26,6 +26,7 @@ namespace LgTvController
         private static SavedDeviceListWindow deviceListWindow;
         private static AvailableDevicesWindow adWindow;
         private static Device selectedDevice;
+        private AppSession appSession;
         private static System.Threading.Timer timer;
         private string apiKey;
         private string mac;
@@ -37,6 +38,7 @@ namespace LgTvController
             InitializeComponent();
 
             toolStripMenuItemShowLog.Checked = Settings.Default.showLog;
+            SetWindowSize();
 
             // Load the saved devices from App.Config
             deviceListFromConfig = new List<Device>();
@@ -47,6 +49,7 @@ namespace LgTvController
             }
             
             availableDeviceList = new AvailableDeviceList();
+            appSession = new AppSession();
 
             cbSavedDevices.DataSource = deviceListFromConfig;
             cbSavedDevices.DisplayMember = "FriendlyName";
@@ -62,6 +65,43 @@ namespace LgTvController
             {
                 Connect();
             }
+        }
+
+        private void SetWindowSize()
+        {
+            if (Settings.Default.showLog == true)
+            {
+                Size = new System.Drawing.Size(900, 500);
+                lbLog.Visible = true;
+                btTrash.Visible = true;
+                tbLog.Visible = true;
+            }
+            else
+            {
+                Size = new System.Drawing.Size(354, 500);
+                lbLog.Visible = false;
+                btTrash.Visible = false;
+                tbLog.Visible = false;
+            }
+        }
+
+        public void CloseApp(string id, string uri, string appId, string sessionId)
+        {
+            CallFunctionRequestWithPayload request = new CallFunctionRequestWithPayload
+            {
+                Id = id,
+                Type = "request",
+                Uri = uri,
+                Payload = new
+                {
+                    appId,
+                    sessionId
+                }
+            };
+
+            // Debug
+            Console.WriteLine("App close request: " + JsonConvert.SerializeObject(request));
+            CallFunctionWithPayload(request, "App close request sent.");
         }
 
         private List<Device> LoadSavedDeviceList()
@@ -105,8 +145,9 @@ namespace LgTvController
                     msg = "Handshake successful." + Environment.NewLine + rr.ToString();
 
                     SubscribeWebsocketEvents();
+
                 }
-                else if (e.Data.Contains("newPair") || e.Data.Contains("register_0"))
+                else if (e.Data.Contains("newPair"))
                 {
                     CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
 
@@ -217,10 +258,10 @@ namespace LgTvController
                 // Response for get channels list request
                 else if (e.Data.Contains("getchannels_1"))
                 {
-                    if (e.Data.Contains("\"returnValue\":true"))
-                    {
-                        clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
+                    clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
 
+                    if (clr.Payload.ReturnValue == true)
+                    {
                         // Opening the channel list window
                         chWindow = new ChannelListWindow
                         {
@@ -276,6 +317,82 @@ namespace LgTvController
                     //    msg = "Open channel request rejected.";
                     //}
                 }
+                else if (e.Data.Contains("youtube_open"))
+                {
+                    AppSession.LaunchAppResponse yr = JsonConvert.DeserializeObject<AppSession.LaunchAppResponse>(e.Data);
+                    if (yr.Payload.ReturnValue)
+                    {
+                        msg = "Youtube open video request succeeded.";
+                        (Application.OpenForms["YoutubeWindow"] as YoutubeWindow).ClearUrlField();
+                        (Application.OpenForms["YoutubeWindow"] as YoutubeWindow).sessionId = yr.Payload.SessionId;
+                        appSession.SessionId = yr.Payload.SessionId;
+                    }
+                    else
+                    {
+                        msg = "Youtube open video request rejected.";
+                    }
+                }
+                else if (e.Data.Contains("youtube_close"))
+                {
+                    CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
+
+                    if (cfr.Payload.ReturnValue == true)
+                    {
+                        msg = "Youtube app close request succeeded.";
+                        youtubeWindow.Invoke(new Action(() => { youtubeWindow.Close(); }));
+                        youtubeWindow = null;
+                    }
+                    else
+                    {
+                        msg = "Youtube app close request rejected." + Environment.NewLine + e.Data;
+                    }
+                }
+                else if (e.Data.Contains("ForeGroundAppInfo"))
+                {
+                    AppSession.AppInfoResponse yr = JsonConvert.DeserializeObject<AppSession.AppInfoResponse>(e.Data);
+                    if (yr.Payload.ReturnValue)
+                    {
+                        msg = "Foreground app info request succeeded.";
+                        switch (yr.Payload.AppId)
+                        {
+                            case "youtube.leanback.v4":
+                                (Application.OpenForms["YoutubeWindow"] as YoutubeWindow).youtubeInfo = yr;
+                                break;
+                            case "com.webos.app.livetv":
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        msg = "Foreground app info request rejected.";
+                    }
+                }
+                else if (e.Data.Contains("play_01"))
+                {
+                    CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
+                    if (cfr.Payload.ReturnValue)
+                    {
+                        msg = "Play button request succeeded.";
+                    }
+                    else
+                    {
+                        msg = "Play button request rejected.";
+                    }
+                }
+                else if (e.Data.Contains("pause"))
+                {
+                    CallFunctionResponse cfr = JsonConvert.DeserializeObject<CallFunctionResponse>(e.Data);
+                    if (cfr.Payload.ReturnValue)
+                    {
+                        msg = "Pause button request succeeded.";
+                    }
+                    else
+                    {
+                        msg = "Pause button request rejected.";
+                    }
+                }
                 else
                 {
                     msg = e.Data;
@@ -287,12 +404,24 @@ namespace LgTvController
 
         private void SubscribeWebsocketEvents()
         {
+            SubscribeWsEvent request = new SubscribeWsEvent
+            {
+                Type = "subscribe"
+            };
+
             // Subscribe to volume change
-            ws.Send("{ \"id\":\"volume_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://audio/getVolume\"}");
+            request.Id = "volume_sub";
+            request.Uri = "ssap://audio/getVolume";
+            ws.Send(JsonConvert.SerializeObject(request));
+            
             // Subscribe to channel change
-            ws.Send("{ \"id\":\"channel_sub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getCurrentChannel\"}");
+            request.Id = "channel_sub";
+            request.Uri = "ssap://tv/getCurrentChannel";
+            ws.Send(JsonConvert.SerializeObject(request));
+
             // Subscribe to program info
-            //ws.Send("{ \"id\":\"volumesub\",\"type\":\"subscribe\",\"uri\":\"ssap://tv/getChannelProgramInfo\"}");
+            request.Id = "proginfo_sub";
+            request.Uri = "ssap://tv/getChannelProgramInfo";
         }
 
         internal void StartPairNewDevice(Guid uuid, string name)
@@ -363,6 +492,7 @@ namespace LgTvController
             DisplayMessage("Connection established.");
             btVol.Invoke(new Action(() => { btnConnect.Enabled = false; }));
             SendHandshake();
+            btVol.Invoke(new Action(() => { btnDisconnect.Enabled = true; }));
         }
 
         // Sending handshake request when the device is paired with client
@@ -411,7 +541,7 @@ namespace LgTvController
         {
             string msg = String.Format(new string('-', 60) + Environment.NewLine + DateTime.Now.ToString("HH:mm:ss.fff") + " ");
             msg += message + Environment.NewLine;
-            txtResponse.Invoke(new Action(() => { txtResponse.AppendText(msg); }));
+            tbLog.Invoke(new Action(() => { tbLog.AppendText(msg); }));
         }
 
         // Turn off button
@@ -459,6 +589,7 @@ namespace LgTvController
             btnMute.Invoke(new Action(() => { btnMute.Image = Resources.Speaker_on; }));
             btVol.Invoke(new Action(() => { btChan.Text = ""; }));
             btnConnect.Enabled = true;
+            btnDisconnect.Enabled = false;
         }
 
         private void GetAudioStatus()
@@ -570,7 +701,7 @@ namespace LgTvController
             CallFunction("volumeup_1", "ssap://audio/volumeUp", "Volume up request sent.");
         }
 
-        private void CallFunction(string id, string ep, string message)
+        public void CallFunction(string id, string ep, string message)
         {
             if (ws == null)
                 return;
@@ -608,7 +739,7 @@ namespace LgTvController
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            txtResponse.Invoke(new Action(() => { txtResponse.Text = ""; }));
+            tbLog.Invoke(new Action(() => { tbLog.Text = ""; }));
         }
 
         private void BtChan_Click(object sender, EventArgs e)
@@ -774,11 +905,6 @@ namespace LgTvController
             youtubeWindow = null;
         }
 
-        private void TestButton_Click(object sender, EventArgs e)
-        {
-            ws.Send("{\"id\":\"you_1\",\"type\":\"request\",\"uri\":\"ssap://system.launcher/launch\",\"payload\":{\"id\":\"youtube.leanback.v4\",\"contentId\":\"SDAt01CuqoM\"}}");
-        }
-
         private void ShowLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToggleShowMenu();
@@ -795,15 +921,69 @@ namespace LgTvController
             {
                 Settings.Default.showLog = true;
                 toolStripMenuItemShowLog.Checked = true;
-
             }
 
             Settings.Default.Save();
+            SetWindowSize();
         }
+
+        public void Play()
+        {
+            CallFunction("play_01", "ssap://media.controls/play", "Play button request sent.");
+        }
+
+        public void Pause()
+        {
+            CallFunction("pause", "ssap://media.controls/pause", "Pause button request sent.");
+        }
+
+        public void Stop()
+        {
+            CallFunction("stop", "ssap://media.controls/stop", "Stop button request sent.");
+        }
+
+        public void ReWind()
+        {
+            CallFunction("rewind", "ssap://media.controls/rewind", "Rewind button request sent.");
+        }
+
+        public void FastForward()
+        {
+            CallFunction("fastForward", "ssap://media.controls/fastForward", "FastForward button request sent.");
+        }
+
+        public void GetForegroundAppInfo(string id)
+        {
+            CallFunction(id, "ssap://com.webos.applicationManager/getForegroundAppInfo", "Software information request sent.");
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            GetForegroundAppInfo("appinfo_exit");
+        }
+
+        private void TestButton_Click(object sender, EventArgs e)
+        {
+
+            ws.Send("{\"id\":\"mouse\",\"type\":\"request\",\"uri\":\"ssap://com.webos.service.networkinput/getPointerInputSocket\"}");
+
+            //var payload = new
+            //{
+            //    appId = "youtube.leanback.v4"
+            //};
+            //CallFunctionWithPayload("getAppState", "ssap://system.launcher/getAppState", "Get app state request sent.", payload);
+            //CallFunction("swInfo", "ssap://com.webos.service.update/getCurrentSWInformation", "Software info request sent.");
+            //CallFunction("listApps", "ssap://com.webos.applicationManager/listApps", "List apps request sent.");
+            //ws.Send("{\"id\":\"you_1\",\"type\":\"request\",\"uri\":\"ssap://system.launcher/launch\",\"payload\":{\"id\":\"youtube.leanback.v4\",\"contentId\":\"SDAt01CuqoM\"}}");
+        }
+
 
         //CallFunction("getServiceList", "ssap://api/getServiceList", "Get service list request sent.");
         // Response: {"type":"response","id":"getServiceList","payload":{"returnValue":true,"services":[{"name":"api","version":1},{"name":"audio","version":1},{"name":"config","version":1},{"name":"media.controls","version":1},{"name":"media.viewer","version":1},{"name":"pairing","version":1},{"name":"settings","version":1},{"name":"system","version":1},{"name":"system.launcher","version":1},{"name":"system.notifications","version":1},{"name":"timer","version":1},{"name":"tv","version":1},{"name":"user","version":1},{"name":"webapp","version":2}]}}
         //CallFunctionWithPayload("swInfo", "ssap://com.webos.service.update/getCurrentSWInformation", "Software info request sent.", "");
-        //CallFunction("swInfo", "ssap://com.webos.service.networkinput/getPointerInputSocket", "getPointerInputSocket request sent.");
+
+        //subscribe ssap://com.webos.service.ime/registerRemoteKeyboard
+        //request ssap://com.webos.service.networkinput/getPointerInputSocket
+        //
     }
 }
