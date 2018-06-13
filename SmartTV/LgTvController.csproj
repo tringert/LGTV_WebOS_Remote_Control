@@ -109,6 +109,7 @@
     <Compile Include="ChannelListWindow.Designer.cs">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChannelProgramInfo.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="GetTextInputDialog.cs" />
     <Compile Include="Input.cs" />

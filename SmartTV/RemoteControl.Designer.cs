@@ -61,7 +61,7 @@
             this.btChan = new System.Windows.Forms.Button();
             this.btChList = new System.Windows.Forms.Button();
             this.btMessage = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
+            this.btChannelProgramInfo = new System.Windows.Forms.Button();
             this.btTrash = new System.Windows.Forms.Button();
             this.btnMute = new System.Windows.Forms.Button();
             this.cbSavedDevices = new System.Windows.Forms.ComboBox();
@@ -378,15 +378,15 @@
             this.btMessage.UseVisualStyleBackColor = true;
             this.btMessage.Click += new System.EventHandler(this.BtMessage_Click);
             // 
-            // button11
+            // btChannelProgramInfo
             // 
-            this.button11.Image = ((System.Drawing.Image)(resources.GetObject("button11.Image")));
-            this.button11.Location = new System.Drawing.Point(265, 110);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(40, 40);
-            this.button11.TabIndex = 104;
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.Button11_Click);
+            this.btChannelProgramInfo.Image = ((System.Drawing.Image)(resources.GetObject("btChannelProgramInfo.Image")));
+            this.btChannelProgramInfo.Location = new System.Drawing.Point(265, 110);
+            this.btChannelProgramInfo.Name = "btChannelProgramInfo";
+            this.btChannelProgramInfo.Size = new System.Drawing.Size(40, 40);
+            this.btChannelProgramInfo.TabIndex = 104;
+            this.btChannelProgramInfo.UseVisualStyleBackColor = true;
+            this.btChannelProgramInfo.Click += new System.EventHandler(this.ChannelProgramInfoButton_Click);
             // 
             // btTrash
             // 
@@ -470,7 +470,7 @@
             this.Controls.Add(this.btnInput);
             this.Controls.Add(this.lbCurrentDevice);
             this.Controls.Add(this.cbSavedDevices);
-            this.Controls.Add(this.button11);
+            this.Controls.Add(this.btChannelProgramInfo);
             this.Controls.Add(this.btMessage);
             this.Controls.Add(this.btChList);
             this.Controls.Add(this.btChan);
@@ -546,7 +546,7 @@
         private System.Windows.Forms.Button btChan;
         private System.Windows.Forms.Button btChList;
         private System.Windows.Forms.Button btMessage;
-        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button btChannelProgramInfo;
         private System.Windows.Forms.ComboBox cbSavedDevices;
         private System.Windows.Forms.Label lbCurrentDevice;
         private System.Windows.Forms.Button btnInput;

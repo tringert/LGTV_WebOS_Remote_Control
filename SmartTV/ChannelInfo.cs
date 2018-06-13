@@ -27,18 +27,18 @@ namespace LgTvController
             internal string ChannelTypeName { get; set; }
             [JsonProperty(PropertyName = "isLocked")]
             internal bool IsLocked { get; set; }
-            internal DualChannel dualChannel { get; set; }
+            internal DualChannel DualChannelInfo { get; set; }
 
             internal class DualChannel
             {
                 [JsonProperty(PropertyName = "dualChannelId")]
                 public int dualChannelId { get; set; }
                 [JsonProperty(PropertyName = "dualChannelTypeName")]
-                public string dualChannelTypeName { get; set; }
+                public string DualChannelTypeName { get; set; }
                 [JsonProperty(PropertyName = "dualChannelTypeId")]
-                public int dualChannelTypeId { get; set; }
+                public int DualChannelTypeId { get; set; }
                 [JsonProperty(PropertyName = "dualChannelNumber")]
-                public int dualChannelNumber { get; set; }
+                public int DualChannelNumber { get; set; }
             }
 
             [JsonProperty(PropertyName = "isChannelChanged")]

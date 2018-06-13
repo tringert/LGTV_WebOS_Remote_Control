@@ -393,6 +393,19 @@ namespace LgTvController
                         msg = "Pause button request rejected.";
                     }
                 }
+                else if (e.Data.Contains("getchannelprograminfo_1"))
+                {
+                    ChannelProgramInfo cpi = JsonConvert.DeserializeObject<ChannelProgramInfo>(e.Data);
+
+                    if (cpi.Payload.ReturnValue)
+                    {
+                        msg = "Channel program info request succeeded.";
+                    }
+                    else
+                    {
+                        msg = "Channel program info request rejected.";
+                    }
+                }
                 else
                 {
                     msg = e.Data;
@@ -799,8 +812,7 @@ namespace LgTvController
             msgWindow = null;
         }
 
-        // TODO: finish this
-        private void Button11_Click(object sender, EventArgs e)
+        private void ChannelProgramInfoButton_Click(object sender, EventArgs e)
         {
             if (ws == null)
                 return;
@@ -965,7 +977,9 @@ namespace LgTvController
         private void TestButton_Click(object sender, EventArgs e)
         {
 
-            ws.Send("{\"id\":\"mouse\",\"type\":\"request\",\"uri\":\"ssap://com.webos.service.networkinput/getPointerInputSocket\"}");
+            CallFunction("listApps", "ssap://com.webos.applicationManager/listApps", "");
+            //CallFunction("get_httpHeader", "ssap://com.webos.service.sdx/getHttpHeaderForServiceRequest", "");
+            //ws.Send("{\"id\":\"mouse\",\"type\":\"request\",\"uri\":\"ssap://com.webos.service.networkinput/getPointerInputSocket\"}");
 
             //var payload = new
             //{

@@ -45,6 +45,8 @@ namespace LgTvController
         internal string ImgUrl { get; set; }
         [JsonProperty(PropertyName = "display")]
         internal int Display { get; set; }
+        [JsonProperty(PropertyName = "satelliteName")]
+        internal string SatelliteName { get; set; }
         [JsonProperty(PropertyName = "fineTuned")]
         internal bool FineTuned { get; set; }
         [JsonProperty(PropertyName = "Frequency")]
@@ -112,7 +114,7 @@ namespace LgTvController
         [JsonProperty(PropertyName = "favoriteIdxH")]
         internal int FavoriteIdxH { get; set; }
         [JsonProperty(PropertyName = "satelliteLcn")]
-        internal bool satelliteLcn { get; set; }
+        internal bool SatelliteLcn { get; set; }
         [JsonProperty(PropertyName = "waterMarkUrl")]
         internal string WaterMarkUrl { get; set; }
         [JsonProperty(PropertyName = "channelNameSortKey")]
