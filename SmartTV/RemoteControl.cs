@@ -19,10 +19,12 @@ namespace LgTvController
         internal ChannelInfo ci;
         private static ChannelListWindow chWindow;
         private static InputListWindow inputWindow;
+        private static ProgramInfoWindow progInfoWindow;
         internal List<Device> deviceListFromConfig;
         public AvailableDeviceList availableDeviceList;
         private static DisplayMessage msgWindow;
         private static YoutubeWindow youtubeWindow;
+        internal ChannelProgramInfo channelProgramInfo;
         private static SavedDeviceListWindow deviceListWindow;
         private static AvailableDevicesWindow adWindow;
         private static Device selectedDevice;
@@ -259,7 +261,7 @@ namespace LgTvController
                 else if (e.Data.Contains("getchannels_1"))
                 {
                     clr = JsonConvert.DeserializeObject<ChannelListResponse>(e.Data);
-
+                    
                     if (clr.Payload.ReturnValue == true)
                     {
                         // Opening the channel list window
@@ -395,10 +397,17 @@ namespace LgTvController
                 }
                 else if (e.Data.Contains("getchannelprograminfo_1"))
                 {
-                    ChannelProgramInfo cpi = JsonConvert.DeserializeObject<ChannelProgramInfo>(e.Data);
+                    channelProgramInfo = JsonConvert.DeserializeObject<ChannelProgramInfo>(e.Data);
 
-                    if (cpi.Payload.ReturnValue)
+                    if (channelProgramInfo.Payload.ReturnValue)
                     {
+                        // Opening the program info list window
+                        progInfoWindow = new ProgramInfoWindow
+                        {
+                            Channel = channelProgramInfo.Payload.Channel
+                        };
+                        progInfoWindow.ShowDialog();
+
                         msg = "Channel program info request succeeded.";
                     }
                     else
@@ -976,7 +985,6 @@ namespace LgTvController
 
         private void TestButton_Click(object sender, EventArgs e)
         {
-
             CallFunction("listApps", "ssap://com.webos.applicationManager/listApps", "");
             //CallFunction("get_httpHeader", "ssap://com.webos.service.sdx/getHttpHeaderForServiceRequest", "");
             //ws.Send("{\"id\":\"mouse\",\"type\":\"request\",\"uri\":\"ssap://com.webos.service.networkinput/getPointerInputSocket\"}");

@@ -62,7 +62,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>remote-control.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
@@ -119,6 +120,13 @@
     <Compile Include="InputListWindow.Designer.cs">
       <DependentUpon>InputListWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProgramInfoWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgramInfoWindow.Designer.cs">
+      <DependentUpon>ProgramInfoWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgramList.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -165,6 +173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InputListWindow.resx">
       <DependentUpon>InputListWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgramInfoWindow.resx">
+      <DependentUpon>ProgramInfoWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SavedDeviceListWindow.resx">
       <DependentUpon>SavedDeviceListWindow.cs</DependentUpon>
@@ -226,7 +237,6 @@
     <Content Include="Content\Icons\youtube_icon.ico" />
     <Content Include="Content\Icons\youtube_icon_35x35px.png" />
     <Content Include="Content\Icons\Youtube_icon_red.png" />
-    <Content Include="remote-control.ico" />
     <None Include="Resources\youtube_icon_35x35px.png" />
     <None Include="Content\Icons\trash_20x20px.png" />
     <None Include="Content\Icons\Speaker_on.png" />
