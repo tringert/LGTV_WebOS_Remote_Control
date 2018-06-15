@@ -45,7 +45,6 @@ namespace LgTvController
             dgvProgramList.Columns["StartTime"].Width = 30;
             dgvProgramList.Columns["StartTime"].DisplayIndex = 1;
             dgvProgramList.Columns["ProgramName"].HeaderText = "Program name";
-            //dgvProgramList.Columns["ProgramName"].Width = 140;
             dgvProgramList.Columns["ProgramName"].DisplayIndex = 2;
             dgvProgramList.Columns["ProgramName"].DefaultCellStyle.Font = new Font(DefaultFont, FontStyle.Bold);
             dgvProgramList.Columns["DurationMin"].HeaderText = "Duration";
