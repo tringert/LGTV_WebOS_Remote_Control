@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace LgTvController
@@ -145,5 +146,80 @@ namespace LgTvController
         internal int TSID { get; set; }
         [JsonProperty(PropertyName = "SVCID")]
         internal int SVCID { get; set; }
+
+        public override string ToString()
+        {
+            return "Channel information" + Environment.NewLine +
+                   "\tAdFlag: " + AdFlag + Environment.NewLine +
+                   "\tAdult flag: " + AdultFlag + Environment.NewLine +
+                   "\tATV: " + ATV + Environment.NewLine +
+                   "\tBandwith: " + Bandwidth + Environment.NewLine +
+                   "\tCall sign: " + CallSign + Environment.NewLine +
+                   "\tCA system Id list: " + CASystemIDList + Environment.NewLine +
+                   "\tCA system Id list count: " + CASystemIDListCount + Environment.NewLine +
+                   "\tChancode: " + ChanCode + Environment.NewLine +
+                   "\tChannel genre code: " + ChannelGenreCode + Environment.NewLine +
+                   "\tChannel Id: " + ChannelId + Environment.NewLine +
+                   "\tChannel logo size: " + ChannelLogoSize + Environment.NewLine +
+                   "\tChannel Mode: " + ChannelMode + Environment.NewLine +
+                   "\tChannel mode Id: " + ChannelModeId + Environment.NewLine +
+                   "\tChannel name: " + ChannelName + Environment.NewLine +
+                   "\tChannel name sort key: " + ChannelNameSortKey + Environment.NewLine +
+                   "\tChannel number: " + ChannelNumber + Environment.NewLine +
+                   "\tChannel type: " + ChannelType + Environment.NewLine +
+                   "\tChannel type Id: " + ChannelTypeId + Environment.NewLine +
+                   "\tConfigured: " + Configured + Environment.NewLine +
+                   "\tData: " + Data + Environment.NewLine +
+                   "\tDescrambled: " + Descrambled + Environment.NewLine +
+                   "\tDisplay: " + Display + Environment.NewLine +
+                   "\tDTV: " + DTV + Environment.NewLine +
+                   "\tFavorite group: " + FavoriteGroup + Environment.NewLine +
+                   "\tFavorite IdxA: " + FavoriteIdxA + Environment.NewLine +
+                   "\tFavorite IdxB: " + FavoriteIdxB + Environment.NewLine +
+                   "\tFavorite IdxC: " + FavoriteIdxC + Environment.NewLine +
+                   "\tFavorite IdxD: " + FavoriteIdxD + Environment.NewLine +
+                   "\tFavorite IdxE: " + FavoriteIdxE + Environment.NewLine +
+                   "\tFavorite IdxF: " + FavoriteIdxF + Environment.NewLine +
+                   "\tFavorite IdxG: " + FavoriteIdxG + Environment.NewLine +
+                   "\tFavorite IdxH: " + FavoriteIdxH + Environment.NewLine +
+                   "\tFine Tuned: " + FineTuned + Environment.NewLine +
+                   "\tFrequency: " + Frequency + Environment.NewLine +
+                   "\tGroup Id list: " + String.Join(",", GroupIdList) + Environment.NewLine +
+                   "\tHDTV: " + HDTV + Environment.NewLine +
+                   "\tImage URL: " + ImgUrl + Environment.NewLine +
+                   "\tImage URL2: " + ImgUrl2 + Environment.NewLine +
+                   "\tInvisible: " + Invisible + Environment.NewLine +
+                   "\tIP call number: " + IpCallNumber + Environment.NewLine +
+                   "\tIP channel category: " + IpChanCategory + Environment.NewLine +
+                   "\tIP channel Cp Id: " + IpChanCpId + Environment.NewLine +
+                   "\tIP channel interactive: " + IpChanInteractive + Environment.NewLine +
+                   "\tIP channel code: " + IPChannelCode + Environment.NewLine +
+                   "\tIP channel server URL: " + IpChanServerUrl + Environment.NewLine +
+                   "\tIP channel type: " + IpChanType + Environment.NewLine +
+                   "\tIs free view play: " + IsFreeviewPlay + Environment.NewLine +
+                   "\tLast updated: " + LastUpdated + Environment.NewLine +
+                   "\tLocked: " + Locked + Environment.NewLine +
+                   "\tMajor number: " + MajorNumber + Environment.NewLine +
+                   "\tMinor number: " + MinorNumber + Environment.NewLine +
+                   "\tNumeric: " + Numeric + Environment.NewLine +
+                   "\tOtu flag: " + OtuFlag + Environment.NewLine +
+                   "\tPay channel: " + PayChan + Environment.NewLine +
+                   "\tPlayer service: " + PlayerService + Environment.NewLine +
+                   "\tPrimary channel: " + PrimaryCh + Environment.NewLine +
+                   "\tProgram Id: " + ProgramId + Environment.NewLine +
+                   "\tRadio: " + Radio + Environment.NewLine +
+                   "\tSatellite LCN: " + SatelliteLcn + Environment.NewLine +
+                   "\tSatellite name: " + SatelliteName + Environment.NewLine +
+                   "\tScrambled: " + Scrambled + Environment.NewLine +
+                   "\tService type: " + ServiceType + Environment.NewLine +
+                   "\tShortcut: " + ShortCut + Environment.NewLine +
+                   "\tSignal channel Id: " + SignalChannelId + Environment.NewLine +
+                   "\tSkipped: " + Skipped + Environment.NewLine +
+                   "\tSpecial service: " + SpecialService + Environment.NewLine +
+                   "\tSVCID: " + SVCID + Environment.NewLine +
+                   "\tTSID: " + TSID + Environment.NewLine +
+                   "\tTV: " + TV + Environment.NewLine +
+                   "\tWatermark URL: " + WaterMarkUrl + Environment.NewLine;
+        }
     }
 }

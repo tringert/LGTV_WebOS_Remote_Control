@@ -404,7 +404,7 @@ namespace LgTvController
                         // Opening the program info list window
                         progInfoWindow = new ProgramInfoWindow
                         {
-                            Channel = channelProgramInfo.Payload.Channel
+                            ChanProginfo = channelProgramInfo
                         };
                         progInfoWindow.ShowDialog();
 
@@ -569,7 +569,7 @@ namespace LgTvController
         // Turn off button
         private void BtnTurnOff_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             string turnOff = "{ \"id\":\"1\",\"type\":\"request\",\"uri\":\"ssap://system/turnOff\"}";
@@ -588,12 +588,15 @@ namespace LgTvController
 
         private void BtnConnect_Click(object sender, EventArgs e)
         {
+            if (ws.IsAlive == false)
+                return;
+
             Connect();
         }
 
         private void BtnDisconnect_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             Disconnect();
@@ -624,7 +627,7 @@ namespace LgTvController
 
         private void BtnMute_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             bool mute = !Global._isMuted;
@@ -635,6 +638,9 @@ namespace LgTvController
 
         private void BtnTurnOn_Click(object sender, EventArgs e)
         {
+            if (ws.IsAlive == false)
+                return;
+
             WakeUp(mac);
         }
 
@@ -709,7 +715,7 @@ namespace LgTvController
 
         private void BtVol_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             GetAudioStatus();
@@ -717,7 +723,7 @@ namespace LgTvController
 
         private void BtVolPlus_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             CallFunction("volumeup_1", "ssap://audio/volumeUp", "Volume up request sent.");
@@ -725,7 +731,7 @@ namespace LgTvController
 
         public void CallFunction(string id, string ep, string message)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             CallFunctionRequest cfr = new CallFunctionRequest { Id = id, Type = "request", Uri = ep };
@@ -753,20 +759,20 @@ namespace LgTvController
 
         private void BtVolMinus_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             CallFunction("volumedown_1", "ssap://audio/volumeDown", "Volume down request sent.");
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void BtTrash_Click(object sender, EventArgs e)
         {
             tbLog.Invoke(new Action(() => { tbLog.Text = ""; }));
         }
 
         private void BtChan_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             GetCurrentChannel();
@@ -779,7 +785,7 @@ namespace LgTvController
 
         private void ChanPlus_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             CallFunction("channelup_1", "ssap://tv/channelUp", "Channel up request sent.");
@@ -787,7 +793,7 @@ namespace LgTvController
 
         private void ChanMinus_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             CallFunction("channeldown_1", "ssap://tv/channelDown", "Channel down request sent.");
@@ -795,7 +801,7 @@ namespace LgTvController
 
         private void BtChList_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             CallFunction("getchannels_1", "ssap://tv/getChannelList", "Channel list request sent.");
@@ -803,7 +809,7 @@ namespace LgTvController
 
         private void BtMessage_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             if (msgWindow != null)
@@ -823,7 +829,7 @@ namespace LgTvController
 
         private void ChannelProgramInfoButton_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             CallFunction("getchannelprograminfo_1", "ssap://tv/getChannelProgramInfo", "Channel programinfo request sent.");
@@ -868,6 +874,9 @@ namespace LgTvController
 
         private void BtnInput_Click(object sender, EventArgs e)
         {
+            if (ws.IsAlive == false)
+                return;
+
             CallFunction("get_inputlist", "ssap://tv/getExternalInputList", "Input list request sent.");
         }
 
@@ -908,7 +917,7 @@ namespace LgTvController
 
         private void BtYoutube_Click(object sender, EventArgs e)
         {
-            if (ws == null)
+            if (ws.IsAlive == false)
                 return;
 
             if (youtubeWindow != null)
@@ -980,11 +989,17 @@ namespace LgTvController
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
+            if (ws.IsAlive == false)
+                return;
+
             GetForegroundAppInfo("appinfo_exit");
         }
 
         private void TestButton_Click(object sender, EventArgs e)
         {
+            if (ws.IsAlive == false)
+                return;
+
             CallFunction("listApps", "ssap://com.webos.applicationManager/listApps", "");
             //CallFunction("get_httpHeader", "ssap://com.webos.service.sdx/getHttpHeaderForServiceRequest", "");
             //ws.Send("{\"id\":\"mouse\",\"type\":\"request\",\"uri\":\"ssap://com.webos.service.networkinput/getPointerInputSocket\"}");
@@ -998,7 +1013,6 @@ namespace LgTvController
             //CallFunction("listApps", "ssap://com.webos.applicationManager/listApps", "List apps request sent.");
             //ws.Send("{\"id\":\"you_1\",\"type\":\"request\",\"uri\":\"ssap://system.launcher/launch\",\"payload\":{\"id\":\"youtube.leanback.v4\",\"contentId\":\"SDAt01CuqoM\"}}");
         }
-
 
         //CallFunction("getServiceList", "ssap://api/getServiceList", "Get service list request sent.");
         // Response: {"type":"response","id":"getServiceList","payload":{"returnValue":true,"services":[{"name":"api","version":1},{"name":"audio","version":1},{"name":"config","version":1},{"name":"media.controls","version":1},{"name":"media.viewer","version":1},{"name":"pairing","version":1},{"name":"settings","version":1},{"name":"system","version":1},{"name":"system.launcher","version":1},{"name":"system.notifications","version":1},{"name":"timer","version":1},{"name":"tv","version":1},{"name":"user","version":1},{"name":"webapp","version":2}]}}

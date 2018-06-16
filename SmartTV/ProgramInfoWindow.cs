@@ -6,9 +6,11 @@ namespace LgTvController
     public partial class ProgramInfoWindow : Form
     {
         internal Channel Channel { get; set; }
-        private ProgramList progList;
+        internal ChannelProgramInfo ChanProginfo { get; set; }
+        private ProgramList pList;
         private ProgramListItem progListItem;
         private ProgramListItem currentProgram;
+        internal static ChannelDetailsWindow chanDetailsWindow;
 
         public ProgramInfoWindow()
         {
@@ -17,29 +19,28 @@ namespace LgTvController
 
         private void ProgramInfoWindow_Load(object sender, System.EventArgs e)
         {
-            Channel channelInfo = (Application.OpenForms["RemoteControl"] as RemoteControl).channelProgramInfo.Payload.Channel;
-            progList = new ProgramList();
             progListItem = new ProgramListItem();
             currentProgram = new ProgramListItem();
+            pList = new ProgramList();
 
-            foreach (ProgramListItem item in (Application.OpenForms["RemoteControl"] as RemoteControl).channelProgramInfo.Payload.ProgramList)
+            foreach (ProgramListItem item in ChanProginfo.Payload.ProgramList)
             {
-                progList.Load(item);
+                pList.Load(item);
             }
 
-            foreach (ProgramListItem item in progList.programList)
+            foreach (ProgramListItem item in pList.programList)
             {
                 if (item.Percent != 0)
                 {
                     currentProgram = item;
-                    lbCurrentChannelName.Text = Channel.ChannelName;
+                    lbCurrentChannelName.Text = ChanProginfo.Payload.Channel.ChannelName;
                     lbCurrentChannelProgramName.Text = item.ProgramName;
                     lbGenre.Text = item.Genre;
                     pbElapsedPercentage.Value = item.Percent;
                 }
             }
 
-            dgvProgramList.DataSource = progList.programList;
+            dgvProgramList.DataSource = pList.programList;
 
             dgvProgramList.Columns["StartTime"].HeaderText = "Start time";
             dgvProgramList.Columns["StartTime"].Width = 30;
@@ -76,6 +77,27 @@ namespace LgTvController
                     row.Selected = true;
                 dgvProgramList.FirstDisplayedScrollingRowIndex = dgvProgramList.SelectedRows[0].Index;
             }
+        }
+
+        private void BtMoreDetails_Click(object sender, System.EventArgs e)
+        {
+            if (chanDetailsWindow != null)
+            {
+                chanDetailsWindow.Show();
+                return;
+            }
+
+            chanDetailsWindow = new ChannelDetailsWindow
+            {
+                InfoString = ChanProginfo.Payload.Channel.ToString()
+            };
+            chanDetailsWindow.FormClosing += ChanDetailsWindow_FormClosing;
+            chanDetailsWindow.ShowDialog();
+        }
+
+        private void ChanDetailsWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            chanDetailsWindow = null;
         }
     }
 }

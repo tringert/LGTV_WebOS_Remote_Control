@@ -101,6 +101,12 @@
     <Compile Include="CallFunction.cs" />
     <Compile Include="CASystemID.cs" />
     <Compile Include="Channel.cs" />
+    <Compile Include="ChannelDetailsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChannelDetailsWindow.Designer.cs">
+      <DependentUpon>ChannelDetailsWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChannelInfo.cs" />
     <Compile Include="ChannelListPayload.cs" />
     <Compile Include="ChannelListResponse.cs" />
@@ -168,6 +174,9 @@
     <EmbeddedResource Include="AvailableDevicesWindow.resx">
       <DependentUpon>AvailableDevicesWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ChannelDetailsWindow.resx">
+      <DependentUpon>ChannelDetailsWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChannelListWindow.resx">
       <DependentUpon>ChannelListWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -229,6 +238,7 @@
     <None Include="Content\Icons\play_icon_20x20px.png" />
     <None Include="Content\Icons\pause_icon_20x20px.png" />
     <Content Include="Content\Icons\fastforward_icon_20x20px.png" />
+    <Content Include="Content\Icons\info_icon.ico" />
     <Content Include="Content\Icons\rewind_icon_20x20px.png" />
     <Content Include="Content\Icons\stop_icon_20x20px.png" />
     <Content Include="Content\Icons\TV.ico" />
