@@ -52,7 +52,8 @@
             this.channelListTable.ReadOnly = true;
             this.channelListTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.channelListTable.Size = new System.Drawing.Size(360, 298);
-            this.channelListTable.TabIndex = 0;
+            this.channelListTable.TabIndex = 5;
+            this.channelListTable.TabStop = false;
             this.channelListTable.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ChannelListTable_CellClick);
             // 
             // label1
@@ -61,7 +62,7 @@
             this.label1.Location = new System.Drawing.Point(12, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(146, 13);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 5;
             this.label1.Text = "Double click to open channel";
             // 
             // lbTotalNoChannels
@@ -71,7 +72,7 @@
             this.lbTotalNoChannels.Location = new System.Drawing.Point(9, 9);
             this.lbTotalNoChannels.Name = "lbTotalNoChannels";
             this.lbTotalNoChannels.Size = new System.Drawing.Size(113, 13);
-            this.lbTotalNoChannels.TabIndex = 2;
+            this.lbTotalNoChannels.TabIndex = 5;
             this.lbTotalNoChannels.Text = "Total no. of channels: ";
             this.lbTotalNoChannels.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -82,7 +83,7 @@
             this.lbRows.Location = new System.Drawing.Point(284, 67);
             this.lbRows.Name = "lbRows";
             this.lbRows.Size = new System.Drawing.Size(88, 13);
-            this.lbRows.TabIndex = 3;
+            this.lbRows.TabIndex = 5;
             this.lbRows.Text = "Rows: ";
             this.lbRows.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -94,7 +95,7 @@
             this.tbSearch.Location = new System.Drawing.Point(272, 44);
             this.tbSearch.Name = "tbSearch";
             this.tbSearch.Size = new System.Drawing.Size(100, 20);
-            this.tbSearch.TabIndex = 4;
+            this.tbSearch.TabIndex = 0;
             this.tbSearch.TextChanged += new System.EventHandler(this.TbSearch_TextChanged);
             // 
             // lbSearch

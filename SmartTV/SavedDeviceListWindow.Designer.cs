@@ -112,7 +112,7 @@
             this.lbName.Location = new System.Drawing.Point(9, 11);
             this.lbName.Name = "lbName";
             this.lbName.Size = new System.Drawing.Size(39, 13);
-            this.lbName.TabIndex = 6;
+            this.lbName.TabIndex = 66;
             this.lbName.Text = "Name*";
             // 
             // lbIP
@@ -121,7 +121,7 @@
             this.lbIP.Location = new System.Drawing.Point(170, 11);
             this.lbIP.Name = "lbIP";
             this.lbIP.Size = new System.Drawing.Size(21, 13);
-            this.lbIP.TabIndex = 7;
+            this.lbIP.TabIndex = 77;
             this.lbIP.Text = "IP*";
             // 
             // lbPort
@@ -130,7 +130,7 @@
             this.lbPort.Location = new System.Drawing.Point(276, 11);
             this.lbPort.Name = "lbPort";
             this.lbPort.Size = new System.Drawing.Size(30, 13);
-            this.lbPort.TabIndex = 8;
+            this.lbPort.TabIndex = 88;
             this.lbPort.Text = "Port*";
             // 
             // lbUuid
@@ -139,7 +139,7 @@
             this.lbUuid.Location = new System.Drawing.Point(245, 50);
             this.lbUuid.Name = "lbUuid";
             this.lbUuid.Size = new System.Drawing.Size(34, 13);
-            this.lbUuid.TabIndex = 9;
+            this.lbUuid.TabIndex = 99;
             this.lbUuid.Text = "UUID";
             // 
             // lbApiKey
@@ -148,7 +148,7 @@
             this.lbApiKey.Location = new System.Drawing.Point(12, 50);
             this.lbApiKey.Name = "lbApiKey";
             this.lbApiKey.Size = new System.Drawing.Size(44, 13);
-            this.lbApiKey.TabIndex = 10;
+            this.lbApiKey.TabIndex = 100;
             this.lbApiKey.Text = "ApiKey*";
             // 
             // tbMac
@@ -166,7 +166,7 @@
             this.lbMac.Location = new System.Drawing.Point(382, 11);
             this.lbMac.Name = "lbMac";
             this.lbMac.Size = new System.Drawing.Size(69, 13);
-            this.lbMac.TabIndex = 12;
+            this.lbMac.TabIndex = 122;
             this.lbMac.Text = "Mac Address";
             // 
             // btAdd
@@ -185,7 +185,7 @@
             this.lbServer.Location = new System.Drawing.Point(488, 11);
             this.lbServer.Name = "lbServer";
             this.lbServer.Size = new System.Drawing.Size(38, 13);
-            this.lbServer.TabIndex = 15;
+            this.lbServer.TabIndex = 155;
             this.lbServer.Text = "Server";
             // 
             // tbServer
@@ -201,7 +201,7 @@
             this.btRemove.Location = new System.Drawing.Point(572, 66);
             this.btRemove.Name = "btRemove";
             this.btRemove.Size = new System.Drawing.Size(75, 20);
-            this.btRemove.TabIndex = 16;
+            this.btRemove.TabIndex = 10;
             this.btRemove.Text = "Remove";
             this.btRemove.UseVisualStyleBackColor = true;
             this.btRemove.Click += new System.EventHandler(this.BtRemove_Click);
